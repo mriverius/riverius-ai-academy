@@ -1,6 +1,17 @@
 ---
-// Sample client marks (fictional). Replace with real client SVG logos.
+// Client marks. Real clients use their logo (any color with transparency: it is drawn as a
+// mask, so it takes the muted text color). The rest are fictional samples; replace them.
+import { getImage } from "astro:assets";
+import retreatSounds from "../assets/clients/retreat-sounds.png";
+
+const logo = async (src: ImageMetadata, height: number) => ({
+  url: (await getImage({ src, height: height * 2, format: "webp" })).src,
+  width: Math.round((src.width / src.height) * height),
+  height,
+});
+
 const clients = [
+  { name: "Retreat Sounds", logo: await logo(retreatSounds, 34) },
   { name: "Tierra Alta", glyph: "arch" },
   { name: "Ceibo School", glyph: "petal" },
   { name: "Valle Claro", glyph: "ripple" },
@@ -8,7 +19,7 @@ const clients = [
   { name: "Grupo Talamanca", glyph: "arch" },
   { name: "Casa Brisa", glyph: "petal" },
   { name: "Norte Andino", glyph: "ripple" },
-] as const;
+];
 const row = [...clients, ...clients];
 ---
 
@@ -19,24 +30,33 @@ const row = [...clients, ...clients];
       {
         row.map((c, i) => (
           <li class="flex shrink-0 items-center gap-2.5 text-cosmos-muted" aria-hidden={i >= clients.length ? "true" : undefined}>
-            <svg viewBox="0 0 24 24" class="size-6" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
-              {c.glyph === "arch" && <path d="M5 21V11a7 7 0 0 1 14 0v10M9 21v-9a3 3 0 0 1 6 0v9" />}
-              {c.glyph === "petal" && <path d="M12 3c4 4 4 14 0 18-4-4-4-14 0-18ZM3 12c4-4 14-4 18 0-4 4-14 4-18 0Z" />}
-              {c.glyph === "ripple" && (
-                <>
-                  <circle cx="12" cy="12" r="3" />
-                  <circle cx="12" cy="12" r="7" />
-                  <circle cx="12" cy="12" r="10.5" />
-                </>
-              )}
-              {c.glyph === "orbit" && (
-                <>
-                  <circle cx="12" cy="12" r="4" />
-                  <ellipse cx="12" cy="12" rx="10.5" ry="5" transform="rotate(-20 12 12)" />
-                </>
-              )}
-            </svg>
-            <span class="whitespace-nowrap text-[1.0625rem] font-semibold tracking-[-0.01em]">{c.name}</span>
+            {"logo" in c && c.logo ? (
+              <span
+                role="img"
+                aria-label={c.name}
+                class="client-logo block bg-current"
+                style={`width:${c.logo.width}px;height:${c.logo.height}px;--logo:url(${c.logo.url})`}
+              />
+            ) : (
+              <svg viewBox="0 0 24 24" class="size-6" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+                {c.glyph === "arch" && <path d="M5 21V11a7 7 0 0 1 14 0v10M9 21v-9a3 3 0 0 1 6 0v9" />}
+                {c.glyph === "petal" && <path d="M12 3c4 4 4 14 0 18-4-4-4-14 0-18ZM3 12c4-4 14-4 18 0-4 4-14 4-18 0Z" />}
+                {c.glyph === "ripple" && (
+                  <>
+                    <circle cx="12" cy="12" r="3" />
+                    <circle cx="12" cy="12" r="7" />
+                    <circle cx="12" cy="12" r="10.5" />
+                  </>
+                )}
+                {c.glyph === "orbit" && (
+                  <>
+                    <circle cx="12" cy="12" r="4" />
+                    <ellipse cx="12" cy="12" rx="10.5" ry="5" transform="rotate(-20 12 12)" />
+                  </>
+                )}
+              </svg>
+            )}
+            {!("logo" in c) && <span class="whitespace-nowrap text-[1.0625rem] font-semibold tracking-[-0.01em]">{c.name}</span>}
           </li>
         ))
       }
@@ -45,6 +65,10 @@ const row = [...clients, ...clients];
 </section>
 
 <style>
+  .client-logo {
+    mask: var(--logo) center / contain no-repeat;
+    -webkit-mask: var(--logo) center / contain no-repeat;
+  }
   @media (prefers-reduced-motion: no-preference) {
     .marquee-track {
       animation: slide 42s linear infinite;

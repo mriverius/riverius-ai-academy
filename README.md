@@ -24,7 +24,7 @@ npm run build    # static site in dist/
 | Academy paths: hub + `/academy/profesional`, `/academy/emprendedor`, `/academy/equipos` | `src/pages/academy/`, sections in `src/components/academy/` |
 | Motion (smooth scroll, reveals, scrub, stack, horizontal pan, magnetic) | `src/scripts/motion.ts` |
 | Placeholder logo | `src/components/Logo.astro` |
-| Client logos (fictional) | `src/components/ClientMarks.astro` |
+| Client marquee (Retreat Sounds is real, the rest are samples) | `src/components/ClientMarks.astro` |
 | Images (resized and converted to WebP at build) | `src/assets/` |
 | SEO: sitemap (automatic), `robots.txt`, share images, touch icons | `astro.config.mjs`, `public/robots.txt`, `public/og/` |
 | AEO: `/llms.txt` (built from the data files), schema.org structured data | `src/pages/llms.txt.ts`, `src/lib/schema.ts` |
@@ -47,7 +47,7 @@ The agency is pinned to the dark Cosmos theme and the academy to the light Pearl
 
 - **Academy:** confirm the contact email in `src/data/academy.ts` (Skool, cal.com, WhatsApp, pricing and stats come from mriverius.com).
 
-- **Case studies and clients are fictional.** Replace `src/content/work/*.md` and `ClientMarks.astro`.
+- **Client marquee:** Retreat Sounds is real; the other names in `ClientMarks.astro` are fictional samples. Case studies in `src/content/work/` are real clients.
 - **Logo:** swap the SVG in `Logo.astro` and `public/favicon.svg` for the vector R.
 - **Photography:** put case photos in `src/assets/work/` and add `cover: ../../assets/work/<file>.jpg` to each case. Images in `src/assets/` are resized and converted to WebP at build time.
 - **Forms → Mailchimp:** `/contact` and `/academy/equipos` post to `src/pages/api/subscribe.ts`, which adds the person to the Mailchimp audience, tags them by form, and saves the inquiry as a contact note. Only people who tick the updates box are subscribed to marketing; the rest are stored as transactional. Set `MAILCHIMP_API_KEY` and `MAILCHIMP_AUDIENCE_ID` in `.env` locally (see `.env.example`) and in Vercel's environment variables.

@@ -137,7 +137,7 @@ const bento = [
     >
       <div class="flex w-[82vw] shrink-0 snap-start flex-col justify-end p-1 sm:w-[60vw] lg:w-[30vw] lg:pr-10">
         <h2 class="display-lg"><Words text="Results you can measure." /></h2>
-        <p data-reveal class="mt-5 max-w-[38ch] text-cosmos-muted">Cooperatives, schools and public institutions doing more with less repetitive work.</p>
+        <p data-reveal class="mt-5 max-w-[38ch] text-cosmos-muted">From a meditation app to AI that books calls and sells in the DMs.</p>
         <a href="/work" class="group mt-8 inline-flex items-center gap-2 font-medium">
           All case studies
           <Icon name="ph:arrow-right-light" class="size-5 transition-transform duration-500 ease-[var(--ease-drawer)] group-hover:translate-x-1" />
@@ -148,12 +148,12 @@ const bento = [
         cases.map((c) => (
           <a href={`/work/${c.id}`} class="group bezel w-[82vw] shrink-0 snap-start sm:w-[60vw] lg:w-[46vw]">
             <div class="bezel-core is-pearl flex h-full flex-col p-3">
-              <CaseCover tone={c.data.tone} cover={c.data.cover} class="aspect-[16/10]" />
+              <CaseCover tone={c.data.tone} cover={c.data.cover} fit={c.data.coverFit} class="aspect-[16/10]" />
               <div class="flex flex-1 flex-col p-5 sm:p-7">
-                <p class="text-caption text-cosmos-muted">{c.data.client}, {c.data.country}</p>
+                <p class="text-caption text-cosmos-muted">{[c.data.client, c.data.country].filter(Boolean).join(", ")}</p>
                 <h3 class="mt-2 text-heading">{c.data.title}</h3>
                 <dl class="mt-auto grid grid-cols-2 gap-6 pt-8">
-                  {c.data.results.map((r) => (
+                  {c.data.results.slice(0, 2).map((r) => (
                     <div>
                       <dt class="sr-only">{r.label}</dt>
                       <dd class="text-[2rem] font-semibold leading-none tracking-[-0.03em] sm:text-[2.5rem]">{r.value}</dd>
@@ -179,7 +179,7 @@ const bento = [
             <path fill="currentColor" d="M12 0C12.8 7 17 11.2 24 12C17 12.8 12.8 17 12 24C11.2 17 7 12.8 0 12C7 11.2 11.2 7 12 0Z" />
           </svg>
           <blockquote class="display-lg mt-10 !text-[clamp(1.75rem,3.6vw,3rem)]">
-            <Words text={`“${testimonial.data.quote.text}”`} />
+            <Words text={`“${testimonial.data.quote.short ?? testimonial.data.quote.text}”`} />
           </blockquote>
           <figcaption data-reveal style="--i:4" class="mt-10">
             <span class="block font-medium">{testimonial.data.quote.name}</span>

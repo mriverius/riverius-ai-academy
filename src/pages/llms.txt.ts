@@ -1,15 +1,16 @@
 // /llms.txt: a plain-text guide to the site for AI assistants (llmstxt.org).
 // Built from the same data as the pages, so it stays in sync.
-// Case studies are left out while they are fictional.
 import type { APIRoute } from "astro";
+import { getCollection } from "astro:content";
 import { site } from "../data/site";
 import { phases, capabilities } from "../data/services";
 import { faq } from "../data/faq";
 import { team } from "../data/team";
 import { academy, avatars, path, faqHub, faqPro, faqEquipos } from "../data/academy";
 
-export const GET: APIRoute = ({ site: base }) => {
+export const GET: APIRoute = async ({ site: base }) => {
   const url = (p: string) => new URL(p, base).href;
+  const cases = (await getCollection("work")).sort((a, b) => a.data.order - b.data.order);
   const qa = (items: { q: string; a: string }[]) => items.map((i) => `- **${i.q}** ${i.a}`).join("\n");
 
   const body = `# ${site.name}
@@ -23,6 +24,7 @@ Contact: ${site.email} · ${url("/contact")}
 
 - [Home](${url("/")}): what we do and how we work
 - [Services](${url("/services")}): the three phases, Identify, Build and Adopt
+- [Work](${url("/work")}): case studies
 - [Team](${url("/team")}): who we are
 - [Contact](${url("/contact")}): project inquiries, reply within one business day
 
@@ -33,6 +35,10 @@ ${phases.map((p) => `### ${p.verb}: ${p.headline}\n\n${p.summary} ${p.how}\n\nDu
 ## What we build
 
 ${capabilities.map((c) => `- **${c.title}:** ${c.text}`).join("\n")}
+
+## Case studies
+
+${cases.map((c) => `- [${c.data.client}: ${c.data.title}](${url(`/work/${c.id}`)}): ${c.data.summary} Results: ${c.data.results.map((r) => `${r.value} ${r.label}`).join("; ")}.`).join("\n")}
 
 ## Team
 

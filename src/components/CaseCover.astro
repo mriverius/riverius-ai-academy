@@ -1,20 +1,43 @@
 ---
-// Case cover. Uses the photo when provided; otherwise a pearl surface lit by
-// the case's pastel (color as refracted light, never a solid block).
+// Case cover. A photo fills the frame ("cover"); a transparent mockup ("contain") floats whole
+// on the case's pastel light; a square logo ("logo") sits on that light as an app-icon tile. With no image, a pearl surface lit by the pastel (never a solid block).
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 interface Props {
   tone: "morpho" | "guaria" | "pitahaya" | "mango" | "jade";
   cover?: ImageMetadata;
+  fit?: "cover" | "contain" | "logo";
   alt?: string;
   class?: string;
 }
-const { tone, cover, alt = "", class: className = "" } = Astro.props;
+const { tone, cover, fit = "cover", alt = "", class: className = "" } = Astro.props;
 ---
 
 <div class:list={["case-cover pearl-sheen relative isolate overflow-hidden rounded-[var(--radius-lg)] bg-nacre", className]}>
   {
-    cover ? (
+    cover && fit === "logo" ? (
+      <>
+        <div class="glow left-[15%] top-[5%] size-[80%] !opacity-80" style={`background: var(--color-${tone})`} />
+        <Image
+          src={cover}
+          alt={alt}
+          widths={[200, 400].filter((w) => w <= cover.width)}
+          sizes="200px"
+          class="absolute left-1/2 top-1/2 aspect-square w-[26%] max-w-[200px] -translate-x-1/2 -translate-y-1/2 rounded-[22%] object-cover shadow-[0_0_0_1px_rgb(255_251_247/0.18),0_30px_60px_-20px_rgb(30_22_56/0.7)] transition-transform duration-[1200ms] ease-[var(--ease-out-soft)] group-hover:scale-[1.06]"
+        />
+      </>
+    ) : cover && fit === "contain" ? (
+      <>
+        <div class="glow left-[15%] top-[5%] size-[80%] !opacity-80" style={`background: var(--color-${tone})`} />
+        <Image
+          src={cover}
+          alt={alt}
+          widths={[480, 720, 1080, 1400]}
+          sizes="(min-width: 1280px) 900px, 80vw"
+          class="absolute inset-[6%] size-[88%] object-contain transition-transform duration-[1200ms] ease-[var(--ease-out-soft)] group-hover:scale-[1.04]"
+        />
+      </>
+    ) : cover ? (
       <Image src={cover} alt={alt} widths={[640, 960, 1440, 1920]} sizes="(min-width: 1280px) 1200px, 100vw" class="absolute inset-0 size-full object-cover transition-transform duration-[1200ms] ease-[var(--ease-out-soft)] group-hover:scale-[1.04]" />
     ) : (
       <>

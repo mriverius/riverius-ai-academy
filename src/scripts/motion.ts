@@ -152,12 +152,14 @@ document.querySelectorAll<HTMLButtonElement>("[data-scroll]").forEach((btn) => {
   });
 });
 
-/* Click-to-play Wistia videos. */
+/* Click-to-play Wistia and YouTube videos. */
 document.addEventListener("click", (e) => {
-  const btn = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-wistia]");
+  const btn = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-wistia], [data-youtube]");
   if (!btn) return;
   const iframe = document.createElement("iframe");
-  iframe.src = `https://fast.wistia.net/embed/iframe/${btn.dataset.wistia}?autoPlay=true&playerColor=1e1638`;
+  iframe.src = btn.dataset.wistia
+    ? `https://fast.wistia.net/embed/iframe/${btn.dataset.wistia}?autoPlay=true&playerColor=1e1638`
+    : `https://www.youtube-nocookie.com/embed/${btn.dataset.youtube}?autoplay=1&playsinline=1&rel=0`;
   iframe.title = btn.dataset.title ?? "Video";
   iframe.allow = "autoplay; fullscreen";
   iframe.allowFullscreen = true;

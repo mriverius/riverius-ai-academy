@@ -5,6 +5,7 @@ import Base from "../../layouts/Base.astro";
 import PageHero from "../../components/PageHero.astro";
 import CaseCover from "../../components/CaseCover.astro";
 import CtaPanel from "../../components/CtaPanel.astro";
+import { Image } from "astro:assets";
 
 export async function getStaticPaths() {
   const cases = await getCollection("work");
@@ -14,10 +15,13 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
+// Long testimonials read as body text, one paragraph per blank line, with the short excerpt as a pull quote.
+const paragraphs = d.quote?.text.trim().split(/\n\s*\n/) ?? [];
+const long = (d.quote?.text.length ?? 0) > 320;
 ---
 
 <Base title={`${d.client}: ${d.title}`} description={d.summary}>
-  <PageHero tag={`${d.industry}, ${d.country}`} title={d.title} text={d.summary}>
+  <PageHero tag={[d.industry, d.country].filter(Boolean).join(", ")} title={d.title} text={d.summary}>
     <a href="/work" data-reveal style="--i:6" class="mt-10 inline-flex items-center gap-2 text-caption text-haze transition-colors hover:text-shell">
       <Icon name="ph:arrow-left-light" class="size-4" />
       All case studies
@@ -26,7 +30,7 @@ const d = entry.data;
 
   <div class="px-3 sm:px-6 lg:px-10">
     <div data-reveal class="bezel mx-auto -mt-4 max-w-6xl">
-      <CaseCover tone={d.tone} cover={d.cover} alt={d.client} class="aspect-[16/9] sm:aspect-[21/9]" />
+      <CaseCover tone={d.tone} cover={d.cover} fit={d.coverFit} alt={d.client} class="aspect-[16/9] sm:aspect-[21/9]" />
     </div>
   </div>
 
@@ -44,6 +48,18 @@ const d = entry.data;
             </div>
           ))}
         </dl>
+        {d.links.length > 0 && (
+          <ul class="mt-10 space-y-3">
+            {d.links.map((l) => (
+              <li>
+                <a href={l.href} target="_blank" rel="noopener" class="group inline-flex items-center gap-2 font-medium">
+                  {l.label}
+                  <Icon name="ph:arrow-up-right-light" class="size-4 transition-transform duration-500 ease-[var(--ease-drawer)] group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
       </aside>
 
       <div>
@@ -51,11 +67,43 @@ const d = entry.data;
           <Content />
         </div>
 
-        {d.quote && (
+        {d.video && (
+          <figure data-reveal class="bezel mt-14">
+            <div class="bezel-core pearl-sheen grid items-center gap-8 p-6 sm:grid-cols-[minmax(0,14rem)_1fr] sm:gap-10 sm:p-10">
+              <div class="video relative isolate mx-auto aspect-[9/16] w-full max-w-60 overflow-hidden rounded-[var(--radius-lg)] bg-ink">
+                <button type="button" data-youtube={d.video.youtube} data-title={`Testimonial: ${d.video.name}`} class="group absolute inset-0 size-full cursor-pointer" aria-label={`Play testimonial from ${d.video.name}`}>
+                  <Image src={d.video.poster} alt="" widths={[240, 480]} sizes="240px" class="absolute inset-0 size-full object-cover transition-transform duration-[1200ms] ease-[var(--ease-out-soft)] group-hover:scale-[1.04]" />
+                  <span class="absolute inset-0 bg-gradient-to-t from-[#1e1638]/70 via-transparent to-transparent" />
+                  <span class="absolute left-1/2 top-1/2 inline-flex size-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/85 text-ink shadow-[0_20px_40px_-12px_rgb(30_22_56/0.6)] backdrop-blur-md transition-transform duration-500 ease-[var(--ease-drawer)] group-hover:scale-110">
+                    <Icon name="ph:play-fill" class="ml-0.5 size-5" />
+                  </span>
+                </button>
+              </div>
+              <figcaption class="text-center sm:text-left">
+                <p class="text-caption text-cosmos-muted">Video testimonial</p>
+                {d.quote && <blockquote class="mt-4 text-[1.125rem] leading-[1.875rem]">“{d.quote.text}”</blockquote>}
+                <span class="mt-6 block font-medium">{d.video.name}</span>
+                <span class="text-caption text-cosmos-muted">{d.video.role}</span>
+              </figcaption>
+            </div>
+          </figure>
+        )}
+
+        {d.quote && !d.video && (
           <figure data-reveal class="bezel mt-14">
             <div class="bezel-core pearl-sheen p-8 sm:p-12">
-              <blockquote class="text-[1.5rem] font-semibold leading-[2rem] tracking-[-0.02em]">“{d.quote.text}”</blockquote>
-              <figcaption class="mt-6">
+              {long ? (
+                <>
+                  <p class="text-caption text-cosmos-muted">Client testimonial</p>
+                  {d.quote.short && <p class="mt-4 text-[1.5rem] font-semibold leading-[2rem] tracking-[-0.02em]">“{d.quote.short}”</p>}
+                  <blockquote class="mt-6 space-y-4 text-[1.0625rem] leading-[1.75rem] text-cosmos-muted">
+                    {paragraphs.map((p, i) => <p>{i === 0 && "“"}{p}{i === paragraphs.length - 1 && "”"}</p>)}
+                  </blockquote>
+                </>
+              ) : (
+                <blockquote class="text-[1.5rem] font-semibold leading-[2rem] tracking-[-0.02em]">“{d.quote.text}”</blockquote>
+              )}
+              <figcaption class="mt-8">
                 <span class="block font-medium">{d.quote.name}</span>
                 <span class="text-caption text-cosmos-muted">{d.quote.role}</span>
               </figcaption>

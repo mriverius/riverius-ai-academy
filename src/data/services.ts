@@ -85,8 +85,8 @@ export const capabilities = [
     icon: "ph:chat-circle-dots-light",
   },
   {
-    title: "Team training",
-    text: "Practical, no-code AI training for every level, through Riverius AI Academy.",
-    icon: "ph:graduation-cap-light",
+    title: "Custom software",
+    text: "Web and mobile apps built around how you work, with AI where it earns its place.",
+    icon: "ph:code-light",
   },
 ];
