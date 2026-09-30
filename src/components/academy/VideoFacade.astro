@@ -1,0 +1,29 @@
+---
+// Click-to-play Wistia video. Shows a poster until the visitor presses play,
+// so the page loads no third-party player up front.
+import { Icon } from "astro-icon/components";
+import { wistia } from "../../lib/wistia";
+
+interface Props {
+  id: string;
+  title: string;
+  fallbackAspect?: number;
+  class?: string;
+}
+const { id, title, fallbackAspect = 16 / 9, class: className = "" } = Astro.props;
+const meta = await wistia(id, fallbackAspect);
+---
+
+<div class:list={["video relative isolate overflow-hidden rounded-[var(--radius-lg)] bg-ink", className]} style={`aspect-ratio: ${meta.aspect}`}>
+  <button type="button" data-wistia={id} data-title={title} class="group absolute inset-0 size-full cursor-pointer" aria-label={`Ver video: ${title}`}>
+    {meta.thumb ? (
+      <img src={meta.thumb} alt="" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover transition-transform duration-[1200ms] ease-[var(--ease-out-soft)] group-hover:scale-[1.04]" />
+    ) : (
+      <span class="glow sunrise left-[15%] top-[15%] size-[70%] !opacity-40" />
+    )}
+    <span class="absolute inset-0 bg-gradient-to-t from-[#1e1638]/70 via-transparent to-transparent" />
+    <span class="absolute left-1/2 top-1/2 inline-flex size-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/85 text-ink shadow-[0_20px_40px_-12px_rgb(30_22_56/0.6)] backdrop-blur-md transition-transform duration-500 ease-[var(--ease-drawer)] group-hover:scale-110">
+      <Icon name="ph:play-fill" class="ml-0.5 size-6" />
+    </span>
+  </button>
+</div>

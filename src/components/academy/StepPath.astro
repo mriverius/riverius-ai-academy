@@ -1,0 +1,65 @@
+---
+// Vertical path whose line draws itself with scroll. Used for levels and roadmaps.
+import { Icon } from "astro-icon/components";
+
+type Step = { kicker: string; title: string; text: string; tags?: string[]; badge?: string };
+interface Props {
+  steps: Step[];
+  finish?: { kicker: string; title: string };
+  id?: string;
+}
+const { steps, finish, id = "path" } = Astro.props;
+---
+
+<ol class="relative space-y-5 pl-10 sm:pl-14">
+  <svg class="absolute bottom-6 left-[15px] top-6 w-[2px] overflow-visible sm:left-[23px]" preserveAspectRatio="none" viewBox="0 0 2 100" aria-hidden="true">
+    <line x1="1" y1="0" x2="1" y2="100" stroke="var(--c-line)" stroke-width="2" vector-effect="non-scaling-stroke" />
+    <line data-draw x1="1" y1="0" x2="1" y2="100" stroke={`url(#${id}-grad)`} stroke-width="2" vector-effect="non-scaling-stroke" pathLength="1" />
+    <defs>
+      <linearGradient id={`${id}-grad`} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ff9ed2" /><stop offset="0.5" stop-color="#ffc48c" /><stop offset="1" stop-color="#8ef0c8" />
+      </linearGradient>
+    </defs>
+  </svg>
+
+  {
+    steps.map((step, i) => (
+      <li data-reveal style={`--i:${i}`} class="relative">
+        <span class="absolute -left-10 top-8 inline-flex size-8 -translate-x-[1px] items-center justify-center rounded-full bg-pearl shadow-[inset_0_0_0_1px_var(--c-line)] sm:-left-14 sm:size-12">
+          <span class="sunrise size-2.5 rounded-full sm:size-3" />
+        </span>
+        <div class="bezel">
+          <div class="bezel-core is-pearl p-7 sm:p-10">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <p class="text-caption font-medium text-cosmos-muted">{step.kicker}</p>
+              {step.badge && <span class="rounded-full px-3 py-1 text-caption text-cosmos-muted shadow-[inset_0_0_0_1px_var(--c-line)]">{step.badge}</span>}
+            </div>
+            <h3 class="mt-3 text-heading">{step.title}</h3>
+            <p class="mt-3 max-w-[52ch] text-cosmos-muted">{step.text}</p>
+            {step.tags && (
+              <ul class="mt-6 flex flex-wrap gap-2">
+                {step.tags.map((t) => (
+                  <li class="rounded-full bg-nacre px-3.5 py-1.5 text-caption font-medium">{t}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      </li>
+    ))
+  }
+
+  {
+    finish && (
+      <li data-reveal class="relative">
+        <span class="absolute -left-10 top-7 inline-flex size-8 -translate-x-[1px] items-center justify-center rounded-full bg-cosmos text-pearl sm:-left-14 sm:size-12">
+          <Icon name="ph:seal-check-light" class="size-4 sm:size-6" />
+        </span>
+        <div class="sunrise-card relative isolate overflow-hidden rounded-[calc(var(--radius-lg)+8px)] p-7 sm:p-10">
+          <p class="text-caption font-medium">{finish.kicker}</p>
+          <h3 class="mt-2 text-heading">{finish.title}</h3>
+        </div>
+      </li>
+    )
+  }
+</ol>

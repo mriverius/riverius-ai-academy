@@ -1,0 +1,27 @@
+---
+import Shell from "./Shell.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { site } from "../data/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const { title, description = site.description } = Astro.props;
+const fullTitle = title ? `${title} | ${site.name}` : `${site.name} | AI that feels like clarity`;
+---
+
+<Shell title={fullTitle} description={description} theme="dark">
+  <Header
+    slot="header"
+    nav={site.nav}
+    cta={site.cta}
+    suffix="AI"
+    home="/"
+    menuExtra={[{ label: "Contact", href: "/contact" }]}
+    email={site.email}
+  />
+  <slot />
+  <Footer slot="footer" />
+</Shell>

@@ -1,0 +1,22 @@
+---
+// Splits text into word spans for word-by-word entrances.
+// Wrap a word in *asterisks* to render it with the Aurora gradient (Cosmos surfaces only).
+interface Props {
+  text: string;
+  delay?: number;
+}
+const { text, delay = 0 } = Astro.props;
+const words = text.split(" ").map((raw) => ({ word: raw.replace(/\*/g, ""), glow: raw.startsWith("*") }));
+---
+
+<span data-words style={`--d:${delay}ms`}>
+  {
+    words.map((w, i) => (
+      <>
+        <span class="w" style={`--w:${i}`}>
+          {w.glow ? <span class="aurora-text pb-[0.08em]">{w.word}</span> : w.word}
+        </span>{" "}
+      </>
+    ))
+  }
+</span>

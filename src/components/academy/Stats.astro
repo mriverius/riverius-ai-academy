@@ -1,0 +1,34 @@
+---
+import { Icon } from "astro-icon/components";
+import { stats, pressLogos } from "../../data/academy";
+---
+
+<section class="px-4 pb-8 pt-16 sm:px-6 lg:px-10">
+  <div class="mx-auto max-w-6xl">
+    <dl class="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
+      {
+        stats.map((s, i) => (
+          <div data-reveal style={`--i:${i}`} class="text-center">
+            <dt class="sr-only">{s.label}</dt>
+            <dd class="inline-flex items-center gap-2 text-[2.75rem] font-semibold leading-none tracking-[-0.03em] sm:text-[3.5rem]">
+              {s.prefix}<span data-count={s.value}>{s.value}</span>{s.suffix}
+              {"stars" in s && s.stars && <Icon name="ph:star-fill" class="size-8 text-mango drop-shadow-[0_4px_12px_rgb(255_196_140/0.8)] sm:size-10" />}
+            </dd>
+            <dd class="mx-auto mt-3 max-w-[20ch] text-cosmos-muted">{s.label}</dd>
+          </div>
+        ))
+      }
+    </dl>
+    <div data-reveal class="mt-16 flex flex-wrap items-center justify-center gap-x-12 gap-y-6">
+      <p class="w-full text-center text-caption text-cosmos-muted sm:w-auto">Como nos han visto en</p>
+      {
+        pressLogos.map((l) => (
+          <span class="flex items-center gap-2.5">
+            <img src={l.logo} alt={l.name} class="press-logo h-9 w-auto max-w-[140px] object-contain" loading="lazy" />
+            {l.label && <span class="font-semibold tracking-[-0.01em] text-cosmos-muted">{l.label}</span>}
+          </span>
+        ))
+      }
+    </div>
+  </div>
+</section>

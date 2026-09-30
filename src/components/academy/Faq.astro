@@ -1,0 +1,37 @@
+---
+import { Icon } from "astro-icon/components";
+import Words from "../Words.astro";
+import { academy } from "../../data/academy";
+
+interface Props {
+  items: { q: string; a: string }[];
+  formal?: boolean;
+}
+const { items, formal = false } = Astro.props;
+---
+
+<section id="preguntas" class="scroll-mt-28 px-4 sm:px-6 lg:px-10">
+  <div class="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
+    <div class="lg:sticky lg:top-32 lg:self-start">
+      <h2 class="display-lg"><Words text="Preguntas frecuentes." /></h2>
+      <p data-reveal class="mt-6 max-w-[40ch] text-cosmos-muted">
+        ¿Otra duda? <a class="underline underline-offset-4" href={academy.whatsapp}>{formal ? "Escríbanos por WhatsApp" : "Escríbenos por WhatsApp"}</a>.
+      </p>
+    </div>
+    <div class="space-y-3">
+      {
+        items.map((item, i) => (
+          <details data-reveal style={`--i:${i}`} class="faq group bezel !rounded-[calc(var(--radius-md)+6px)]">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-6 rounded-[var(--radius-md)] bg-nacre px-6 py-5 font-medium group-open:rounded-b-none [&::-webkit-details-marker]:hidden">
+              {item.q}
+              <span class="inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-pearl transition-transform duration-500 ease-[var(--ease-drawer)] group-open:rotate-45">
+                <Icon name="ph:plus-light" class="size-4" />
+              </span>
+            </summary>
+            <p class="rounded-b-[var(--radius-md)] bg-nacre px-6 pb-6 text-cosmos-muted">{item.a}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

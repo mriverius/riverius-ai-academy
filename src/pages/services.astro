@@ -1,0 +1,64 @@
+---
+import { Icon } from "astro-icon/components";
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import PhaseVisual from "../components/PhaseVisual.astro";
+import CtaPanel from "../components/CtaPanel.astro";
+import Words from "../components/Words.astro";
+import { phases } from "../data/services";
+---
+
+<Base title="Services" description="Identify, build and adopt: how we take AI from idea to the daily work of your organization.">
+  <PageHero tag="Services" title="Services built so AI *sticks.*" text="Three phases you can hire separately or together. Always with measurable results and hands-on support.">
+    <nav data-reveal style="--i:6" class="mt-10 flex flex-wrap gap-2" aria-label="Phases">
+      {phases.map((p) => (
+        <a href={`#${p.slug}`} class="btn btn-ghost-dark btn-plain !px-5 !py-2.5">
+          <Icon name={p.icon} class="size-4" />
+          {p.verb}
+        </a>
+      ))}
+    </nav>
+  </PageHero>
+
+  <div class="space-y-24 px-3 py-20 sm:px-6 lg:space-y-40 lg:px-10 lg:py-32">
+    {
+      phases.map((p, i) => (
+        <section id={p.slug} class="mx-auto grid max-w-7xl scroll-mt-28 gap-10 lg:grid-cols-2 lg:items-center lg:gap-20">
+          <div class:list={["px-1", i % 2 === 1 && "lg:order-2"]}>
+            <div data-reveal class="flex items-center gap-4">
+              <span class="inline-flex size-12 items-center justify-center rounded-full bg-nacre shadow-[inset_0_0_0_1px_var(--c-line)]">
+                <Icon name={p.icon} class="size-6" />
+              </span>
+              <span class="text-heading font-semibold">{p.verb}</span>
+              <span class="rounded-full px-3 py-1 text-caption text-cosmos-muted shadow-[inset_0_0_0_1px_var(--c-line)]">{p.duration}</span>
+            </div>
+            <h2 class="display-lg mt-8"><Words text={p.headline} /></h2>
+            <p data-reveal class="mt-6 max-w-[52ch] text-cosmos-muted">{p.how}</p>
+
+            <div data-reveal class="bezel mt-10">
+              <div class="bezel-core is-pearl p-6 sm:p-8">
+                <h3 class="font-semibold">What you get</h3>
+                <ul class="mt-5 grid gap-3 sm:grid-cols-2">
+                  {p.deliverables.map((d) => (
+                    <li class="flex gap-3">
+                      <Icon name="ph:sparkle-light" class="mt-1 size-4 shrink-0" />
+                      <span>{d}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div data-reveal class:list={["bezel mx-auto w-full max-w-[520px]", i % 2 === 1 && "lg:order-1"]}>
+            <div class="bezel-core pearl-sheen p-10 sm:p-14">
+              <PhaseVisual kind={p.visual} />
+            </div>
+          </div>
+        </section>
+      ))
+    }
+  </div>
+
+  <CtaPanel title="Not sure where to *start?*" text="Tell us what takes most of your team's time. We'll recommend the phase that makes sense for you, even if it's just one." />
+</Base>

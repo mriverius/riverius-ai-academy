@@ -1,0 +1,104 @@
+---
+import { Icon } from "astro-icon/components";
+import Academy from "../../layouts/Academy.astro";
+import AcademyHero from "../../components/academy/AcademyHero.astro";
+import FreeStart from "../../components/academy/FreeStart.astro";
+import StepPath from "../../components/academy/StepPath.astro";
+import HowItWorks from "../../components/academy/HowItWorks.astro";
+import Projects from "../../components/academy/Projects.astro";
+import Stories from "../../components/academy/Stories.astro";
+import Mentors from "../../components/academy/Mentors.astro";
+import Faq from "../../components/academy/Faq.astro";
+import ClosingCta from "../../components/academy/ClosingCta.astro";
+import Words from "../../components/Words.astro";
+import Button from "../../components/Button.astro";
+import { academy, proLevels, proPricing, faqPro } from "../../data/academy";
+
+const steps = proLevels.map((l, i) => ({
+  kicker: `Nivel ${i + 1}: ${i === 0 ? "Fundamentos" : "Avanzados"}`,
+  badge: l.weeks,
+  title: l.title,
+  text: l.text,
+  tags: l.topics,
+}));
+---
+
+<Academy title="Construye tu oficina automática" description="Para profesionales: dos niveles para automatizar tu trabajo con agentes de IA, sin programar. Empieza gratis en Skool.">
+  <AcademyHero
+    compact
+    tag="Para profesionales"
+    title="Construye tu oficina automática."
+    text="Dos niveles para que los agentes de IA hagan tus reportes, correos y tareas repetitivas. Sin programar, con tu certificado al final."
+    primary={{ label: "Ver el programa", href: "#programa" }}
+    secondary={{ label: "Agenda una llamada", href: academy.booking }}
+  />
+  <FreeStart />
+
+  <!-- Program -->
+  <section id="programa" class="scroll-mt-24 px-3 py-24 sm:px-6 lg:px-10 lg:py-36">
+    <div class="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
+      <div class="px-1 lg:sticky lg:top-32 lg:self-start">
+        <p data-reveal class="pill-tag">El programa</p>
+        <h2 class="display-lg mt-6"><Words text="Dos niveles. Tu oficina, trabajando sola." /></h2>
+        <p data-reveal class="mt-6 max-w-[42ch] text-cosmos-muted">
+          Seis semanas por nivel, con proyectos sobre tu propio trabajo. Todo se construye de forma visual en n8n.
+        </p>
+        <div data-reveal class="mt-8"><Button href="#inscripcion">Ver lo que incluye</Button></div>
+      </div>
+      <StepPath id="pro" steps={steps} finish={{ kicker: "Al terminar", title: "Tu certificado de Riverius AI Academy" }} />
+    </div>
+  </section>
+
+  <HowItWorks />
+  <div class="h-24 lg:h-36"></div>
+  <Projects title="Así se ve una oficina automática." text="Proyectos reales de estudiantes del Nivel 2, ya funcionando en sus negocios y trabajos." />
+  <Stories title="Profesionales que ya recuperaron sus horas." only={["Andrey Espinoza", "Fabián Morales", "Bernal Barrantes", "Esteban Hidalgo"]} />
+
+  <!-- Enrollment -->
+  <section id="inscripcion" class="scroll-mt-24 px-3 py-24 sm:px-6 lg:px-10 lg:py-36">
+    <div class="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
+      <div class="px-1">
+        <p data-reveal class="pill-tag">Inscripción</p>
+        <h2 class="display-lg mt-6"><Words text="Todo lo que necesitas para automatizar tu trabajo." /></h2>
+        <p data-reveal class="mt-6 max-w-[44ch] text-cosmos-muted">¿Tienes dudas antes de empezar? Agenda una llamada o escríbenos por WhatsApp.</p>
+        <div data-reveal class="mt-8 flex flex-wrap gap-3">
+          <Button href={academy.booking}>Agenda una llamada</Button>
+          <Button href={academy.whatsapp} variant="ghost" icon="ph:whatsapp-logo-light">WhatsApp</Button>
+        </div>
+      </div>
+      <div data-reveal class="bezel">
+        <div class="bezel-core is-pearl relative p-8 sm:p-12">
+          <div class="glow sunrise -right-[20%] -top-[30%] -z-10 size-[70%] !opacity-40"></div>
+          <h3 class="text-heading">{proPricing.title}</h3>
+          <p class="mt-1 text-cosmos-muted">{proPricing.detail}</p>
+          {proPricing.price && (
+            <p class="mt-8 flex items-baseline gap-3">
+              <span class="text-[3.5rem] font-semibold leading-none tracking-[-0.03em]">{proPricing.price}</span>
+              <span class="text-caption text-cosmos-muted">USD</span>
+            </p>
+          )}
+          <ul class="mt-8 space-y-3">
+            {proPricing.includes.map((item) => (
+              <li class="flex gap-3">
+                <Icon name="ph:check-light" class="mt-1 size-4 shrink-0" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+          <a href={academy.booking} class="btn btn-primary group mt-10 w-full justify-between" data-magnetic>
+            Reserva tu lugar
+            <span class="btn-island" aria-hidden="true"><Icon name="ph:arrow-up-right" class="size-4" /></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Mentors />
+  <Faq items={faqPro} />
+  <ClosingCta
+    title="Empieza hoy. Gratis, en 30 minutos."
+    text="Únete a la comunidad en Skool y automatiza la primera parte de tu oficina antes de decidir nada más."
+    cta={{ label: "Únete gratis", href: academy.skool }}
+  />
+</Academy>

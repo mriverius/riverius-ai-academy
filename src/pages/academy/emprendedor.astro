@@ -1,0 +1,100 @@
+---
+import { Icon } from "astro-icon/components";
+import Academy from "../../layouts/Academy.astro";
+import AcademyHero from "../../components/academy/AcademyHero.astro";
+import StepPath from "../../components/academy/StepPath.astro";
+import Projects from "../../components/academy/Projects.astro";
+import VideoFacade from "../../components/academy/VideoFacade.astro";
+import Mentors from "../../components/academy/Mentors.astro";
+import Faq from "../../components/academy/Faq.astro";
+import ClosingCta from "../../components/academy/ClosingCta.astro";
+import Words from "../../components/Words.astro";
+import Button from "../../components/Button.astro";
+import { academy, roadmap, stories, faqEmprendedor } from "../../data/academy";
+
+const learn = roadmap.filter((r) => r.phase === "Aprende");
+const sell = roadmap.filter((r) => r.phase === "Vende");
+const toSteps = (list: typeof roadmap, offset: number) =>
+  list.map((r, i) => ({ kicker: `Paso ${offset + i + 1}`, badge: r.phase, title: r.title, text: r.text, tags: r.tags }));
+const alonso = stories.find((s) => s.name === "Alonso Hidalgo")!;
+---
+
+<Academy title="Aprende IA y conviértela en negocio" description="Para emprendedores: la ruta para aprender a construir agentes de IA y venderlos a clientes reales.">
+  <AcademyHero
+    compact
+    tag="Para emprendedores"
+    title="Aprende IA y conviértela en tu negocio."
+    text="Una ruta clara en dos etapas: primero dominas los agentes de IA, después aprendes a venderlos a clientes reales."
+    primary={{ label: "Ver la ruta", href: "#ruta" }}
+    secondary={{ label: "Agenda una llamada", href: academy.booking }}
+  />
+
+  <!-- Roadmap -->
+  <section id="ruta" class="scroll-mt-24 px-3 py-24 sm:px-6 lg:px-10 lg:py-36">
+    <div class="mx-auto max-w-7xl">
+      <div class="px-1 text-center">
+        <p data-reveal class="pill-tag">La ruta</p>
+        <h2 class="display-lg mx-auto mt-6 max-w-[18ch]"><Words text="De cero a tus primeros clientes de IA." /></h2>
+      </div>
+
+      <div class="mt-16 grid gap-16 lg:grid-cols-2 lg:gap-10">
+        <div>
+          <div data-reveal class="mb-8 flex items-center gap-4 px-1">
+            <span class="inline-flex size-12 items-center justify-center rounded-full bg-nacre shadow-[inset_0_0_0_1px_var(--c-line)]"><Icon name="ph:lightbulb-light" class="size-6" /></span>
+            <div>
+              <p class="text-caption text-cosmos-muted">Etapa 1</p>
+              <p class="text-subheading font-semibold">Aprende a construir</p>
+            </div>
+          </div>
+          <StepPath id="learn" steps={toSteps(learn, 0)} />
+        </div>
+        <div class="lg:mt-24">
+          <div data-reveal class="mb-8 flex items-center gap-4 px-1">
+            <span class="inline-flex size-12 items-center justify-center rounded-full bg-cosmos text-pearl"><Icon name="ph:hand-coins-light" class="size-6" /></span>
+            <div>
+              <p class="text-caption text-cosmos-muted">Etapa 2</p>
+              <p class="text-subheading font-semibold">Aprende a vender</p>
+            </div>
+          </div>
+          <StepPath id="sell" steps={toSteps(sell, learn.length)} finish={{ kicker: "Resultado", title: "Tu negocio de soluciones con IA" }} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Proof: Alonso -->
+  <section class="px-3 pb-24 sm:px-6 lg:px-10 lg:pb-36">
+    <div class="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+      <div data-reveal class="bezel mx-auto w-full max-w-[360px]">
+        <div class="bezel-core is-pearl p-2.5">
+          <VideoFacade id={alonso.wistia} title={`Testimonio de ${alonso.name}`} fallbackAspect={9 / 16} />
+        </div>
+      </div>
+      <div>
+        <p data-reveal class="pill-tag">Ya lo logró</p>
+        <h2 class="display-lg mt-6"><Words text="Del laboratorio a vender soluciones de IA." /></h2>
+        <div data-reveal class="mt-8 space-y-6">
+          <div>
+            <p class="text-caption font-medium text-cosmos-muted">Cómo empezó</p>
+            <p class="mt-1 text-subheading">{alonso.before}</p>
+          </div>
+          <div>
+            <p class="text-caption font-medium text-cosmos-muted">Dónde está hoy</p>
+            <p class="mt-1 text-subheading font-semibold">{alonso.after}</p>
+          </div>
+          <p class="text-caption font-medium">{alonso.name}, {alonso.role}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Projects title="Soluciones que ya se pueden vender." text="Proyectos de estudiantes para clínicas, inmobiliarias y comercios. El tipo de solución que aprenderás a construir y a vender." />
+  <Mentors title="Te guían Aaisha y Mariano." />
+  <Faq items={faqEmprendedor} />
+  <ClosingCta
+    title="Tu primer cliente de IA empieza con una llamada."
+    text="Cuéntanos tu idea y te decimos cómo recorrer la ruta. O empieza gratis en la comunidad."
+    cta={{ label: "Agenda una llamada", href: academy.booking }}
+    secondary={{ label: "Únete gratis a Skool", href: academy.skool }}
+  />
+</Academy>

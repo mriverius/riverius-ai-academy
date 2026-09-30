@@ -1,0 +1,33 @@
+---
+// "Start free" callout: the Skool community's first win in 30 minutes.
+import { Icon } from "astro-icon/components";
+import { academy } from "../../data/academy";
+---
+
+<section class="relative z-10 -mt-24 px-3 sm:-mt-32 sm:px-6 lg:px-10">
+  <div data-reveal class="bezel mx-auto max-w-4xl">
+    <div class="bezel-core is-pearl relative flex flex-col gap-6 p-6 sm:flex-row sm:items-center sm:gap-8 sm:p-8">
+      <div class="glow sunrise -left-[10%] -top-[60%] -z-10 size-[60%] !opacity-40" />
+      <span class="free-badge inline-flex size-16 shrink-0 items-center justify-center rounded-full">
+        <Icon name="ph:gift-light" class="size-7" />
+      </span>
+      <div class="flex-1">
+        <p class="text-caption font-medium text-cosmos-muted">Empieza gratis hoy</p>
+        <p class="mt-1 text-subheading font-semibold">Automatiza la primera parte de tu oficina en 30 minutos.</p>
+        <p class="mt-1 text-cosmos-muted">Únete gratis a la comunidad en Skool y sigue la guía paso a paso.</p>
+      </div>
+      <a href={academy.skool} class="btn btn-primary group shrink-0" data-magnetic>
+        Únete gratis
+        <span class="btn-island" aria-hidden="true"><Icon name="ph:arrow-up-right" class="size-4" /></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .free-badge {
+    background: linear-gradient(135deg, #ffc8e4, #ffdcb8 50%, #c4f7e1);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.8), 0 12px 30px -12px rgb(255 196 140 / 0.9);
+    color: var(--color-ink);
+  }
+</style>

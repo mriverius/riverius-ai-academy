@@ -1,0 +1,43 @@
+---
+import Words from "./Words.astro";
+import Button from "./Button.astro";
+import { site } from "../data/site";
+
+interface Props {
+  title?: string;
+  text?: string;
+}
+const {
+  title = "Give your team back hours every *week.*",
+  text = "A 30-minute call to understand how your team works, and an honest answer on whether AI can help.",
+} = Astro.props;
+---
+
+<section class="px-3 py-20 sm:px-6 lg:px-10 lg:py-32">
+  <!-- Cosmos panel: the pastels glow here. -->
+  <div class="relative isolate mx-auto max-w-7xl overflow-hidden rounded-[calc(var(--radius-lg)+8px)] bg-ink px-6 py-20 text-center text-shell shadow-[inset_0_0_0_1px_rgb(255_251_247/0.08)] sm:px-12 lg:py-32">
+    <div class="glow aurora left-1/2 top-1/2 -z-10 size-[560px] -translate-x-1/2 -translate-y-1/2 !opacity-45"></div>
+    <svg viewBox="0 0 24 24" class="cta-star absolute left-1/2 top-1/2 -z-10 size-[420px] -translate-x-1/2 -translate-y-1/2 text-shell/[0.06]" aria-hidden="true">
+      <path fill="currentColor" d="M12 0C12.8 7 17 11.2 24 12C17 12.8 12.8 17 12 24C11.2 17 7 12.8 0 12C7 11.2 11.2 7 12 0Z"></path>
+    </svg>
+
+    <h2 class="display-lg mx-auto max-w-[16ch]"><Words text={title} /></h2>
+    <p data-reveal style="--i:3" class="mx-auto mt-6 max-w-[46ch] text-haze">{text}</p>
+    <div data-reveal style="--i:4" class="mt-10 flex justify-center">
+      <Button href={site.cta.href} variant="glow" magnetic>{site.cta.label}</Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  @media (prefers-reduced-motion: no-preference) {
+    .cta-star {
+      animation: spin 60s linear infinite;
+    }
+  }
+  @keyframes spin {
+    to {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+</style>

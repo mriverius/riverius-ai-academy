@@ -1,0 +1,27 @@
+---
+import Shell from "./Shell.astro";
+import Header from "../components/Header.astro";
+import AcademyFooter from "../components/academy/AcademyFooter.astro";
+import { academy } from "../data/academy";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const { title, description = academy.description } = Astro.props;
+const fullTitle = title ? `${title} | ${academy.name}` : `${academy.name} | IA práctica en español`;
+---
+
+<Shell title={fullTitle} description={description} lang="es" favicon="/favicon-academy.svg" theme="light">
+  <Header
+    slot="header"
+    nav={academy.nav}
+    cta={academy.cta}
+    suffix="AI Academy"
+    home="/academy"
+    email={academy.email}
+    sister={academy.sister}
+  />
+  <slot />
+  <AcademyFooter slot="footer" />
+</Shell>

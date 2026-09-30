@@ -1,0 +1,507 @@
+@import "tailwindcss";
+@import "@fontsource/poppins/300.css";
+@import "@fontsource/poppins/400.css";
+@import "@fontsource/poppins/500.css";
+@import "@fontsource/poppins/600.css";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/*
+  Riverius brand tokens.
+  Light = Pearl theme. Dark = Cosmos theme (pastels glow).
+  Text is always cosmos on pearl/nacre, or pearl on cosmos.
+  Pastels are for light, shapes and gradients only.
+*/
+:root {
+  --c-pearl: #fffbf7;
+  --c-nacre: #f4efea;
+  --c-line: #e6ded3;
+  --c-cosmos: #1e1638;
+  --c-cosmos-muted: #5e5873;
+  --c-action: #1e1638;
+  --c-on-action: #fffbf7;
+  --glow-opacity: 0.55;
+  --bezel-shell: rgb(30 22 56 / 0.035);
+  --bezel-ring: rgb(30 22 56 / 0.07);
+  --bezel-highlight: rgb(255 255 255 / 0.9);
+  --nav-bg: rgb(255 251 247 / 0.7);
+
+  color-scheme: light;
+}
+
+/* Each site pins its theme with <html data-theme>: the agency is Cosmos, the academy is Pearl.
+   Pages without data-theme follow the visitor's system setting. */
+:root[data-theme="dark"] {
+  --c-pearl: #1e1638;
+  --c-nacre: #2a2150;
+  --c-line: #3b3066;
+  --c-cosmos: #fffbf7;
+  --c-cosmos-muted: #c9c2da;
+  --c-action: #c3a8ff;
+  --c-on-action: #1e1638;
+  --glow-opacity: 0.8;
+  --bezel-shell: rgb(255 251 247 / 0.035);
+  --bezel-ring: rgb(255 251 247 / 0.08);
+  --bezel-highlight: rgb(255 251 247 / 0.08);
+  --nav-bg: rgb(42 33 80 / 0.72);
+
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --c-pearl: #1e1638;
+    --c-nacre: #2a2150;
+    --c-line: #3b3066;
+    --c-cosmos: #fffbf7;
+    --c-cosmos-muted: #c9c2da;
+    --c-action: #c3a8ff;
+    --c-on-action: #1e1638;
+    --glow-opacity: 0.8;
+    --bezel-shell: rgb(255 251 247 / 0.035);
+    --bezel-ring: rgb(255 251 247 / 0.08);
+    --bezel-highlight: rgb(255 251 247 / 0.08);
+    --nav-bg: rgb(42 33 80 / 0.72);
+
+    color-scheme: dark;
+  }
+}
+
+@theme inline {
+  --color-pearl: var(--c-pearl);
+  --color-nacre: var(--c-nacre);
+  --color-line: var(--c-line);
+  --color-cosmos: var(--c-cosmos);
+  --color-cosmos-muted: var(--c-cosmos-muted);
+  --color-action: var(--c-action);
+  --color-on-action: var(--c-on-action);
+}
+
+@theme {
+  /* Fixed brand colors (do not flip with theme). */
+  --color-ink: #1e1638;
+  --color-ink-2: #2a2150;
+  --color-ink-line: #3b3066;
+  --color-shell: #fffbf7;
+  --color-haze: #c9c2da;
+
+  --color-morpho: #8fd3ff;
+  --color-guaria: #c3a8ff;
+  --color-pitahaya: #ff9ed2;
+  --color-mango: #ffc48c;
+  --color-jade: #8ef0c8;
+
+  --font-sans: "Poppins", "Urbanist", ui-sans-serif, system-ui, sans-serif;
+
+  --text-display: 3rem;
+  --text-display--line-height: 3.25rem;
+  --text-display--letter-spacing: -0.02em;
+  --text-heading: 1.75rem;
+  --text-heading--line-height: 2.125rem;
+  --text-heading--letter-spacing: -0.01em;
+  --text-subheading: 1.25rem;
+  --text-subheading--line-height: 1.75rem;
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.125rem;
+  --text-caption--letter-spacing: 0.02em;
+
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 28px;
+
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* Native cross-document page transitions (no JS router). */
+@view-transition {
+  navigation: auto;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.45s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  body {
+    background: var(--c-pearl);
+    color: var(--c-cosmos);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.625;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3, h4 {
+    font-weight: 600;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--color-guaria) 55%, transparent);
+    color: var(--color-ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-guaria);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+}
+
+@layer components {
+  /* The one signature gradient of this site: Aurora (technology & AI). */
+  .aurora {
+    background-image: linear-gradient(135deg, var(--color-morpho), var(--color-guaria) 50%, var(--color-pitahaya));
+  }
+  /* Gradient text. Only on Cosmos backgrounds, where pastels are legible. */
+  .aurora-text {
+    background-image: linear-gradient(135deg, var(--color-morpho), var(--color-guaria) 45%, var(--color-pitahaya));
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .glow {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(72px);
+    opacity: var(--glow-opacity);
+    pointer-events: none;
+  }
+
+  /* Double-bezel: a machined shell holding an inner core. */
+  .bezel {
+    border-radius: calc(var(--radius-lg) + 8px);
+    padding: 6px;
+    background: var(--bezel-shell);
+    box-shadow: inset 0 0 0 1px var(--bezel-ring);
+  }
+  .bezel-core {
+    position: relative;
+    border-radius: var(--radius-lg);
+    background: var(--c-nacre);
+    box-shadow:
+      inset 0 1px 0 var(--bezel-highlight),
+      0 30px 60px -40px rgb(30 22 56 / 0.25);
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .bezel-core.is-pearl {
+    background: var(--c-pearl);
+  }
+
+  /* Mother-of-pearl sheen for surfaces. */
+  .pearl-sheen::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(120% 80% at 0% 0%, color-mix(in oklab, var(--color-morpho) 20%, transparent), transparent 60%),
+      radial-gradient(90% 70% at 100% 100%, color-mix(in oklab, var(--color-pitahaya) 16%, transparent), transparent 60%),
+      radial-gradient(60% 60% at 70% 20%, color-mix(in oklab, var(--color-guaria) 14%, transparent), transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Cursor spotlight for cards (JS sets --mx/--my). */
+  .spotlight {
+    position: relative;
+  }
+  .spotlight::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, -30%), color-mix(in oklab, var(--color-guaria) 22%, transparent), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.5s var(--ease-out-soft);
+    pointer-events: none;
+    z-index: 1;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .spotlight:hover::after {
+      opacity: 1;
+    }
+  }
+
+  /* Buttons: pill with a nested icon island. */
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    white-space: nowrap;
+    border-radius: 9999px;
+    padding: 0.4375rem 0.4375rem 0.4375rem 1.5rem;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    line-height: 1.25rem;
+    transition:
+      scale 0.16s var(--ease-out-soft),
+      background-color 0.4s var(--ease-out-soft),
+      box-shadow 0.5s var(--ease-out-soft);
+  }
+  .btn:active {
+    scale: 0.97;
+  }
+  .btn-island {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 9999px;
+    transition:
+      transform 0.5s var(--ease-drawer),
+      background-color 0.4s var(--ease-out-soft);
+  }
+  .btn:hover .btn-island {
+    transform: translate(2px, -1px) scale(1.06);
+  }
+  .btn-plain {
+    padding: 0.8125rem 1.5rem;
+  }
+
+  .btn-primary {
+    background: var(--c-action);
+    color: var(--c-on-action);
+    box-shadow: 0 12px 32px -14px color-mix(in oklab, var(--color-guaria) 80%, transparent);
+  }
+  .btn-primary .btn-island {
+    background: color-mix(in oklab, var(--c-on-action) 14%, transparent);
+  }
+  .btn-primary:hover {
+    box-shadow: 0 18px 44px -14px color-mix(in oklab, var(--color-guaria) 100%, transparent);
+  }
+
+  /* On Cosmos surfaces: guaria action with cosmos text. */
+  .btn-glow {
+    background: var(--color-guaria);
+    color: var(--color-ink);
+    box-shadow:
+      0 0 0 1px rgb(255 251 247 / 0.2) inset,
+      0 16px 48px -12px color-mix(in oklab, var(--color-guaria) 80%, transparent);
+  }
+  .btn-glow .btn-island {
+    background: rgb(30 22 56 / 0.1);
+  }
+
+  .btn-ghost {
+    color: var(--c-cosmos);
+    box-shadow: inset 0 0 0 1px var(--c-line);
+  }
+  .btn-ghost:hover {
+    background: var(--c-nacre);
+  }
+  .btn-ghost-dark {
+    color: var(--color-shell);
+    box-shadow: inset 0 0 0 1px rgb(255 251 247 / 0.2);
+  }
+  .btn-ghost-dark:hover {
+    background: rgb(255 251 247 / 0.06);
+  }
+
+  .pill-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    padding: 0.375rem 0.875rem;
+    font-size: 0.6875rem;
+    line-height: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--c-cosmos-muted);
+    box-shadow: inset 0 0 0 1px var(--c-line);
+    background: color-mix(in oklab, var(--c-pearl) 70%, transparent);
+  }
+
+  .display-xl {
+    font-size: clamp(2.5rem, 5.4vw, 4.75rem);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    font-weight: 600;
+  }
+  .display-lg {
+    font-size: clamp(2.125rem, 4.4vw, 3.75rem);
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+    font-weight: 600;
+  }
+
+  .prose-riverius h2 {
+    font-size: var(--text-heading);
+    line-height: var(--text-heading--line-height);
+    letter-spacing: -0.01em;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .prose-riverius p,
+  .prose-riverius ul {
+    color: var(--c-cosmos-muted);
+    margin-bottom: 1rem;
+  }
+  .prose-riverius ul {
+    list-style: disc;
+    padding-left: 1.25rem;
+  }
+  .prose-riverius li {
+    margin-bottom: 0.5rem;
+  }
+  .prose-riverius strong {
+    color: var(--c-cosmos);
+    font-weight: 600;
+  }
+}
+
+/* Fixed film grain: sits above everything, never scrolls, never intercepts. */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Motion. Everything is visible by default; JS opts elements in. */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(32px);
+    filter: blur(10px);
+    transition:
+      opacity 1.1s var(--ease-out-soft),
+      transform 1.1s var(--ease-out-soft),
+      filter 1.1s var(--ease-out-soft);
+    transition-delay: calc(var(--i, 0) * 90ms);
+  }
+  .js [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+
+  /* Word-by-word entrance (hero and headings with data-words). */
+  .js [data-words] .w {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.45em);
+    filter: blur(12px);
+    transition:
+      opacity 1.2s var(--ease-out-soft),
+      transform 1.2s var(--ease-out-soft),
+      filter 1.2s var(--ease-out-soft);
+    transition-delay: calc(var(--d, 0ms) + var(--w, 0) * 70ms);
+  }
+  .js [data-words].is-visible .w {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+
+  .aurora-text.is-flowing {
+    animation: aurora-flow 8s ease-in-out infinite alternate;
+  }
+  @keyframes aurora-flow {
+    to {
+      background-position: 100% 0;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Smooth accordion height (progressive enhancement). */
+:root {
+  interpolate-size: allow-keywords;
+}
+details.faq::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition:
+    block-size 0.6s var(--ease-drawer),
+    content-visibility 0.6s allow-discrete;
+}
+details.faq[open]::details-content {
+  block-size: auto;
+}
+
+/* Academy signature gradient: Tropical sunrise (community & new beginnings). */
+@layer components {
+  .sunrise {
+    background-image: linear-gradient(135deg, var(--color-pitahaya), var(--color-mango) 50%, var(--color-jade));
+  }
+  /* Gradient text for dark surfaces only. */
+  .sunrise-text {
+    background-image: linear-gradient(135deg, var(--color-pitahaya), var(--color-mango) 50%, var(--color-jade));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .btn-sunrise {
+    background: var(--color-mango);
+    color: var(--color-ink);
+    box-shadow:
+      0 0 0 1px rgb(255 251 247 / 0.25) inset,
+      0 16px 48px -12px color-mix(in oklab, var(--color-mango) 80%, transparent);
+  }
+  .btn-sunrise .btn-island {
+    background: rgb(30 22 56 / 0.1);
+  }
+}
+
+/* Academy shared pieces. */
+@layer components {
+  .arch {
+    border-radius: 50% 50% var(--radius-lg) var(--radius-lg) / 40% 40% var(--radius-lg) var(--radius-lg);
+  }
+  .press-logo {
+    filter: grayscale(1);
+    mix-blend-mode: multiply;
+    opacity: 0.7;
+  }
+  .sunrise-pill {
+    background: linear-gradient(135deg, rgb(255 158 210 / 0.45), rgb(255 196 140 / 0.45) 50%, rgb(142 240 200 / 0.45));
+  }
+  .sunrise-card {
+    background:
+      linear-gradient(135deg, rgb(255 158 210 / 0.55), rgb(255 196 140 / 0.55) 50%, rgb(142 240 200 / 0.55)),
+      var(--c-pearl);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.6);
+  }
+  /* Carousel aligned to the page container, bleeding off the right edge. */
+  .edge-track {
+    --gutter: max(1rem, calc((100vw - 80rem) / 2 + 2.5rem));
+    padding-inline: var(--gutter);
+    scroll-padding-inline: var(--gutter);
+  }
+  @media (max-width: 639px) {
+    .edge-track {
+      --gutter: 1rem;
+    }
+  }
+}

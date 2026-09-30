@@ -1,0 +1,94 @@
+---
+// Academy hero: the sun of knowledge rising behind the headline.
+import Words from "../Words.astro";
+import Button from "../Button.astro";
+
+type Link = { label: string; href: string };
+interface Props {
+  tag: string;
+  title: string;
+  text: string;
+  primary: Link;
+  secondary?: Link;
+  /** Shorter hero for inner pages. */
+  compact?: boolean;
+}
+const { tag, title, text, primary, secondary, compact = false } = Astro.props;
+---
+
+<section id="academy-hero" class:list={["relative isolate overflow-hidden bg-pearl", compact && "is-compact"]}>
+  <canvas id="sunrise" class="sun-canvas absolute inset-0 -z-10 size-full" aria-hidden="true"></canvas>
+
+  <div
+    class:list={[
+      "relative z-10 mx-auto flex max-w-5xl flex-col items-center px-4 pt-36 text-center sm:px-6 lg:pt-40",
+      compact ? "pb-[48vw] sm:pb-[34vw] lg:pb-[19rem]" : "min-h-[100dvh] pb-[52vw] sm:pb-[40vw] lg:pb-[22rem]",
+    ]}
+  >
+    <p data-reveal class="pill-tag bg-pearl/70">
+      <svg viewBox="0 0 24 24" class="size-3" aria-hidden="true"><path fill="currentColor" d="M12 0C12.8 7 17 11.2 24 12C17 12.8 12.8 17 12 24C11.2 17 7 12.8 0 12C7 11.2 11.2 7 12 0Z"></path></svg>
+      {tag}
+    </p>
+    <h1 class="display-xl mt-7 max-w-[15ch]"><Words text={title} delay={150} /></h1>
+    <p data-reveal style="--i:6" class="mt-7 max-w-[46ch] text-[1.0625rem] leading-[1.75rem] text-cosmos-muted">{text}</p>
+    <div data-reveal style="--i:7" class="mt-10 flex flex-wrap justify-center gap-3">
+      <Button href={primary.href} magnetic>{primary.label}</Button>
+      {secondary && <Button href={secondary.href} variant="ghost" icon={false}>{secondary.label}</Button>}
+    </div>
+    <slot />
+  </div>
+
+  <!-- The sun rises from below the fold. -->
+  <div id="sunrise-anchor" class="sun-anchor pointer-events-none absolute bottom-0 left-1/2 aspect-square -translate-x-1/2" aria-hidden="true">
+    <div class="sun-fallback absolute inset-[25%] rounded-full"></div>
+  </div>
+</section>
+
+<style>
+  .sun-canvas {
+    mask-image: linear-gradient(180deg, #000 80%, transparent 100%);
+  }
+  .sun-anchor {
+    width: 150vw;
+    translate: -50% 40%;
+  }
+  @media (min-width: 640px) {
+    .sun-anchor {
+      width: 110vw;
+    }
+  }
+  @media (min-width: 1024px) {
+    .sun-anchor {
+      width: 980px;
+    }
+  }
+  .is-compact .sun-anchor {
+    translate: -50% 44%;
+  }
+  @media (min-width: 1024px) {
+    .is-compact .sun-anchor {
+      width: 820px;
+    }
+  }
+  .sun-fallback {
+    background:
+      radial-gradient(circle at 50% 50%, #fffbf7 0 20%, transparent 60%),
+      radial-gradient(circle at 30% 70%, #ff9ed2, transparent 55%),
+      radial-gradient(circle at 70% 30%, #ffc48c, transparent 55%),
+      #ffd6b8;
+    box-shadow: 0 0 160px 40px rgb(255 196 140 / 0.55);
+  }
+  :global(.has-gl) .sun-fallback {
+    display: none;
+  }
+</style>
+
+<script>
+  import { mountOpal } from "../../scripts/opal";
+  const canvas = document.getElementById("sunrise") as HTMLCanvasElement | null;
+  const anchor = document.getElementById("sunrise-anchor");
+  if (canvas && anchor && mountOpal(canvas, anchor, "sunrise", "sun")) {
+    document.getElementById("academy-hero")?.classList.add("has-gl");
+  }
+  document.querySelectorAll("#academy-hero [data-words], #academy-hero [data-reveal]").forEach((el) => el.classList.add("is-visible"));
+</script>

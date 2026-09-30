@@ -1,0 +1,27 @@
+---
+// Compact Cosmos header for inner pages, with the horizon into Pearl.
+import Words from "./Words.astro";
+
+interface Props {
+  title: string;
+  text?: string;
+  tag?: string;
+}
+const { title, text, tag } = Astro.props;
+---
+
+<section class="page-hero relative isolate overflow-hidden bg-ink px-4 pb-32 pt-40 text-shell sm:px-6 lg:px-10 lg:pb-40 lg:pt-48">
+  <div class="glow aurora -right-[10%] -top-[40%] -z-10 size-[640px] !opacity-40"></div>
+  <div class="glow -bottom-[30%] left-[10%] -z-10 size-[420px] bg-morpho !opacity-20"></div>
+  <div class="mx-auto max-w-7xl">
+    {tag && <p data-reveal class="inline-flex rounded-full px-3.5 py-1.5 text-[0.6875rem] font-medium uppercase tracking-[0.16em] text-haze shadow-[inset_0_0_0_1px_rgb(255_251_247/0.16)]">{tag}</p>}
+    <h1 class="display-xl mt-7 max-w-[16ch]"><Words text={title} delay={100} /></h1>
+    {text && <p data-reveal style="--i:5" class="mt-7 max-w-[48ch] text-[1.0625rem] leading-[1.75rem] text-haze">{text}</p>}
+    <slot />
+  </div>
+  <div class="pointer-events-none absolute -bottom-px left-1/2 h-16 w-[160%] -translate-x-1/2 translate-y-1/2 rounded-[50%] bg-pearl shadow-[0_-30px_80px_10px_rgb(195_168_255/0.22)] sm:h-24"></div>
+</section>
+
+<script>
+  document.querySelectorAll(".page-hero [data-words], .page-hero [data-reveal]").forEach((el) => el.classList.add("is-visible"));
+</script>

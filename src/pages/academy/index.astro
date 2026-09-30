@@ -1,0 +1,34 @@
+---
+import Academy from "../../layouts/Academy.astro";
+import AcademyHero from "../../components/academy/AcademyHero.astro";
+import Stats from "../../components/academy/Stats.astro";
+import Paths from "../../components/academy/Paths.astro";
+import Stories from "../../components/academy/Stories.astro";
+import Shots from "../../components/academy/Shots.astro";
+import Mentors from "../../components/academy/Mentors.astro";
+import Faq from "../../components/academy/Faq.astro";
+import ClosingCta from "../../components/academy/ClosingCta.astro";
+import { academy, faqHub } from "../../data/academy";
+---
+
+<Academy>
+  <AcademyHero
+    tag="Riverius AI Academy"
+    title="Aprende IA sin ser técnico."
+    text="Crea agentes de IA y automatizaciones sin programar, con mentores que te acompañan de principio a fin."
+    primary={{ label: "Elige tu camino", href: "#caminos" }}
+    secondary={{ label: "Únete gratis a Skool", href: academy.skool }}
+  />
+  <Stats />
+  <Paths />
+  <Stories />
+  <Shots />
+  <Mentors />
+  <Faq items={faqHub} />
+  <ClosingCta
+    title="¿Aún no sabes por dónde empezar?"
+    text="Únete gratis a la comunidad en Skool y automatiza la primera parte de tu oficina en 30 minutos."
+    cta={{ label: "Únete gratis", href: academy.skool }}
+    secondary={{ label: "Elige tu camino", href: "#caminos" }}
+  />
+</Academy>

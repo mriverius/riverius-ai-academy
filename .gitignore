@@ -1,0 +1,26 @@
+dist/
+.astro/
+node_modules/
+.env
+.DS_Store
+.playwright-mcp/
+
+# Editors and OS
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+*.log
+
+# Env files (keep an example if you add one)
+.env.*
+!.env.example
+
+# Local tooling output
+.vercel/
+.netlify/

@@ -1,0 +1,23 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  href: string;
+  variant?: "primary" | "glow" | "ghost" | "ghost-dark";
+  icon?: string | false;
+  magnetic?: boolean;
+  class?: string;
+}
+const { href, variant = "primary", icon = "ph:arrow-up-right", magnetic = false, class: className = "" } = Astro.props;
+---
+
+<a href={href} class:list={["btn group", `btn-${variant}`, !icon && "btn-plain", className]} data-magnetic={magnetic || undefined}>
+  <slot />
+  {
+    icon && (
+      <span class="btn-island" aria-hidden="true">
+        <Icon name={icon} class="size-4" />
+      </span>
+    )
+  }
+</a>

@@ -1,0 +1,78 @@
+---
+import Words from "./Words.astro";
+import Button from "./Button.astro";
+import { site } from "../data/site";
+---
+
+<section id="hero" class="hero relative isolate overflow-hidden bg-ink text-shell">
+  <div class="absolute inset-0 -z-10" data-parallax="0.25">
+    <canvas id="opal" class="absolute inset-0 size-full" aria-hidden="true"></canvas>
+  </div>
+
+  <div class="mx-auto grid min-h-[100dvh] max-w-7xl items-center gap-6 px-4 pb-28 pt-32 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:gap-10 lg:px-10 lg:pb-24 lg:pt-28">
+    <div class="relative z-10">
+      <h1 class="display-xl max-w-[15ch]">
+        <Words text="AI that feels like *clarity,* not complexity." delay={150} />
+      </h1>
+      <p data-reveal style="--i:6" class="mt-7 max-w-[40ch] text-[1.0625rem] leading-[1.75rem] text-haze">
+        We find the work worth automating, build the systems, and train your team until AI becomes habit.
+      </p>
+      <div data-reveal style="--i:7" class="mt-10 flex flex-wrap gap-3">
+        <Button href={site.cta.href} variant="glow" magnetic>{site.cta.label}</Button>
+        <Button href="/work" variant="ghost-dark" icon={false}>See our work</Button>
+      </div>
+    </div>
+
+    <div class="relative mx-auto w-[96vw] max-w-[620px] lg:w-[118%] lg:max-w-[720px]">
+      <div id="opal-anchor" class="relative aspect-square w-full">
+        <!-- CSS fallback orb, hidden once WebGL mounts. -->
+        <div class="fallback-orb absolute inset-[21%] rounded-full"></div>
+      </div>
+      <!-- Stars ride on top of the canvas. -->
+      <svg viewBox="0 0 24 24" class="twinkle pointer-events-none absolute right-[14%] top-[12%] size-5 text-shell" aria-hidden="true"><path fill="currentColor" d="M12 0C12.8 7 17 11.2 24 12C17 12.8 12.8 17 12 24C11.2 17 7 12.8 0 12C7 11.2 11.2 7 12 0Z"></path></svg>
+      <svg viewBox="0 0 24 24" class="twinkle twinkle-late pointer-events-none absolute bottom-[20%] left-[10%] size-2.5 text-haze" aria-hidden="true"><path fill="currentColor" d="M12 0C12.8 7 17 11.2 24 12C17 12.8 12.8 17 12 24C11.2 17 7 12.8 0 12C7 11.2 11.2 7 12 0Z"></path></svg>
+    </div>
+  </div>
+
+  <!-- Horizon: the Cosmos gives way to Pearl. -->
+  <div class="horizon pointer-events-none absolute -bottom-px left-1/2 h-16 w-[160%] -translate-x-1/2 translate-y-1/2 rounded-[50%] bg-pearl sm:h-24"></div>
+</section>
+
+<style>
+  .fallback-orb {
+    background:
+      radial-gradient(circle at 34% 28%, rgb(255 251 247 / 0.95) 0 6%, transparent 30%),
+      conic-gradient(from 210deg, #8fd3ff, #c3a8ff, #ff9ed2, #fffbf7, #8fd3ff);
+    box-shadow: 0 0 120px 20px rgb(195 168 255 / 0.35);
+    filter: saturate(0.85);
+  }
+  :global(.has-gl) .fallback-orb {
+    display: none;
+  }
+  .horizon {
+    box-shadow: 0 -30px 80px 10px rgb(195 168 255 / 0.25);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .twinkle {
+      animation: twinkle 5s ease-in-out infinite;
+    }
+    .twinkle-late {
+      animation-delay: -2.5s;
+    }
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.45; transform: scale(0.8); }
+  }
+</style>
+
+<script>
+  import { mountOpal } from "../scripts/opal";
+  const canvas = document.getElementById("opal") as HTMLCanvasElement | null;
+  const anchor = document.getElementById("opal-anchor");
+  if (canvas && anchor && mountOpal(canvas, anchor, "aurora")) {
+    document.getElementById("hero")?.classList.add("has-gl");
+  }
+  // Hero words enter immediately, not on scroll.
+  document.querySelectorAll("#hero [data-words], #hero [data-reveal]").forEach((el) => el.classList.add("is-visible"));
+</script>

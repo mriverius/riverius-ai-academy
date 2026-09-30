@@ -1,0 +1,176 @@
+---
+// Voice: usted (first contact with organizations).
+import { Icon } from "astro-icon/components";
+import Academy from "../../layouts/Academy.astro";
+import AcademyHero from "../../components/academy/AcademyHero.astro";
+import Mentors from "../../components/academy/Mentors.astro";
+import Faq from "../../components/academy/Faq.astro";
+import Words from "../../components/Words.astro";
+import { academy, teamsForm, teamsSteps, faqEquipos } from "../../data/academy";
+
+// Set PUBLIC_FORM_ENDPOINT to receive submissions; otherwise the form opens an email.
+const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT ?? "";
+const field =
+  "w-full rounded-[var(--radius-sm)] bg-pearl px-4 py-3.5 text-cosmos shadow-[inset_0_0_0_1px_var(--c-line)] transition-shadow duration-300 placeholder:text-cosmos-muted focus:shadow-[inset_0_0_0_2px_var(--c-action)] focus:outline-none aria-[invalid=true]:shadow-[inset_0_0_0_2px_#c2185b]";
+const select = `${field} appearance-none pr-11 cursor-pointer`;
+const errorText = "hidden text-caption text-[#b4235a]";
+const pill =
+  "flex h-12 cursor-pointer items-center justify-center rounded-full bg-pearl px-4 font-medium shadow-[inset_0_0_0_1px_var(--c-line)] transition-[background-color,color,box-shadow] duration-300 hover:shadow-[inset_0_0_0_1px_var(--c-cosmos-muted)] peer-checked:bg-cosmos peer-checked:text-pearl peer-checked:shadow-[0_10px_30px_-12px_rgb(30_22_56/0.6)] peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-cosmos";
+---
+
+<Academy title="Capacitación en IA para equipos" description="Talleres y programas de IA a la medida para empresas, centros educativos e instituciones públicas. Solicite una cotización.">
+  <AcademyHero
+    compact
+    tag="Para equipos y líderes"
+    title="Capacitación en IA para su organización."
+    text="Talleres y programas a la medida para que su equipo use IA con criterio y resultados medibles."
+    primary={{ label: "Solicitar cotización", href: "#cotizacion" }}
+    secondary={{ label: "Cómo funciona", href: "#como-funciona" }}
+  />
+
+  <!-- How it works -->
+  <section id="como-funciona" class="scroll-mt-24 px-3 py-24 sm:px-6 lg:px-10 lg:py-32">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="display-lg max-w-[18ch] px-1"><Words text="Una capacitación hecha para su equipo." /></h2>
+      <ol class="mt-14 grid gap-4 md:grid-cols-3">
+        {teamsSteps.map((s, i) => (
+          <li data-reveal style={`--i:${i}`} class:list={["bezel", i === 1 && "md:translate-y-8"]}>
+            <div class="bezel-core is-pearl spotlight flex h-full flex-col p-7 sm:p-9">
+              <span class="inline-flex size-12 items-center justify-center rounded-full bg-nacre shadow-[inset_0_0_0_1px_var(--c-line)]">
+                <Icon name={s.icon} class="size-6" />
+              </span>
+              <h3 class="mt-10 text-subheading font-semibold">{s.title}</h3>
+              <p class="mt-2 text-cosmos-muted">{s.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- Quotation form -->
+  <section id="cotizacion" class="scroll-mt-24 px-3 pb-24 sm:px-6 lg:px-10 lg:pb-36">
+    <div class="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.8fr_1.5fr] lg:gap-16">
+      <div class="px-1 lg:sticky lg:top-32 lg:self-start">
+        <p data-reveal class="pill-tag">Cotización</p>
+        <h2 class="display-lg mt-6"><Words text="Cuéntenos sobre su equipo." /></h2>
+        <p data-reveal class="mt-6 max-w-[40ch] text-cosmos-muted">Le respondemos en un día hábil con una propuesta a la medida. Los mentores del programa son Aaisha y Mariano Rivera.</p>
+        <p data-reveal class="mt-8 text-cosmos-muted">
+          ¿Prefiere hablar ahora?
+          <a href={academy.whatsapp} class="ml-1 font-medium text-cosmos underline decoration-line underline-offset-[6px] hover:decoration-cosmos">WhatsApp</a>
+        </p>
+      </div>
+
+      <div data-reveal class="bezel">
+        <div class="bezel-core p-6 sm:p-10">
+          <form
+            data-inquiry
+            action={endpoint || undefined}
+            method="post"
+            novalidate
+            data-endpoint={endpoint}
+            data-email={academy.email}
+            data-subject="Solicitud de cotización: capacitación en IA"
+            data-sending="Enviando…"
+            data-success="Gracias. Recibimos su solicitud y le responderemos en un día hábil."
+            data-error={`No pudimos enviar su solicitud. Escríbanos a ${academy.email}.`}
+            data-mailto="Abrimos su aplicación de correo con la solicitud lista para enviar."
+            class="space-y-6"
+          >
+            <div class="grid gap-6 sm:grid-cols-2">
+              <div class="flex flex-col gap-2">
+                <label for="nombre" class="font-medium">Nombre</label>
+                <input id="nombre" name="nombre" autocomplete="given-name" required class={field} aria-describedby="nombre-error" />
+                <p id="nombre-error" class={errorText}>Escriba su nombre.</p>
+              </div>
+              <div class="flex flex-col gap-2">
+                <label for="apellido" class="font-medium">Apellido</label>
+                <input id="apellido" name="apellido" autocomplete="family-name" required class={field} aria-describedby="apellido-error" />
+                <p id="apellido-error" class={errorText}>Escriba su apellido.</p>
+              </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+              <label for="correo" class="font-medium">Correo de trabajo</label>
+              <input id="correo" name="correo" type="email" autocomplete="email" required class={field} aria-describedby="correo-error" />
+              <p id="correo-error" class={errorText}>Escriba un correo válido.</p>
+            </div>
+
+            <div class="grid gap-6 sm:grid-cols-2">
+              <div class="flex flex-col gap-2">
+                <label for="organizacion" class="font-medium">Organización</label>
+                <input id="organizacion" name="organizacion" autocomplete="organization" required class={field} aria-describedby="organizacion-error" />
+                <p id="organizacion-error" class={errorText}>Escriba el nombre de su organización.</p>
+              </div>
+              <div class="flex flex-col gap-2">
+                <label for="sitio" class="font-medium">Sitio web</label>
+                <input id="sitio" name="sitio" type="url" inputmode="url" autocomplete="url" placeholder="https://" class={field} aria-describedby="sitio-help" />
+                <p id="sitio-help" class="text-caption text-cosmos-muted">Opcional.</p>
+              </div>
+            </div>
+
+            <div class="grid gap-6 sm:grid-cols-2">
+              {[
+                ["cargo", "Su cargo", teamsForm.roles],
+                ["tipo", "Tipo de organización", teamsForm.orgTypes],
+              ].map(([id, text, options]) => (
+                <div class="flex flex-col gap-2">
+                  <label for={id as string} class="font-medium">{text}</label>
+                  <div class="relative">
+                    <select id={id as string} name={id as string} required class={select} aria-describedby={`${id}-error`}>
+                      <option value="" selected disabled>Seleccione</option>
+                      {(options as string[]).map((o) => <option value={o}>{o}</option>)}
+                    </select>
+                    <Icon name="ph:caret-down-light" class="pointer-events-none absolute right-4 top-1/2 size-4 -translate-y-1/2 text-cosmos-muted" />
+                  </div>
+                  <p id={`${id}-error`} class={errorText}>Seleccione una opción.</p>
+                </div>
+              ))}
+            </div>
+
+            {[
+              ["personas", "Personas a capacitar", teamsForm.sizes, "sm:grid-cols-4"],
+              ["modalidad", "Modalidad", teamsForm.modes, "sm:grid-cols-3"],
+            ].map(([name, legend, options, cols]) => (
+              <fieldset class="flex flex-col gap-3" aria-describedby={`${name}-error`}>
+                <legend class="mb-3 font-medium">{legend}</legend>
+                <div class:list={["grid grid-cols-2 gap-2", cols]}>
+                  {(options as string[]).map((o, i) => (
+                    <label>
+                      <input type="radio" name={name as string} value={o} class="peer sr-only" required={i === 0} />
+                      <span class={pill}>{o}</span>
+                    </label>
+                  ))}
+                </div>
+                <p id={`${name}-error`} class={errorText}>Seleccione una opción.</p>
+              </fieldset>
+            ))}
+
+            <div class="flex flex-col gap-2">
+              <label for="objetivo" class="font-medium">¿Qué le gustaría lograr?</label>
+              <textarea id="objetivo" name="objetivo" rows="5" required class={field} aria-describedby="objetivo-error" placeholder="Por ejemplo: que el equipo administrativo automatice sus reportes semanales."></textarea>
+              <p id="objetivo-error" class={errorText}>Cuéntenos brevemente su objetivo.</p>
+            </div>
+
+            <div class="flex flex-col gap-4 pt-2 sm:flex-row sm:items-center sm:justify-between">
+              <p class="text-caption text-cosmos-muted">Solo usaremos estos datos para responderle.</p>
+              <button type="submit" class="btn btn-primary group justify-between" data-magnetic>
+                <span data-label>Solicitar cotización</span>
+                <span class="btn-island" aria-hidden="true"><Icon name="ph:arrow-up-right" class="size-4" /></span>
+              </button>
+            </div>
+            <p data-status role="status" class="hidden rounded-[var(--radius-sm)] bg-pearl px-4 py-3 text-caption font-medium shadow-[inset_0_0_0_1px_var(--c-line)]"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Mentors title="Sus mentores: Aaisha y Mariano." />
+  <Faq items={faqEquipos} formal />
+  <div class="h-24 lg:h-32"></div>
+</Academy>
+
+<script>
+  import "../../scripts/inquiry";
+</script>

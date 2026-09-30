@@ -1,0 +1,41 @@
+---
+// Case cover. Uses the photo when provided; otherwise a pearl surface lit by
+// the case's pastel (color as refracted light, never a solid block).
+interface Props {
+  tone: "morpho" | "guaria" | "pitahaya" | "mango" | "jade";
+  cover?: string;
+  alt?: string;
+  class?: string;
+}
+const { tone, cover, alt = "", class: className = "" } = Astro.props;
+---
+
+<div class:list={["case-cover pearl-sheen relative isolate overflow-hidden rounded-[var(--radius-lg)] bg-nacre", className]}>
+  {
+    cover ? (
+      <img src={cover} alt={alt} loading="lazy" class="absolute inset-0 size-full object-cover transition-transform duration-[1200ms] ease-[var(--ease-out-soft)] group-hover:scale-[1.04]" />
+    ) : (
+      <>
+        <div class="glow left-[15%] top-[5%] size-[80%] !opacity-80" style={`background: var(--color-${tone})`} />
+        <div class="cover-orb absolute left-1/2 top-1/2 aspect-square w-[30%] -translate-x-1/2 -translate-y-1/2 rounded-full" style={`--tone: var(--color-${tone})`} />
+      </>
+    )
+  }
+</div>
+
+<style>
+  .cover-orb {
+    background:
+      radial-gradient(circle at 34% 28%, rgb(255 251 247 / 0.95) 0 8%, transparent 36%),
+      radial-gradient(circle at 60% 70%, var(--tone), color-mix(in oklab, var(--tone) 40%, #fffbf7));
+    box-shadow:
+      0 0 0 1px rgb(255 251 247 / 0.5) inset,
+      0 0 0 26px color-mix(in oklab, var(--tone) 10%, transparent),
+      0 0 0 60px color-mix(in oklab, var(--tone) 6%, transparent),
+      0 30px 60px -20px color-mix(in oklab, var(--tone) 70%, transparent);
+    transition: transform 1.2s var(--ease-out-soft);
+  }
+  :global(.group:hover) .cover-orb {
+    transform: translate(-50%, -54%) scale(1.06);
+  }
+</style>

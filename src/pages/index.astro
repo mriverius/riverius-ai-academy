@@ -1,0 +1,251 @@
+---
+import { getCollection } from "astro:content";
+import { Icon } from "astro-icon/components";
+import Base from "../layouts/Base.astro";
+import HeroOpal from "../components/HeroOpal.astro";
+import ClientMarks from "../components/ClientMarks.astro";
+import PhaseVisual from "../components/PhaseVisual.astro";
+import CaseCover from "../components/CaseCover.astro";
+import CtaPanel from "../components/CtaPanel.astro";
+import Words from "../components/Words.astro";
+import Button from "../components/Button.astro";
+import { phases, capabilities } from "../data/services";
+import { faq } from "../data/faq";
+
+const cases = (await getCollection("work")).sort((a, b) => a.data.order - b.data.order);
+const testimonial = cases.find((c) => c.data.quote)!;
+
+const manifesto =
+  "You bought the tools. Sat through the webinars. Read the case studies. Months later, nobody uses them. The problem is rarely the technology. It's choosing what to automate, and staying until it sticks.";
+
+// Bento placement for the five capabilities (desktop). Mobile is a single column.
+const bento = [
+  "lg:col-span-4 lg:row-span-2",
+  "lg:col-span-2",
+  "lg:col-span-2",
+  "lg:col-span-3",
+  "lg:col-span-3",
+];
+---
+
+<Base>
+  <HeroOpal />
+
+  <ClientMarks />
+
+  <!-- Manifesto: words light up with scroll -->
+  <section class="px-4 py-28 sm:px-6 lg:px-10 lg:py-44">
+    <div class="mx-auto max-w-5xl">
+      <p data-scrub class="text-[1.75rem] font-semibold leading-[2.375rem] tracking-[-0.025em] sm:text-[2.75rem] sm:leading-[3.4rem]">
+        {manifesto.split(" ").map((w) => <><span class="sw">{w}</span>{" "}</>)}
+      </p>
+      <div data-reveal class="mt-14 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+        <p class="text-subheading font-semibold">Stop paying to experiment. Start paying for results.</p>
+        <Button href="/services" variant="ghost">How we work</Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Approach: stacked cards -->
+  <section id="approach" class="px-3 pb-24 sm:px-6 lg:px-10 lg:pb-40">
+    <div class="mx-auto max-w-7xl">
+      <div class="mb-14 max-w-3xl px-1 lg:mb-20">
+        <p data-reveal class="pill-tag">Our approach</p>
+        <h2 class="display-lg mt-6"><Words text="From idea to habit, in three moves." /></h2>
+      </div>
+
+      <div data-stack class="flex flex-col gap-6 lg:gap-[12vh]">
+        {
+          phases.map((p, i) => (
+            <article data-stack-card class="lg:sticky" style={`top: calc(6.5rem + ${i} * 1.75rem)`}>
+              <div class="bezel origin-top will-change-transform">
+                <div class="bezel-core is-pearl grid gap-8 p-6 sm:p-10 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-16 lg:p-14">
+                  <div>
+                    <div class="flex items-center gap-4">
+                      <span class="inline-flex size-12 items-center justify-center rounded-full bg-nacre shadow-[inset_0_0_0_1px_var(--c-line)]">
+                        <Icon name={p.icon} class="size-6" />
+                      </span>
+                      <h3 class="text-heading">{p.verb}</h3>
+                      <span class="ml-auto rounded-full px-3 py-1 text-caption text-cosmos-muted shadow-[inset_0_0_0_1px_var(--c-line)]">{p.duration}</span>
+                    </div>
+                    <p class="mt-8 text-[1.625rem] font-semibold leading-[2.125rem] tracking-[-0.02em] sm:text-[2rem] sm:leading-[2.5rem]">{p.headline}</p>
+                    <p class="mt-4 max-w-[52ch] text-cosmos-muted">{p.summary}</p>
+                    <ul class="mt-8 flex flex-wrap gap-2">
+                      {p.deliverables.slice(0, 4).map((d) => (
+                        <li class="rounded-full bg-nacre px-3.5 py-1.5 text-caption font-medium">{d}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div class="pearl-sheen relative isolate mx-auto w-full max-w-[380px] overflow-hidden rounded-[var(--radius-lg)] bg-nacre p-6 sm:p-10">
+                    <PhaseVisual kind={p.visual} />
+                  </div>
+                </div>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities bento -->
+  <section class="px-3 pb-24 sm:px-6 lg:px-10 lg:pb-40">
+    <div class="mx-auto max-w-7xl">
+      <h2 class="display-lg mb-12 max-w-2xl px-1 lg:mb-16"><Words text="What we build." /></h2>
+
+      <div class="grid gap-4 lg:grid-cols-6 lg:grid-rows-[repeat(3,minmax(15rem,auto))]">
+        {
+          capabilities.map((c, i) => (
+            <div data-reveal style={`--i:${i}`} class:list={["bezel", bento[i]]}>
+              <div
+                class:list={[
+                  "bezel-core spotlight flex h-full flex-col p-7 sm:p-9",
+                  i === 0 && "!bg-ink text-shell",
+                  i === 4 && "pearl-sheen",
+                ]}
+              >
+                {i === 0 && (
+                  <>
+                    <div class="glow aurora -right-[15%] -top-[25%] -z-10 size-[80%] !opacity-50" />
+                    <div class="cap-orb pointer-events-none absolute -right-[8%] -top-[22%] -z-10 aspect-square w-[52%] rounded-full" />
+                  </>
+                )}
+                <span
+                  class:list={[
+                    "inline-flex size-12 items-center justify-center rounded-full",
+                    i === 0 ? "bg-shell/10 shadow-[inset_0_0_0_1px_rgb(255_251_247/0.15)]" : "bg-pearl shadow-[inset_0_0_0_1px_var(--c-line)]",
+                  ]}
+                >
+                  <Icon name={c.icon} class="size-6" />
+                </span>
+                <h3 class:list={["mt-auto pt-10 font-semibold", i === 0 ? "display-lg max-w-[12ch]" : "text-heading"]}>{c.title}</h3>
+                <p class:list={["mt-3 max-w-[42ch]", i === 0 ? "text-haze" : "text-cosmos-muted"]}>{c.text}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Selected work: horizontal pan on desktop, swipe on mobile -->
+  <section data-hpan class="hpan relative lg:flex lg:min-h-[100dvh] lg:items-center">
+    <div
+      data-hpan-track
+      class="flex snap-x snap-mandatory gap-4 overflow-x-auto px-3 pb-6 [scrollbar-width:none] sm:px-6 lg:snap-none lg:px-10 lg:pb-0 [&::-webkit-scrollbar]:hidden"
+    >
+      <div class="flex w-[82vw] shrink-0 snap-start flex-col justify-end p-1 sm:w-[60vw] lg:w-[30vw] lg:pr-10">
+        <h2 class="display-lg"><Words text="Results you can measure." /></h2>
+        <p data-reveal class="mt-5 max-w-[38ch] text-cosmos-muted">Cooperatives, schools and public institutions doing more with less repetitive work.</p>
+        <a href="/work" class="group mt-8 inline-flex items-center gap-2 font-medium">
+          All case studies
+          <Icon name="ph:arrow-right-light" class="size-5 transition-transform duration-500 ease-[var(--ease-drawer)] group-hover:translate-x-1" />
+        </a>
+      </div>
+
+      {
+        cases.map((c) => (
+          <a href={`/work/${c.id}`} class="group bezel w-[82vw] shrink-0 snap-start sm:w-[60vw] lg:w-[46vw]">
+            <div class="bezel-core is-pearl flex h-full flex-col p-3">
+              <CaseCover tone={c.data.tone} cover={c.data.cover} class="aspect-[16/10]" />
+              <div class="flex flex-1 flex-col p-5 sm:p-7">
+                <p class="text-caption text-cosmos-muted">{c.data.client}, {c.data.country}</p>
+                <h3 class="mt-2 text-heading">{c.data.title}</h3>
+                <dl class="mt-auto grid grid-cols-2 gap-6 pt-8">
+                  {c.data.results.map((r) => (
+                    <div>
+                      <dt class="sr-only">{r.label}</dt>
+                      <dd class="text-[2rem] font-semibold leading-none tracking-[-0.03em] sm:text-[2.5rem]">{r.value}</dd>
+                      <dd class="mt-2 text-caption text-cosmos-muted">{r.label}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            </div>
+          </a>
+        ))
+      }
+      <div class="w-px shrink-0 lg:w-[4vw]" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- Testimonial -->
+  {
+    testimonial.data.quote && (
+      <section class="px-4 py-28 sm:px-6 lg:px-10 lg:py-44">
+        <figure class="mx-auto max-w-4xl text-center">
+          <svg data-reveal viewBox="0 0 24 24" class="mx-auto size-7" aria-hidden="true">
+            <path fill="currentColor" d="M12 0C12.8 7 17 11.2 24 12C17 12.8 12.8 17 12 24C11.2 17 7 12.8 0 12C7 11.2 11.2 7 12 0Z" />
+          </svg>
+          <blockquote class="display-lg mt-10 !text-[clamp(1.75rem,3.6vw,3rem)]">
+            <Words text={`“${testimonial.data.quote.text}”`} />
+          </blockquote>
+          <figcaption data-reveal style="--i:4" class="mt-10">
+            <span class="block font-medium">{testimonial.data.quote.name}</span>
+            <span class="text-caption text-cosmos-muted">{testimonial.data.quote.role}</span>
+          </figcaption>
+        </figure>
+      </section>
+    )
+  }
+
+  <!-- FAQ -->
+  <section id="faq" class="scroll-mt-28 px-4 sm:px-6 lg:px-10">
+    <div class="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
+      <div class="lg:sticky lg:top-32 lg:self-start">
+        <p data-reveal class="pill-tag">FAQ</p>
+        <h2 class="display-lg mt-6"><Words text="Questions we hear often." /></h2>
+      </div>
+      <div class="space-y-3">
+        {
+          faq.map((item, i) => (
+            <details data-reveal style={`--i:${i}`} class="faq group bezel !rounded-[calc(var(--radius-md)+6px)]">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-6 rounded-[var(--radius-md)] bg-nacre px-6 py-5 font-medium group-open:rounded-b-none [&::-webkit-details-marker]:hidden">
+                {item.q}
+                <span class="inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-pearl transition-transform duration-500 ease-[var(--ease-drawer)] group-open:rotate-45">
+                  <Icon name="ph:plus-light" class="size-4" />
+                </span>
+              </summary>
+              <p class="rounded-b-[var(--radius-md)] bg-nacre px-6 pb-6 text-cosmos-muted">{item.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CtaPanel />
+</Base>
+
+<style>
+  /* When GSAP pins the gallery, the track moves instead of scrolling. */
+  .hpan:global(.is-pinned) {
+    overflow: hidden;
+  }
+  .hpan:global(.is-pinned) [data-hpan-track] {
+    width: max-content;
+    overflow: visible;
+  }
+  .cap-orb {
+    background:
+      radial-gradient(circle at 34% 28%, rgb(255 251 247 / 0.95) 0 5%, rgb(255 251 247 / 0.4) 16%, transparent 34%),
+      radial-gradient(circle at 25% 70%, #8fd3ff, transparent 55%),
+      radial-gradient(circle at 75% 30%, #ff9ed2, transparent 55%),
+      radial-gradient(circle at 70% 80%, #c3a8ff, transparent 60%),
+      #e9ddff;
+    box-shadow:
+      inset 0 0 0 1px rgb(255 251 247 / 0.5),
+      inset -30px -40px 80px rgb(30 22 56 / 0.25),
+      0 0 80px 10px rgb(195 168 255 / 0.35);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .cap-orb {
+      animation: cap-spin 30s linear infinite;
+    }
+  }
+  @keyframes cap-spin {
+    to {
+      rotate: 360deg;
+    }
+  }
+</style>

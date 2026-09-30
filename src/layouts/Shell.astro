@@ -1,0 +1,48 @@
+---
+// Document shell shared by the agency and the academy.
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  lang?: "en" | "es";
+  favicon?: string;
+  theme?: "dark" | "light";
+}
+const { title, description, lang = "en", favicon = "/favicon.svg", theme } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang={lang} data-theme={theme}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={favicon} type="image/svg+xml" />
+    <meta name="theme-color" content={theme === "light" ? "#fffbf7" : "#1e1638"} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={lang === "es" ? "es_419" : "en_US"} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <script is:inline>document.documentElement.classList.add("js");</script>
+  </head>
+  <body class="min-h-[100dvh] overflow-x-clip">
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-action focus:px-4 focus:py-2 focus:text-on-action">
+      {lang === "es" ? "Saltar al contenido" : "Skip to content"}
+    </a>
+    <slot name="header" />
+    <main id="main">
+      <slot />
+    </main>
+    <slot name="footer" />
+    <div class="grain" aria-hidden="true"></div>
+
+    <script>
+      import "../scripts/motion";
+    </script>
+  </body>
+</html>

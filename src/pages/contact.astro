@@ -1,0 +1,213 @@
+---
+import { Icon } from "astro-icon/components";
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import { site } from "../data/site";
+
+// Set PUBLIC_FORM_ENDPOINT (Formspree, Basin, your API...) to receive submissions.
+// Without it, the form opens the visitor's email app with the message prefilled.
+const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT ?? "";
+
+const roles = ["CEO / Founder", "COO / Head of Operations", "CFO / Finance Lead", "CIO / CTO / Head of Data", "VP / Director", "Other"];
+const sizes = ["1-50", "51-200", "201-1,000", "1,000+"];
+const budgets = ["$1K-$2K", "$2K-$5K", "$5K-$10K", "$10K+"];
+
+const field =
+  "w-full rounded-[var(--radius-sm)] bg-pearl px-4 py-3.5 text-cosmos shadow-[inset_0_0_0_1px_var(--c-line)] transition-shadow duration-300 placeholder:text-cosmos-muted focus:shadow-[inset_0_0_0_2px_var(--c-action)] focus:outline-none aria-[invalid=true]:shadow-[inset_0_0_0_2px_#ff9ed2]";
+const select = `${field} appearance-none pr-11 cursor-pointer`;
+const errorText = "hidden text-caption text-pitahaya";
+const label = "font-medium";
+---
+
+<Base title="Get in touch" description="Tell us about your project and we'll reply within one business day.">
+  <PageHero tag="Get in touch" title="Ready to put AI to *work?*" text="Tell us about your team and your project. We reply within one business day." />
+
+  <section class="px-3 pb-28 pt-16 sm:px-6 lg:px-10 lg:pt-24">
+    <div class="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.8fr_1.5fr] lg:gap-16">
+      <div class="px-1 lg:sticky lg:top-32 lg:self-start">
+        <h2 class="text-heading">What happens next</h2>
+        <ol class="mt-8 space-y-8">
+          {[
+            ["ph:envelope-simple-light", "We read your inquiry", "A co-founder replies within one business day."],
+            ["ph:video-camera-light", "A 30-minute call", "We learn how your team works and where time goes."],
+            ["ph:compass-light", "An honest recommendation", "What's worth automating, and what isn't, with no obligation."],
+          ].map(([icon, title, text], i) => (
+            <li data-reveal style={`--i:${i}`} class="flex gap-4">
+              <span class="inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-nacre shadow-[inset_0_0_0_1px_var(--c-line)]">
+                <Icon name={icon} class="size-5" />
+              </span>
+              <div>
+                <p class="font-semibold">{title}</p>
+                <p class="mt-1 text-cosmos-muted">{text}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+        <p class="mt-12 text-cosmos-muted">
+          Prefer email?
+          <a href={`mailto:${site.email}`} class="ml-1 font-medium text-cosmos underline decoration-line underline-offset-[6px] hover:decoration-cosmos">{site.email}</a>
+        </p>
+      </div>
+
+      <div data-reveal class="bezel">
+        <div class="bezel-core p-6 sm:p-10">
+          <form id="contact-form" action={endpoint || undefined} method="post" novalidate data-endpoint={endpoint} data-email={site.email} class="space-y-6">
+            <div class="grid gap-6 sm:grid-cols-2">
+              <div class="flex flex-col gap-2">
+                <label for="first-name" class={label}>First name</label>
+                <input id="first-name" name="first_name" autocomplete="given-name" required class={field} aria-describedby="first-name-error" />
+                <p id="first-name-error" class={errorText}>Please enter your first name.</p>
+              </div>
+              <div class="flex flex-col gap-2">
+                <label for="last-name" class={label}>Last name</label>
+                <input id="last-name" name="last_name" autocomplete="family-name" required class={field} aria-describedby="last-name-error" />
+                <p id="last-name-error" class={errorText}>Please enter your last name.</p>
+              </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+              <label for="email" class={label}>Work email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required class={field} aria-describedby="email-error" />
+              <p id="email-error" class={errorText}>Please enter a valid email.</p>
+            </div>
+
+            <div class="grid gap-6 sm:grid-cols-2">
+              <div class="flex flex-col gap-2">
+                <label for="company" class={label}>Company</label>
+                <input id="company" name="company" autocomplete="organization" required class={field} aria-describedby="company-error" />
+                <p id="company-error" class={errorText}>Please enter your company.</p>
+              </div>
+              <div class="flex flex-col gap-2">
+                <label for="website" class={label}>Company website</label>
+                <input id="website" name="website" type="url" inputmode="url" autocomplete="url" placeholder="https://" class={field} aria-describedby="website-help" />
+                <p id="website-help" class="text-caption text-cosmos-muted">Optional.</p>
+              </div>
+            </div>
+
+            <div class="grid gap-6 sm:grid-cols-2">
+              {[
+                ["role", "Your role", roles],
+                ["size", "Company size", sizes],
+              ].map(([id, text, options]) => (
+                <div class="flex flex-col gap-2">
+                  <label for={id as string} class={label}>{text}</label>
+                  <div class="relative">
+                    <select id={id as string} name={id as string} required class={select} aria-describedby={`${id}-error`}>
+                      <option value="" selected disabled>Select</option>
+                      {(options as string[]).map((o) => <option value={o}>{o}</option>)}
+                    </select>
+                    <Icon name="ph:caret-down-light" class="pointer-events-none absolute right-4 top-1/2 size-4 -translate-y-1/2 text-cosmos-muted" />
+                  </div>
+                  <p id={`${id}-error`} class={errorText}>Please choose one.</p>
+                </div>
+              ))}
+            </div>
+
+            <fieldset class="flex flex-col gap-3" aria-describedby="budget-error">
+              <legend class={`${label} mb-3`}>Budget range</legend>
+              <div class="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                {budgets.map((b, i) => (
+                  <label class="budget-option">
+                    <input type="radio" name="budget" value={b} class="peer sr-only" required={i === 0} />
+                    <span class="flex h-12 cursor-pointer items-center justify-center rounded-full bg-pearl font-medium shadow-[inset_0_0_0_1px_var(--c-line)] transition-[background-color,color,box-shadow] duration-300 hover:shadow-[inset_0_0_0_1px_var(--c-cosmos-muted)] peer-checked:bg-guaria peer-checked:text-ink peer-checked:shadow-[0_10px_30px_-12px_rgb(195_168_255/0.9)] peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-guaria">
+                      {b}
+                    </span>
+                  </label>
+                ))}
+              </div>
+              <p id="budget-error" class={errorText}>Please choose a budget range.</p>
+            </fieldset>
+
+            <div class="flex flex-col gap-2">
+              <label for="project" class={label}>Tell us about your project</label>
+              <textarea
+                id="project"
+                name="project"
+                rows="5"
+                required
+                class={field}
+                aria-describedby="project-error"
+                placeholder="What takes your team the most time today, and what would success look like?"
+              ></textarea>
+              <p id="project-error" class={errorText}>Tell us briefly about your project.</p>
+            </div>
+
+            <div class="flex flex-col gap-4 pt-2 sm:flex-row sm:items-center sm:justify-between">
+              <p class="text-caption text-cosmos-muted">We'll only use this to reply to your inquiry.</p>
+              <button type="submit" class="btn btn-glow group justify-between" data-magnetic>
+                <span data-label>Submit inquiry</span>
+                <span class="btn-island" aria-hidden="true"><Icon name="ph:arrow-up-right" class="size-4" /></span>
+              </button>
+            </div>
+            <p id="form-status" role="status" class="hidden rounded-[var(--radius-sm)] bg-pearl px-4 py-3 text-caption font-medium shadow-[inset_0_0_0_1px_var(--c-line)]"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const form = document.getElementById("contact-form") as HTMLFormElement | null;
+  const status = document.getElementById("form-status");
+  const label = form?.querySelector<HTMLElement>("[data-label]");
+
+  const show = (msg: string) => {
+    if (!status) return;
+    status.textContent = msg;
+    status.classList.remove("hidden");
+  };
+
+  form?.querySelectorAll<HTMLInputElement>('input[name="budget"]').forEach((r) =>
+    r.addEventListener("change", () => document.getElementById("budget-error")?.classList.add("hidden")),
+  );
+
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    let firstInvalid: HTMLElement | null = null;
+    for (const el of form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>("[required]")) {
+      if (el.type === "radio") {
+        const ok = !!form.querySelector(`input[name="${el.name}"]:checked`);
+        document.getElementById(`${el.name}-error`)?.classList.toggle("hidden", ok);
+        if (!ok && !firstInvalid) firstInvalid = el;
+        continue;
+      }
+      const ok = el.checkValidity() && el.value.trim() !== "";
+      el.setAttribute("aria-invalid", String(!ok));
+      document.getElementById(`${el.id}-error`)?.classList.toggle("hidden", ok);
+      if (!ok && !firstInvalid) firstInvalid = el;
+    }
+    if (firstInvalid) return firstInvalid.focus();
+
+    const data = new FormData(form);
+    const endpoint = form.dataset.endpoint;
+
+    if (!endpoint) {
+      const lines = [
+        `Name: ${data.get("first_name")} ${data.get("last_name")}`,
+        `Email: ${data.get("email")}`,
+        `Company: ${data.get("company")}${data.get("website") ? ` (${data.get("website")})` : ""}`,
+        `Role: ${data.get("role")}`,
+        `Company size: ${data.get("size")}`,
+        `Budget: ${data.get("budget")}`,
+        "",
+        String(data.get("project")),
+      ];
+      window.location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(`Inquiry from ${data.get("company")}`)}&body=${encodeURIComponent(lines.join("\n"))}`;
+      show("We opened your email app with your inquiry ready to send.");
+      return;
+    }
+
+    if (label) label.textContent = "Sending…";
+    try {
+      const res = await fetch(endpoint, { method: "POST", body: data, headers: { Accept: "application/json" } });
+      if (!res.ok) throw new Error(String(res.status));
+      form.reset();
+      show("Thank you. We got your inquiry and will reply within one business day.");
+    } catch {
+      show(`We couldn't send your inquiry. Please email us at ${form.dataset.email}.`);
+    } finally {
+      if (label) label.textContent = "Submit inquiry";
+    }
+  });
+</script>

@@ -1,0 +1,44 @@
+---
+import Words from "../Words.astro";
+import { mentors } from "../../data/academy";
+
+interface Props {
+  title?: string;
+}
+const { title = "Tus mentores: Aaisha y Mariano." } = Astro.props;
+---
+
+<section id="mentores" class="scroll-mt-24 px-3 py-24 sm:px-6 lg:px-10 lg:py-36">
+  <div class="mx-auto max-w-6xl">
+    <div class="px-1 text-center">
+      <p data-reveal class="pill-tag">Mentores</p>
+      <h2 class="display-lg mx-auto mt-6 max-w-[16ch]"><Words text={title} /></h2>
+      <p data-reveal class="mx-auto mt-6 max-w-[46ch] text-cosmos-muted">Los co-fundadores de Riverius acompañan cada programa, de la primera clase al proyecto final.</p>
+    </div>
+
+    <div class="mt-16 grid gap-4 md:grid-cols-2">
+      {
+        mentors.map((m, i) => (
+          <article data-reveal style={`--i:${i}`} class="bezel">
+            <div class="bezel-core is-pearl flex h-full flex-col items-center p-8 text-center sm:p-10">
+              <div class="relative">
+                <div class="glow sunrise inset-[10%] !opacity-50" />
+                <img src={m.photo} alt={`${m.name}, ${m.role}`} width="1000" height="1000" loading="lazy" class="relative size-44 rounded-full object-cover sm:size-52" />
+              </div>
+              <h3 class="mt-8 text-heading">{m.name}</h3>
+              <p class="mt-1 text-caption font-medium text-cosmos-muted">{m.role}</p>
+              <p class="mt-5 max-w-[40ch] text-cosmos-muted">{m.bio}</p>
+              {m.credentials.length > 0 && (
+                <ul class="mt-6 flex flex-wrap justify-center gap-2">
+                  {m.credentials.map((c) => (
+                    <li class="rounded-full bg-nacre px-3.5 py-1.5 text-caption font-medium">{c}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

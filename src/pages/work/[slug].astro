@@ -1,0 +1,70 @@
+---
+import { getCollection, render } from "astro:content";
+import { Icon } from "astro-icon/components";
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/PageHero.astro";
+import CaseCover from "../../components/CaseCover.astro";
+import CtaPanel from "../../components/CtaPanel.astro";
+
+export async function getStaticPaths() {
+  const cases = await getCollection("work");
+  return cases.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+---
+
+<Base title={`${d.client}: ${d.title}`} description={d.summary}>
+  <PageHero tag={`${d.industry}, ${d.country}`} title={d.title} text={d.summary}>
+    <a href="/work" data-reveal style="--i:6" class="mt-10 inline-flex items-center gap-2 text-caption text-haze transition-colors hover:text-shell">
+      <Icon name="ph:arrow-left-light" class="size-4" />
+      All case studies
+    </a>
+  </PageHero>
+
+  <div class="px-3 sm:px-6 lg:px-10">
+    <div data-reveal class="bezel mx-auto -mt-4 max-w-6xl">
+      <CaseCover tone={d.tone} cover={d.cover} alt={d.client} class="aspect-[16/9] sm:aspect-[21/9]" />
+    </div>
+  </div>
+
+  <article class="px-4 py-16 sm:px-6 lg:px-10 lg:py-28">
+    <div class="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[1fr_2fr] lg:gap-20">
+      <aside class="lg:sticky lg:top-32 lg:self-start">
+        <p class="font-semibold">{d.client}</p>
+        <h2 class="mt-8 text-caption text-cosmos-muted">Results</h2>
+        <dl class="mt-4 space-y-8">
+          {d.results.map((r) => (
+            <div data-reveal>
+              <dt class="sr-only">{r.label}</dt>
+              <dd class="text-[3rem] font-semibold leading-none tracking-[-0.03em]">{r.value}</dd>
+              <dd class="mt-2 text-cosmos-muted">{r.label}</dd>
+            </div>
+          ))}
+        </dl>
+      </aside>
+
+      <div>
+        <div data-reveal class="prose-riverius max-w-[65ch] [&>h2:first-child]:mt-0">
+          <Content />
+        </div>
+
+        {d.quote && (
+          <figure data-reveal class="bezel mt-14">
+            <div class="bezel-core pearl-sheen p-8 sm:p-12">
+              <blockquote class="text-[1.5rem] font-semibold leading-[2rem] tracking-[-0.02em]">“{d.quote.text}”</blockquote>
+              <figcaption class="mt-6">
+                <span class="block font-medium">{d.quote.name}</span>
+                <span class="text-caption text-cosmos-muted">{d.quote.role}</span>
+              </figcaption>
+            </div>
+          </figure>
+        )}
+      </div>
+    </div>
+  </article>
+
+  <CtaPanel title="Facing a similar *challenge?*" />
+</Base>

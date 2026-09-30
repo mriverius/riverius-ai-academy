@@ -1,0 +1,63 @@
+---
+import { Icon } from "astro-icon/components";
+import Words from "../Words.astro";
+import VideoFacade from "./VideoFacade.astro";
+import { stories } from "../../data/academy";
+
+interface Props {
+  title?: string;
+  only?: string[];
+  id?: string;
+}
+const { title = "Llegaron sin saber de IA. Hoy trabaja por ellos.", only, id = "historias" } = Astro.props;
+const items = only ? stories.filter((s) => only.includes(s.name)) : stories;
+const trackId = `${id}-track`;
+---
+
+<section id={id} class="scroll-mt-24 pt-24 lg:pt-36">
+  <div class="mx-auto flex max-w-7xl flex-col gap-8 px-4 sm:px-6 lg:flex-row lg:items-end lg:justify-between lg:px-10">
+    <div>
+      <p data-reveal class="pill-tag">Historias reales</p>
+      <h2 class="display-lg mt-6 max-w-[16ch]"><Words text={title} /></h2>
+    </div>
+    {items.length > 3 && (
+      <div data-reveal class="flex gap-2" aria-label="Navegar historias">
+        <button type="button" data-scroll="-1" data-target={trackId} class="inline-flex size-12 items-center justify-center rounded-full shadow-[inset_0_0_0_1px_var(--c-line)] transition-colors hover:bg-nacre" aria-label="Anterior">
+          <Icon name="ph:arrow-left-light" class="size-5" />
+        </button>
+        <button type="button" data-scroll="1" data-target={trackId} class="inline-flex size-12 items-center justify-center rounded-full shadow-[inset_0_0_0_1px_var(--c-line)] transition-colors hover:bg-nacre" aria-label="Siguiente">
+          <Icon name="ph:arrow-right-light" class="size-5" />
+        </button>
+      </div>
+    )}
+  </div>
+
+  <ul id={trackId} class="edge-track mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    {
+      items.map((st, i) => (
+        <li data-reveal style={`--i:${i}`} class="bezel w-[82vw] shrink-0 snap-start sm:w-[340px]">
+          <div class="bezel-core is-pearl flex h-full flex-col p-2.5">
+            <VideoFacade id={st.wistia} title={`Testimonio de ${st.name}`} fallbackAspect={9 / 16} />
+            <div class="flex flex-1 flex-col p-4 sm:p-5">
+              <p class="text-subheading font-semibold">{st.name}</p>
+              <p class="text-caption text-cosmos-muted">{st.role}</p>
+              <div class="relative mt-5 space-y-4 pl-5">
+                <span class="absolute bottom-2 left-[5px] top-2 w-px bg-line" aria-hidden="true" />
+                <div class="relative">
+                  <span class="absolute -left-5 top-1.5 size-[11px] rounded-full bg-pearl shadow-[inset_0_0_0_1.5px_var(--c-cosmos-muted)]" aria-hidden="true" />
+                  <p class="text-caption font-medium text-cosmos-muted">Cómo empezó</p>
+                  <p class="mt-1 text-[0.9375rem] leading-6">{st.before}</p>
+                </div>
+                <div class="relative">
+                  <span class="sunrise absolute -left-5 top-1.5 size-[11px] rounded-full" aria-hidden="true" />
+                  <p class="text-caption font-medium text-cosmos-muted">Dónde está hoy</p>
+                  <p class="mt-1 text-[0.9375rem] font-medium leading-6">{st.after}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</section>
