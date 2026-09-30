@@ -17,6 +17,9 @@ export default defineConfig({
     schema: {
       MAILCHIMP_API_KEY: envField.string({ context: "server", access: "secret" }),
       MAILCHIMP_AUDIENCE_ID: envField.string({ context: "server", access: "secret" }),
+      // Optional: a Telegram alert for each inquiry.
+      TELEGRAM_BOT_TOKEN: envField.string({ context: "server", access: "secret", optional: true }),
+      TELEGRAM_CHAT_ID: envField.string({ context: "server", access: "secret", optional: true }),
     },
   },
 });

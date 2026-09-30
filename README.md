@@ -51,5 +51,6 @@ The agency is pinned to the dark Cosmos theme and the academy to the light Pearl
 - **Logo:** swap the SVG in `Logo.astro` and `public/favicon.svg` for the vector R.
 - **Photography:** put case photos in `src/assets/work/` and add `cover: ../../assets/work/<file>.jpg` to each case. Images in `src/assets/` are resized and converted to WebP at build time.
 - **Forms → Mailchimp:** `/contact` and `/academy/equipos` post to `src/pages/api/subscribe.ts`, which adds the person to the Mailchimp audience, tags them by form, and saves the inquiry as a contact note. Only people who tick the updates box are subscribed to marketing; the rest are stored as transactional. Set `MAILCHIMP_API_KEY` and `MAILCHIMP_AUDIENCE_ID` in `.env` locally (see `.env.example`) and in Vercel's environment variables.
+- **Inquiry alerts:** with `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` set, each inquiry is also sent to Telegram. Create the bot with @BotFather, send it any message, then read your chat ID from `https://api.telegram.org/bot<token>/getUpdates`. The form reports success if either Mailchimp or the alert worked.
 - **Email:** update in `src/data/site.ts`. Form options (role, size, budget) live at the top of `src/pages/contact.astro`.
 - **Aaisha:** add her bio, surname and links in `src/data/team.ts`.
