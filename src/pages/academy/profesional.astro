@@ -13,6 +13,7 @@ import ClosingCta from "../../components/academy/ClosingCta.astro";
 import Words from "../../components/Words.astro";
 import Button from "../../components/Button.astro";
 import { academy, proLevels, proPricing, faqPro } from "../../data/academy";
+import { course, faqPage } from "../../lib/schema";
 
 const steps = proLevels.map((l, i) => ({
   kicker: `Nivel ${i + 1}: ${i === 0 ? "Fundamentos" : "Avanzados"}`,
@@ -23,7 +24,14 @@ const steps = proLevels.map((l, i) => ({
 }));
 ---
 
-<Academy title="Construye tu oficina automática" description="Para profesionales: dos niveles para automatizar tu trabajo con agentes de IA, sin programar. Empieza gratis en Skool.">
+<Academy
+  title="Construye tu oficina automática"
+  description="Para profesionales: dos niveles para automatizar tu trabajo con agentes de IA, sin programar. Empieza gratis en Skool."
+  schema={[
+    course({ name: `${proPricing.title}: ${proPricing.detail}`, description: proLevels.map((l) => `${l.level}: ${l.text}`).join(" "), path: "/academy/profesional" }),
+    faqPage(faqPro),
+  ]}
+>
   <AcademyHero
     compact
     tag="Para profesionales"

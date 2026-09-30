@@ -3,16 +3,28 @@ import Shell from "./Shell.astro";
 import Header from "../components/Header.astro";
 import AcademyFooter from "../components/academy/AcademyFooter.astro";
 import { academy } from "../data/academy";
+import { academyOrganization, organization } from "../lib/schema";
 
 interface Props {
   title?: string;
   description?: string;
+  schema?: Record<string, unknown>[];
 }
-const { title, description = academy.description } = Astro.props;
+const { title, description = academy.description, schema = [] } = Astro.props;
 const fullTitle = title ? `${title} | ${academy.name}` : `${academy.name} | IA práctica en español`;
 ---
 
-<Shell title={fullTitle} description={description} lang="es" favicon="/favicon-academy.svg" theme="light">
+<Shell
+  title={fullTitle}
+  description={description}
+  siteName={academy.name}
+  lang="es"
+  favicon="/favicon-academy.svg"
+  touchIcon="/apple-touch-icon-academy.png"
+  theme="light"
+  image={{ src: "/og/academy.jpg", alt: "Riverius AI Academy: IA práctica en español" }}
+  schema={[academyOrganization(), organization(), ...schema]}
+>
   <Header
     slot="header"
     nav={academy.nav}

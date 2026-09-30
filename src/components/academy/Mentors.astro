@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import Words from "../Words.astro";
 import { mentors } from "../../data/academy";
 
@@ -23,7 +24,7 @@ const { title = "Tus mentores: Aaisha y Mariano." } = Astro.props;
             <div class="bezel-core is-pearl flex h-full flex-col items-center p-8 text-center sm:p-10">
               <div class="relative">
                 <div class="glow sunrise inset-[10%] !opacity-50" />
-                <img src={m.photo} alt={`${m.name}, ${m.role}`} width="1000" height="1000" loading="lazy" class="relative size-44 rounded-full object-cover sm:size-52" />
+                <Image src={m.photo} alt={`${m.name}, ${m.role}`} width={416} height={416} class="relative size-44 rounded-full object-cover sm:size-52" />
               </div>
               <h3 class="mt-8 text-heading">{m.name}</h3>
               <p class="mt-1 text-caption font-medium text-cosmos-muted">{m.role}</p>

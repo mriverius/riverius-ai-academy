@@ -6,9 +6,14 @@ import PhaseVisual from "../components/PhaseVisual.astro";
 import CtaPanel from "../components/CtaPanel.astro";
 import Words from "../components/Words.astro";
 import { phases } from "../data/services";
+import { service } from "../lib/schema";
 ---
 
-<Base title="Services" description="Identify, build and adopt: how we take AI from idea to the daily work of your organization.">
+<Base
+  title="Services"
+  description="Identify, build and adopt: how we take AI from idea to the daily work of your organization."
+  schema={phases.map((p) => service({ name: `${p.verb}: ${p.headline}`, description: `${p.summary} ${p.how}`, path: `/services#${p.slug}` }))}
+>
   <PageHero tag="Services" title="Services built so AI *sticks.*" text="Three phases you can hire separately or together. Always with measurable results and hands-on support.">
     <nav data-reveal style="--i:6" class="mt-10 flex flex-wrap gap-2" aria-label="Phases">
       {phases.map((p) => (

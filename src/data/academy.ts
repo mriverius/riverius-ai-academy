@@ -1,5 +1,11 @@
 // Riverius AI Academy: Spanish-first, uses tú (community voice).
 // Program details, stats and credentials come from mriverius.com.
+import type { ImageMetadata } from "astro";
+import aaisha from "../assets/team/aaisha.jpg";
+import mariano from "../assets/team/mariano-rivera.jpg";
+import teletica from "../assets/logos/teletica.png";
+import fidelitas from "../assets/logos/fidelitas.png";
+import upwork from "../assets/logos/upwork.webp";
 export const academy = {
   name: "Riverius AI Academy",
   description:
@@ -69,23 +75,23 @@ export const mentors = [
     // TODO: replace with Aaisha's own bio.
     name: "Aaisha",
     role: "Co-fundadora y mentora",
-    photo: "/images/team/aaisha.jpg",
+    photo: aaisha,
     bio: "Acompaña a estudiantes y equipos para que avancen con claridad y conviertan lo aprendido en hábitos de trabajo.",
     credentials: [] as string[],
   },
   {
     name: "Mariano Rivera",
     role: "Co-fundador y mentor",
-    photo: "/images/team/mariano-rivera.jpg",
+    photo: mariano,
     bio: "Me dedico a esto al cien por ciento: construyo automatizaciones y agentes de IA todos los días.",
     credentials: ["Ingeniero en Sistemas de Computación", "5+ años como ingeniero de software", "Top Rated en Upwork"],
   },
 ];
 
 export const pressLogos = [
-  { name: "Teletica Canal 7", logo: "/images/academy/logos/teletica.png", label: "Teletica" },
-  { name: "Universidad Fidélitas", logo: "/images/academy/logos/fidelitas.png" },
-  { name: "Upwork", logo: "/images/academy/logos/upwork.webp" },
+  { name: "Teletica Canal 7", logo: teletica, label: "Teletica" },
+  { name: "Universidad Fidélitas", logo: fidelitas },
+  { name: "Upwork", logo: upwork },
 ];
 
 
@@ -232,8 +238,11 @@ export const projects = [
   },
 ];
 
-// Real WhatsApp messages from students (from the previous academy site).
-export const testimonialShots = Array.from({ length: 13 }, (_, i) => `/images/academy/testimonials/whatsapp${i + 1}-uniform.webp`);
+// Real WhatsApp messages from students (from the previous academy site), in file-number order.
+const shotFiles = import.meta.glob<ImageMetadata>("../assets/academy/testimonials/*.webp", { eager: true, import: "default" });
+export const testimonialShots = Object.keys(shotFiles)
+  .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
+  .map((k) => shotFiles[k]);
 
 export const faqHub = [
   { q: "¿Necesito saber programar?", a: "No. Trabajamos con n8n, una herramienta visual de arrastrar y soltar. Si sabes usar el correo y una hoja de cálculo, puedes empezar." },

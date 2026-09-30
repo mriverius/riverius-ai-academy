@@ -11,6 +11,7 @@ import ClosingCta from "../../components/academy/ClosingCta.astro";
 import Words from "../../components/Words.astro";
 import Button from "../../components/Button.astro";
 import { academy, roadmap, stories, faqEmprendedor } from "../../data/academy";
+import { course, faqPage } from "../../lib/schema";
 
 const learn = roadmap.filter((r) => r.phase === "Aprende");
 const sell = roadmap.filter((r) => r.phase === "Vende");
@@ -19,7 +20,14 @@ const toSteps = (list: typeof roadmap, offset: number) =>
 const alonso = stories.find((s) => s.name === "Alonso Hidalgo")!;
 ---
 
-<Academy title="Aprende IA y conviértela en negocio" description="Para emprendedores: la ruta para aprender a construir agentes de IA y venderlos a clientes reales.">
+<Academy
+  title="Aprende IA y conviértela en negocio"
+  description="Para emprendedores: la ruta para aprender a construir agentes de IA y venderlos a clientes reales."
+  schema={[
+    course({ name: "Aprende IA y conviértela en negocio", description: roadmap.map((r) => `${r.phase}: ${r.title}. ${r.text}`).join(" "), path: "/academy/emprendedor" }),
+    faqPage(faqEmprendedor),
+  ]}
+>
   <AcademyHero
     compact
     tag="Para emprendedores"

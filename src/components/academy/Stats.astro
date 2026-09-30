@@ -1,5 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
 import { stats, pressLogos } from "../../data/academy";
 ---
 
@@ -24,7 +25,7 @@ import { stats, pressLogos } from "../../data/academy";
       {
         pressLogos.map((l) => (
           <span class="flex items-center gap-2.5">
-            <img src={l.logo} alt={l.name} class="press-logo h-9 w-auto max-w-[140px] object-contain" loading="lazy" />
+            <Image src={l.logo} alt={l.name} height={72} class="press-logo h-9 w-auto max-w-[140px] object-contain" />
             {l.label && <span class="font-semibold tracking-[-0.01em] text-cosmos-muted">{l.label}</span>}
           </span>
         ))

@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+import teaching from "../../assets/academy/teaching.webp";
 import { Icon } from "astro-icon/components";
 import Words from "../Words.astro";
 import Button from "../Button.astro";
@@ -22,7 +24,13 @@ const bento = ["lg:col-span-3 lg:row-span-2", "lg:col-span-3", "lg:col-span-3", 
             <div class:list={["bezel-core is-pearl spotlight flex h-full flex-col p-7 sm:p-9", i === 0 && "!bg-transparent"]}>
               {i === 0 && (
                 <>
-                  <img src="/images/academy/teaching.webp" alt="Una sesión en vivo con estudiantes" loading="lazy" class="absolute inset-0 -z-20 size-full object-cover" />
+                  <Image
+                    src={teaching}
+                    alt="Una sesión en vivo con estudiantes"
+                    widths={[480, 720, 980]}
+                    sizes="(min-width: 1280px) 520px, (min-width: 1024px) 42vw, calc(100vw - 76px)"
+                    class="absolute inset-0 -z-20 size-full object-cover"
+                  />
                   <div class="absolute inset-0 -z-10 bg-gradient-to-t from-[#1e1638]/85 via-[#1e1638]/30 to-transparent" />
                 </>
               )}

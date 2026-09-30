@@ -17,7 +17,7 @@ const meta = await wistia(id, fallbackAspect);
 <div class:list={["video relative isolate overflow-hidden rounded-[var(--radius-lg)] bg-ink", className]} style={`aspect-ratio: ${meta.aspect}`}>
   <button type="button" data-wistia={id} data-title={title} class="group absolute inset-0 size-full cursor-pointer" aria-label={`Ver video: ${title}`}>
     {meta.thumb ? (
-      <img src={meta.thumb} alt="" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover transition-transform duration-[1200ms] ease-[var(--ease-out-soft)] group-hover:scale-[1.04]" />
+      <img src={meta.thumb} alt="" width="960" height={Math.round(960 / meta.aspect)} loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover transition-transform duration-[1200ms] ease-[var(--ease-out-soft)] group-hover:scale-[1.04]" />
     ) : (
       <span class="glow sunrise left-[15%] top-[15%] size-[70%] !opacity-40" />
     )}

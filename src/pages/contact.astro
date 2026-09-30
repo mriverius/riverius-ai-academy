@@ -4,10 +4,6 @@ import Base from "../layouts/Base.astro";
 import PageHero from "../components/PageHero.astro";
 import { site } from "../data/site";
 
-// Set PUBLIC_FORM_ENDPOINT (Formspree, Basin, your API...) to receive submissions.
-// Without it, the form opens the visitor's email app with the message prefilled.
-const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT ?? "";
-
 const roles = ["CEO / Founder", "COO / Head of Operations", "CFO / Finance Lead", "CIO / CTO / Head of Data", "VP / Director", "Other"];
 const sizes = ["1-50", "51-200", "201-1,000", "1,000+"];
 const budgets = ["$1K-$2K", "$2K-$5K", "$5K-$10K", "$10K+"];
@@ -51,7 +47,17 @@ const label = "font-medium";
 
       <div data-reveal class="bezel">
         <div class="bezel-core p-6 sm:p-10">
-          <form id="contact-form" action={endpoint || undefined} method="post" novalidate data-endpoint={endpoint} data-email={site.email} class="space-y-6">
+          <form
+            data-inquiry
+            action="/api/subscribe"
+            method="post"
+            novalidate
+            data-sending="Sending…"
+            data-success="Thank you. We got your inquiry and will reply within one business day."
+            data-error={`We couldn't send your inquiry. Please email us at ${site.email}.`}
+            class="space-y-6"
+          >
+            <input type="hidden" name="form" value="contact" />
             <div class="grid gap-6 sm:grid-cols-2">
               <div class="flex flex-col gap-2">
                 <label for="first-name" class={label}>First name</label>
@@ -132,14 +138,22 @@ const label = "font-medium";
               <p id="project-error" class={errorText}>Tell us briefly about your project.</p>
             </div>
 
+            <label class="flex cursor-pointer items-start gap-3 text-cosmos-muted">
+              <input type="checkbox" name="newsletter" value="yes" class="mt-1 size-4 shrink-0 cursor-pointer accent-guaria" />
+              <span>Send me occasional emails about AI at work. Unsubscribe anytime.</span>
+            </label>
+            <div class="absolute -left-[9999px]" aria-hidden="true">
+              <label>Leave this empty <input type="text" name="company_url" tabindex="-1" autocomplete="off" /></label>
+            </div>
+
             <div class="flex flex-col gap-4 pt-2 sm:flex-row sm:items-center sm:justify-between">
-              <p class="text-caption text-cosmos-muted">We'll only use this to reply to your inquiry.</p>
+              <p class="text-caption text-cosmos-muted">We'll use this to reply to your inquiry.</p>
               <button type="submit" class="btn btn-glow group justify-between" data-magnetic>
                 <span data-label>Submit inquiry</span>
                 <span class="btn-island" aria-hidden="true"><Icon name="ph:arrow-up-right" class="size-4" /></span>
               </button>
             </div>
-            <p id="form-status" role="status" class="hidden rounded-[var(--radius-sm)] bg-pearl px-4 py-3 text-caption font-medium shadow-[inset_0_0_0_1px_var(--c-line)]"></p>
+            <p data-status role="status" class="hidden rounded-[var(--radius-sm)] bg-pearl px-4 py-3 text-caption font-medium shadow-[inset_0_0_0_1px_var(--c-line)]"></p>
           </form>
         </div>
       </div>
@@ -148,66 +162,5 @@ const label = "font-medium";
 </Base>
 
 <script>
-  const form = document.getElementById("contact-form") as HTMLFormElement | null;
-  const status = document.getElementById("form-status");
-  const label = form?.querySelector<HTMLElement>("[data-label]");
-
-  const show = (msg: string) => {
-    if (!status) return;
-    status.textContent = msg;
-    status.classList.remove("hidden");
-  };
-
-  form?.querySelectorAll<HTMLInputElement>('input[name="budget"]').forEach((r) =>
-    r.addEventListener("change", () => document.getElementById("budget-error")?.classList.add("hidden")),
-  );
-
-  form?.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    let firstInvalid: HTMLElement | null = null;
-    for (const el of form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>("[required]")) {
-      if (el.type === "radio") {
-        const ok = !!form.querySelector(`input[name="${el.name}"]:checked`);
-        document.getElementById(`${el.name}-error`)?.classList.toggle("hidden", ok);
-        if (!ok && !firstInvalid) firstInvalid = el;
-        continue;
-      }
-      const ok = el.checkValidity() && el.value.trim() !== "";
-      el.setAttribute("aria-invalid", String(!ok));
-      document.getElementById(`${el.id}-error`)?.classList.toggle("hidden", ok);
-      if (!ok && !firstInvalid) firstInvalid = el;
-    }
-    if (firstInvalid) return firstInvalid.focus();
-
-    const data = new FormData(form);
-    const endpoint = form.dataset.endpoint;
-
-    if (!endpoint) {
-      const lines = [
-        `Name: ${data.get("first_name")} ${data.get("last_name")}`,
-        `Email: ${data.get("email")}`,
-        `Company: ${data.get("company")}${data.get("website") ? ` (${data.get("website")})` : ""}`,
-        `Role: ${data.get("role")}`,
-        `Company size: ${data.get("size")}`,
-        `Budget: ${data.get("budget")}`,
-        "",
-        String(data.get("project")),
-      ];
-      window.location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(`Inquiry from ${data.get("company")}`)}&body=${encodeURIComponent(lines.join("\n"))}`;
-      show("We opened your email app with your inquiry ready to send.");
-      return;
-    }
-
-    if (label) label.textContent = "Sending…";
-    try {
-      const res = await fetch(endpoint, { method: "POST", body: data, headers: { Accept: "application/json" } });
-      if (!res.ok) throw new Error(String(res.status));
-      form.reset();
-      show("Thank you. We got your inquiry and will reply within one business day.");
-    } catch {
-      show(`We couldn't send your inquiry. Please email us at ${form.dataset.email}.`);
-    } finally {
-      if (label) label.textContent = "Submit inquiry";
-    }
-  });
+  import "../scripts/inquiry";
 </script>

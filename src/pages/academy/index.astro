@@ -9,9 +9,10 @@ import Mentors from "../../components/academy/Mentors.astro";
 import Faq from "../../components/academy/Faq.astro";
 import ClosingCta from "../../components/academy/ClosingCta.astro";
 import { academy, faqHub } from "../../data/academy";
+import { faqPage } from "../../lib/schema";
 ---
 
-<Academy>
+<Academy schema={[faqPage(faqHub)]}>
   <AcademyHero
     tag="Riverius AI Academy"
     title="Aprende IA sin ser técnico."

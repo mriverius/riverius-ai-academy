@@ -1,11 +1,6 @@
 // Shared behavior for inquiry forms: form[data-inquiry].
-// Validates required fields (including radio groups), then posts to data-endpoint,
-// or falls back to a prefilled email to data-email.
+// Validates required fields (including radio groups), then posts to the form's action (/api/subscribe).
 type Field = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
-
-const labelFor = (form: HTMLFormElement, el: Field) =>
-  (el.type === "radio" ? el.closest("fieldset")?.querySelector("legend") : form.querySelector(`label[for="${el.id}"]`))?.textContent?.trim() ??
-  el.name;
 
 document.querySelectorAll<HTMLFormElement>("form[data-inquiry]").forEach((form) => {
   const status = form.querySelector<HTMLElement>("[data-status]");
@@ -40,32 +35,18 @@ document.querySelectorAll<HTMLFormElement>("form[data-inquiry]").forEach((form) 
     }
     if (firstInvalid) return firstInvalid.focus();
 
-    const data = new FormData(form);
-    const endpoint = form.dataset.endpoint;
-
-    if (!endpoint) {
-      const seen = new Set<string>();
-      const lines: string[] = [];
-      form.querySelectorAll<Field>("input, select, textarea").forEach((el) => {
-        if (!el.name || seen.has(el.name)) return;
-        seen.add(el.name);
-        const value = data.get(el.name);
-        if (value) lines.push(`${labelFor(form, el)}: ${value}`);
-      });
-      window.location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(msg("subject"))}&body=${encodeURIComponent(lines.join("\n"))}`;
-      show(msg("mailto"));
-      return;
-    }
-
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    if (button) button.disabled = true;
     if (label) label.textContent = msg("sending");
     try {
-      const res = await fetch(endpoint, { method: "POST", body: data, headers: { Accept: "application/json" } });
+      const res = await fetch(form.action, { method: "POST", body: new FormData(form), headers: { Accept: "application/json" } });
       if (!res.ok) throw new Error(String(res.status));
       form.reset();
       show(msg("success"));
     } catch {
       show(msg("error"));
     } finally {
+      if (button) button.disabled = false;
       if (label) label.textContent = idle;
     }
   });

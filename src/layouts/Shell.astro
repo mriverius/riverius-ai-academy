@@ -1,16 +1,24 @@
 ---
 // Document shell shared by the agency and the academy.
 import "../styles/global.css";
+import { graph } from "../lib/schema";
 
 interface Props {
   title: string;
   description: string;
+  siteName: string;
   lang?: "en" | "es";
   favicon?: string;
+  touchIcon: string;
   theme?: "dark" | "light";
+  // Social share image (1200x630) in public/, with its alt text.
+  image: { src: string; alt: string };
+  schema?: Record<string, unknown>[];
+  noindex?: boolean;
 }
-const { title, description, lang = "en", favicon = "/favicon.svg", theme } = Astro.props;
+const { title, description, siteName, lang = "en", favicon = "/favicon.svg", touchIcon, theme, image, schema = [], noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const imageUrl = new URL(image.src, Astro.site);
 ---
 
 <!doctype html>
@@ -20,14 +28,27 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
     <link rel="icon" href={favicon} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={touchIcon} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="theme-color" content={theme === "light" ? "#fffbf7" : "#1e1638"} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content={lang === "es" ? "es_419" : "en_US"} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={image.alt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content={image.alt} />
+    {schema.length > 0 && <script type="application/ld+json" set:html={graph(schema)} />}
     <script is:inline>document.documentElement.classList.add("js");</script>
   </head>
   <body class="min-h-[100dvh] overflow-x-clip">

@@ -7,9 +7,8 @@ import Mentors from "../../components/academy/Mentors.astro";
 import Faq from "../../components/academy/Faq.astro";
 import Words from "../../components/Words.astro";
 import { academy, teamsForm, teamsSteps, faqEquipos } from "../../data/academy";
+import { faqPage, ids, service } from "../../lib/schema";
 
-// Set PUBLIC_FORM_ENDPOINT to receive submissions; otherwise the form opens an email.
-const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT ?? "";
 const field =
   "w-full rounded-[var(--radius-sm)] bg-pearl px-4 py-3.5 text-cosmos shadow-[inset_0_0_0_1px_var(--c-line)] transition-shadow duration-300 placeholder:text-cosmos-muted focus:shadow-[inset_0_0_0_2px_var(--c-action)] focus:outline-none aria-[invalid=true]:shadow-[inset_0_0_0_2px_#c2185b]";
 const select = `${field} appearance-none pr-11 cursor-pointer`;
@@ -18,7 +17,19 @@ const pill =
   "flex h-12 cursor-pointer items-center justify-center rounded-full bg-pearl px-4 font-medium shadow-[inset_0_0_0_1px_var(--c-line)] transition-[background-color,color,box-shadow] duration-300 hover:shadow-[inset_0_0_0_1px_var(--c-cosmos-muted)] peer-checked:bg-cosmos peer-checked:text-pearl peer-checked:shadow-[0_10px_30px_-12px_rgb(30_22_56/0.6)] peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-cosmos";
 ---
 
-<Academy title="Capacitación en IA para equipos" description="Talleres y programas de IA a la medida para empresas, centros educativos e instituciones públicas. Solicite una cotización.">
+<Academy
+  title="Capacitación en IA para equipos"
+  description="Talleres y programas de IA a la medida para empresas, centros educativos e instituciones públicas. Solicite una cotización."
+  schema={[
+    service({
+      name: "Capacitación en IA para equipos",
+      description: "Talleres y programas de IA a la medida para empresas, centros educativos e instituciones públicas, en modalidad virtual, presencial o mixta.",
+      provider: ids.academy,
+      path: "/academy/equipos",
+    }),
+    faqPage(faqEquipos),
+  ]}
+>
   <AcademyHero
     compact
     tag="Para equipos y líderes"
@@ -65,18 +76,15 @@ const pill =
         <div class="bezel-core p-6 sm:p-10">
           <form
             data-inquiry
-            action={endpoint || undefined}
+            action="/api/subscribe"
             method="post"
             novalidate
-            data-endpoint={endpoint}
-            data-email={academy.email}
-            data-subject="Solicitud de cotización: capacitación en IA"
             data-sending="Enviando…"
             data-success="Gracias. Recibimos su solicitud y le responderemos en un día hábil."
             data-error={`No pudimos enviar su solicitud. Escríbanos a ${academy.email}.`}
-            data-mailto="Abrimos su aplicación de correo con la solicitud lista para enviar."
             class="space-y-6"
           >
+            <input type="hidden" name="form" value="equipos" />
             <div class="grid gap-6 sm:grid-cols-2">
               <div class="flex flex-col gap-2">
                 <label for="nombre" class="font-medium">Nombre</label>
@@ -152,8 +160,16 @@ const pill =
               <p id="objetivo-error" class={errorText}>Cuéntenos brevemente su objetivo.</p>
             </div>
 
+            <label class="flex cursor-pointer items-start gap-3 text-cosmos-muted">
+              <input type="checkbox" name="newsletter" value="yes" class="mt-1 size-4 shrink-0 cursor-pointer accent-cosmos" />
+              <span>Deseo recibir novedades ocasionales de Riverius AI Academy. Puede darse de baja cuando quiera.</span>
+            </label>
+            <div class="absolute -left-[9999px]" aria-hidden="true">
+              <label>Deje este campo vacío <input type="text" name="company_url" tabindex="-1" autocomplete="off" /></label>
+            </div>
+
             <div class="flex flex-col gap-4 pt-2 sm:flex-row sm:items-center sm:justify-between">
-              <p class="text-caption text-cosmos-muted">Solo usaremos estos datos para responderle.</p>
+              <p class="text-caption text-cosmos-muted">Usaremos estos datos para responderle.</p>
               <button type="submit" class="btn btn-primary group justify-between" data-magnetic>
                 <span data-label>Solicitar cotización</span>
                 <span class="btn-island" aria-hidden="true"><Icon name="ph:arrow-up-right" class="size-4" /></span>

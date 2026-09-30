@@ -1,0 +1,19 @@
+# Search engines and AI assistants are welcome to read the whole site.
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# AI crawlers, listed explicitly so their access is clear.
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /api/
+
+Sitemap: https://riverius.ai/sitemap-index.xml

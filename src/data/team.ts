@@ -1,8 +1,15 @@
-// Add people here as the team grows. Photos go in public/images/team/.
+// Add people here as the team grows. Photos go in src/assets/team/ (square, at least 880px).
+import type { ImageMetadata } from "astro";
+import aaisha from "../assets/team/aaisha.jpg";
+import mariano from "../assets/team/mariano-rivera.jpg";
+import teletica from "../assets/logos/teletica.png";
+import fidelitas from "../assets/logos/fidelitas.png";
+import upwork from "../assets/logos/upwork.webp";
+
 type Person = {
   name: string;
   role: string;
-  photo: string;
+  photo: ImageMetadata;
   bio: string[];
   credentials: string[];
   links: { label: string; href: string; icon: string }[];
@@ -13,7 +20,7 @@ export const team: Person[] = [
     // TODO: replace with Aaisha's own bio, surname, credentials and links.
     name: "Aaisha",
     role: "Co-founder",
-    photo: "/images/team/aaisha.jpg",
+    photo: aaisha,
     bio: [
       "Aaisha co-founded Riverius AI to help teams put AI to work in ways that last.",
       "She works with clients from the first conversation to launch, making sure every project starts from a real problem and ends with a team that uses the solution.",
@@ -24,7 +31,7 @@ export const team: Person[] = [
   {
     name: "Mariano Rivera",
     role: "Co-founder and AI Solutions Engineer",
-    photo: "/images/team/mariano-rivera.jpg",
+    photo: mariano,
     bio: [
       "Mariano builds AI automations and agents every day. He's a systems engineer with more than five years in software, and a certified AI solutions expert.",
       "He co-founded Riverius to make AI feel like clarity, not complexity, and teaches professionals to build it themselves through Riverius AI Academy.",
@@ -45,9 +52,9 @@ export const team: Person[] = [
 ];
 
 export const featured = [
-  { name: "Teletica Canal 7", logo: "/images/academy/logos/teletica.png", note: "Featured on national TV" },
-  { name: "Universidad Fidélitas", logo: "/images/academy/logos/fidelitas.png", note: "Guest lecturer" },
-  { name: "Upwork", logo: "/images/academy/logos/upwork.webp", note: "Top Rated" },
+  { name: "Teletica Canal 7", logo: teletica, note: "Featured on national TV" },
+  { name: "Universidad Fidélitas", logo: fidelitas, note: "Guest lecturer" },
+  { name: "Upwork", logo: upwork, note: "Top Rated" },
 ];
 
 export const principles = [

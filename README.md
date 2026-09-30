@@ -1,6 +1,6 @@
 # Riverius AI
 
-Agency site for Riverius AI. Astro 7 + Tailwind v4, static output, no UI framework on the client.
+Agency site for Riverius AI. Astro 7 + Tailwind v4, static pages on Vercel (one serverless function for forms), no UI framework on the client.
 
 ```sh
 npm install
@@ -25,6 +25,10 @@ npm run build    # static site in dist/
 | Motion (smooth scroll, reveals, scrub, stack, horizontal pan, magnetic) | `src/scripts/motion.ts` |
 | Placeholder logo | `src/components/Logo.astro` |
 | Client logos (fictional) | `src/components/ClientMarks.astro` |
+| Images (resized and converted to WebP at build) | `src/assets/` |
+| SEO: sitemap (automatic), `robots.txt`, share images, touch icons | `astro.config.mjs`, `public/robots.txt`, `public/og/` |
+| AEO: `/llms.txt` (built from the data files), schema.org structured data | `src/pages/llms.txt.ts`, `src/lib/schema.ts` |
+| Form endpoint (Mailchimp) | `src/pages/api/subscribe.ts` |
 
 ## Themes
 
@@ -45,7 +49,7 @@ The agency is pinned to the dark Cosmos theme and the academy to the light Pearl
 
 - **Case studies and clients are fictional.** Replace `src/content/work/*.md` and `ClientMarks.astro`.
 - **Logo:** swap the SVG in `Logo.astro` and `public/favicon.svg` for the vector R.
-- **Photography:** add `cover: /images/...` to each case (files go in `public/images/`).
-- **Form:** set `PUBLIC_FORM_ENDPOINT` (Formspree, Basin, etc.). Without it, the form opens the visitor's email app.
+- **Photography:** put case photos in `src/assets/work/` and add `cover: ../../assets/work/<file>.jpg` to each case. Images in `src/assets/` are resized and converted to WebP at build time.
+- **Forms → Mailchimp:** `/contact` and `/academy/equipos` post to `src/pages/api/subscribe.ts`, which adds the person to the Mailchimp audience, tags them by form, and saves the inquiry as a contact note. Only people who tick the updates box are subscribed to marketing; the rest are stored as transactional. Set `MAILCHIMP_API_KEY` and `MAILCHIMP_AUDIENCE_ID` in `.env` locally (see `.env.example`) and in Vercel's environment variables.
 - **Email:** update in `src/data/site.ts`. Form options (role, size, budget) live at the top of `src/pages/contact.astro`.
 - **Aaisha:** add her bio, surname and links in `src/data/team.ts`.

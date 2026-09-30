@@ -1,13 +1,17 @@
 ---
 import { Icon } from "astro-icon/components";
+import { Image, getImage } from "astro:assets";
 import Base from "../layouts/Base.astro";
 import PageHero from "../components/PageHero.astro";
 import CtaPanel from "../components/CtaPanel.astro";
 import Words from "../components/Words.astro";
 import { team, featured, principles } from "../data/team";
+import { person as personSchema } from "../lib/schema";
+
+const schema = await Promise.all(team.map(async (p) => personSchema(p, (await getImage({ src: p.photo, width: 880 })).src)));
 ---
 
-<Base title="Team" description="Meet the people behind Riverius AI.">
+<Base title="Team" description="Meet the people behind Riverius AI." schema={schema}>
   <PageHero tag="Team" title="The people behind *Riverius.*" text="Engineers and educators who build AI systems every day, and stay until your team uses them." />
 
   <section class="space-y-24 px-3 pb-10 pt-16 sm:px-6 lg:space-y-36 lg:px-10 lg:pt-24">
@@ -17,7 +21,14 @@ import { team, featured, principles } from "../data/team";
           <div data-reveal class:list={["relative mx-auto w-full max-w-[440px]", i % 2 === 1 && "lg:order-2"]}>
             <div class="glow aurora left-[8%] top-[8%] size-[84%] !opacity-40" />
             <div class="portrait relative aspect-square overflow-hidden rounded-full">
-              <img src={person.photo} alt={`${person.name}, ${person.role}`} width="1000" height="1000" loading={i === 0 ? "eager" : "lazy"} class="size-full object-cover" />
+              <Image
+                src={person.photo}
+                alt={`${person.name}, ${person.role}`}
+                widths={[440, 880]}
+                sizes="(min-width: 480px) 440px, calc(100vw - 40px)"
+                loading={i === 0 ? "eager" : "lazy"}
+                class="size-full object-cover"
+              />
             </div>
           </div>
 
@@ -60,7 +71,7 @@ import { team, featured, principles } from "../data/team";
         {featured.map((f, i) => (
           <li data-reveal style={`--i:${i}`} class="bezel">
             <div class="bezel-core flex h-full flex-col items-center justify-center gap-4 px-6 py-10 text-center">
-              <img src={f.logo} alt={f.name} class="logo-mono h-12 w-auto max-w-[160px] object-contain" loading="lazy" />
+              <Image src={f.logo} alt={f.name} height={96} class="logo-mono h-12 w-auto max-w-[160px] object-contain" />
               <p class="text-caption text-cosmos-muted">{f.note}</p>
             </div>
           </li>

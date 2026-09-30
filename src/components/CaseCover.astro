@@ -1,9 +1,11 @@
 ---
 // Case cover. Uses the photo when provided; otherwise a pearl surface lit by
 // the case's pastel (color as refracted light, never a solid block).
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
 interface Props {
   tone: "morpho" | "guaria" | "pitahaya" | "mango" | "jade";
-  cover?: string;
+  cover?: ImageMetadata;
   alt?: string;
   class?: string;
 }
@@ -13,7 +15,7 @@ const { tone, cover, alt = "", class: className = "" } = Astro.props;
 <div class:list={["case-cover pearl-sheen relative isolate overflow-hidden rounded-[var(--radius-lg)] bg-nacre", className]}>
   {
     cover ? (
-      <img src={cover} alt={alt} loading="lazy" class="absolute inset-0 size-full object-cover transition-transform duration-[1200ms] ease-[var(--ease-out-soft)] group-hover:scale-[1.04]" />
+      <Image src={cover} alt={alt} widths={[640, 960, 1440, 1920]} sizes="(min-width: 1280px) 1200px, 100vw" class="absolute inset-0 size-full object-cover transition-transform duration-[1200ms] ease-[var(--ease-out-soft)] group-hover:scale-[1.04]" />
     ) : (
       <>
         <div class="glow left-[15%] top-[5%] size-[80%] !opacity-80" style={`background: var(--color-${tone})`} />

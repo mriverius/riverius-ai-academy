@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import Words from "../Words.astro";
 import { testimonialShots } from "../../data/academy";
 const shots = [...testimonialShots, ...testimonialShots];
@@ -13,7 +14,13 @@ const shots = [...testimonialShots, ...testimonialShots];
       {
         shots.map((src, i) => (
           <li class="bezel shrink-0" aria-hidden={i >= testimonialShots.length ? "true" : undefined}>
-            <img src={src} alt="Mensaje de un estudiante por WhatsApp" width="800" height="1000" loading="lazy" class="h-[380px] w-auto rounded-[var(--radius-lg)] object-cover sm:h-[460px]" />
+            <Image
+              src={src}
+              alt="Mensaje de un estudiante por WhatsApp"
+              widths={[304, 368, 736]}
+              sizes="(min-width: 640px) 368px, 304px"
+              class="h-[380px] w-auto rounded-[var(--radius-lg)] object-cover sm:h-[460px]"
+            />
           </li>
         ))
       }

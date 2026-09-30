@@ -3,16 +3,28 @@ import Shell from "./Shell.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { site } from "../data/site";
+import { organization, website } from "../lib/schema";
 
 interface Props {
   title?: string;
   description?: string;
+  schema?: Record<string, unknown>[];
+  noindex?: boolean;
 }
-const { title, description = site.description } = Astro.props;
+const { title, description = site.description, schema = [], noindex } = Astro.props;
 const fullTitle = title ? `${title} | ${site.name}` : `${site.name} | AI that feels like clarity`;
 ---
 
-<Shell title={fullTitle} description={description} theme="dark">
+<Shell
+  title={fullTitle}
+  description={description}
+  siteName={site.name}
+  theme="dark"
+  touchIcon="/apple-touch-icon.png"
+  image={{ src: "/og/riverius-ai.jpg", alt: "Riverius AI: AI that feels like clarity" }}
+  schema={[organization(), website(), ...schema]}
+  noindex={noindex}
+>
   <Header
     slot="header"
     nav={site.nav}
