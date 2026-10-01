@@ -61,7 +61,7 @@ ${avatars.map((a) => `- [${a.title}](${url(a.href)}): ${a.text}`).join("\n")}
 
 ${proOffer.promise}
 
-${proClasses.map((c, i) => `${i + 1}. ${c}`).join("\n")}
+${proClasses.map((c, i) => `${i + 1}. **${c.title}.** ${c.text}`).join("\n")}
 
 ### Academy FAQ
 

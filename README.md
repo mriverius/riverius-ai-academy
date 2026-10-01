@@ -21,7 +21,7 @@ npm run build    # static site in dist/
 | Academy (Spanish, own header/footer, Tropical sunrise palette) | `src/pages/academy/`, `src/layouts/Academy.astro`, `src/data/academy.ts` |
 | Team members, recognition logos, principles | `src/data/team.ts` |
 | Academy success stories and project gallery (Wistia IDs) | `src/data/academy.ts` (`stories`, `projects`) |
-| Academy paths: hub + `/academy/profesional`, `/academy/emprendedor`, `/academy/equipos` | `src/pages/academy/`, sections in `src/components/academy/` |
+| Academy paths: hub + `/academy/automatizar`, `/academy/vender`, `/academy/equipos` (old `/profesional` and `/emprendedor` URLs redirect) | `src/pages/academy/`, sections in `src/components/academy/` |
 | Motion (smooth scroll, reveals, scrub, stack, horizontal pan, magnetic) | `src/scripts/motion.ts` |
 | Placeholder logo | `src/components/Logo.astro` |
 | Client marquee (Retreat Sounds is real, the rest are samples) | `src/components/ClientMarks.astro` |

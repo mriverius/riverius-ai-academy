@@ -24,16 +24,16 @@ const skool = skoolLink(Astro.url.pathname);
 ---
 
 <Academy
-  title="Aprende IA y conviértela en negocio"
+  title="Tu primer cliente de IA"
   description="Consigue tu primer cliente de IA sin programar: qué vender, cuánto cobrar y cómo cerrar, con mentoría y garantía."
   schema={[
-    course({ name: "Aprende IA y conviértela en negocio", description: roadmap.map((r) => `${r.phase}: ${r.title}. ${r.text}`).join(" "), path: "/academy/emprendedor" }),
+    course({ name: "Aprende IA y conviértela en negocio", description: roadmap.map((r) => `${r.phase}: ${r.title}. ${r.text}`).join(" "), path: "/academy/vender" }),
     faqPage(faqEmprendedor),
   ]}
 >
   <AcademyHero
     compact
-    tag="Para emprendedores"
+    tag="Vende soluciones de IA"
     title="Tu primer cliente de IA, aunque nunca hayas programado."
     text="Primero construyes una solución que los negocios pagan. Después aprendes a venderla, cobrarla bien y cobrarla cada mes."
     primary={{ label: "Ver la ruta", href: "#ruta" }}
@@ -100,16 +100,17 @@ const skool = skoolLink(Astro.url.pathname);
   </section>
 
   <Projects title="Soluciones que ya se pueden vender." text="Proyectos de estudiantes para clínicas, inmobiliarias y comercios. El tipo de solución que aprenderás a construir y a vender." />
-  <Mentors title="Te guían Aaisha y Mariano." />
-  <Faq items={faqEmprendedor} />
 
   <!-- Mentorship offer -->
-  <section id="mentoria" class="scroll-mt-24 px-3 pt-24 sm:px-6 lg:px-10 lg:pt-36">
+  <section id="mentoria" class="scroll-mt-24 px-3 pb-24 sm:px-6 lg:px-10 lg:pb-36">
     <div class="mx-auto max-w-2xl">
       <div class="text-center"><p data-reveal class="pill-tag">Mentoría</p></div>
       <div class="mt-8"><Offer {...entrepreneurOffer} href={booking} /></div>
     </div>
   </section>
+
+  <Mentors title="Te guían Aaisha y Mariano." />
+  <Faq items={faqEmprendedor} />
 
   <ClosingCta
     title="Tu primer cliente de IA empieza con una llamada."

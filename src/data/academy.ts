@@ -15,8 +15,8 @@ export const academy = {
   whatsapp: "https://wa.me/50685973818",
   cta: { label: "Únete gratis", href: "https://www.skool.com/riverius-academy" },
   nav: [
-    { label: "Profesionales", href: "/academy/profesional" },
-    { label: "Emprendedores", href: "/academy/emprendedor" },
+    { label: "Automatizar", href: "/academy/automatizar" },
+    { label: "Vender IA", href: "/academy/vender" },
     { label: "Equipos", href: "/academy/equipos" },
     { label: "Historias", href: "/academy#historias" },
   ],
@@ -43,9 +43,9 @@ export const stats = [
 // The three paths. The hub sends each visitor to the page made for them.
 export const avatars = [
   {
-    slug: "profesional",
-    href: "/academy/profesional",
-    who: "Soy profesional",
+    slug: "automatizar",
+    href: "/academy/automatizar",
+    who: "Quiero automatizar mi trabajo",
     title: "Construye tu oficina automática",
     text: "Automatiza reportes, correos y tareas repetitivas de tu trabajo con agentes de IA. 6 clases y tu certificado.",
     fit: ["Trabajas con correos, datos y documentos", "Quieres recuperar horas de tu semana"],
@@ -53,11 +53,11 @@ export const avatars = [
     cta: "Ver el programa",
   },
   {
-    slug: "emprendedor",
-    href: "/academy/emprendedor",
-    who: "Soy emprendedor",
-    title: "Aprende IA y conviértela en negocio",
-    text: "Una ruta clara: primero dominas los agentes de IA, después aprendes a venderlos a clientes reales.",
+    slug: "vender",
+    href: "/academy/vender",
+    who: "Quiero vender soluciones de IA",
+    title: "Tu primer cliente de IA",
+    text: "Construye una solución que los negocios pagan y aprende a venderla, cobrarla bien y cobrarla cada mes.",
     fit: ["Quieres ofrecer soluciones de IA", "Tienes o quieres un negocio propio"],
     icon: "ph:rocket-launch-light",
     cta: "Ver la ruta",
@@ -65,7 +65,7 @@ export const avatars = [
   {
     slug: "equipos",
     href: "/academy/equipos",
-    who: "Lidero un equipo",
+    who: "Quiero capacitar a mi equipo",
     title: "Capacitación en IA para su organización",
     text: "Talleres y programas a la medida para empresas, centros educativos e instituciones públicas.",
     fit: ["Necesita formar a varias personas", "Busca resultados medibles en su equipo"],
@@ -123,14 +123,14 @@ export const path = [
   },
 ];
 
-// Professionals: 6 classes, then the certificate. "Title: text" splits into the card's title and text.
+// Automatizar: 6 classes, then the certificate.
 export const proClasses = [
-  "Tu primera automatización: responde sola y te avisa al teléfono.",
-  "Cada solicitud se guarda en tu hoja y se responde por correo, sin que la toques.",
-  "Decisiones automáticas: la IA califica cada caso y responde distinto según lo que necesita.",
-  "Tu primer agente de IA: un asistente que elige la herramienta correcta por ti.",
-  "Tu agente, conectado a tus datos, y el plan de automatización de tu propio trabajo.",
-  "Tu agente en tu teléfono: le preguntas lo que necesites, desde donde estés.",
+  { title: "Tu primera automatización", text: "Responde sola y te avisa al teléfono." },
+  { title: "Solicitudes que se responden solas", text: "Cada solicitud se guarda en tu hoja y se responde por correo, sin que la toques." },
+  { title: "Decisiones automáticas", text: "La IA califica cada caso y responde distinto según lo que necesita." },
+  { title: "Tu primer agente de IA", text: "Un asistente que elige la herramienta correcta por ti." },
+  { title: "Tu agente, con tus datos", text: "Lo conectas a tu información y diseñas el plan de automatización de tu propio trabajo." },
+  { title: "Tu agente en tu teléfono", text: "Le preguntas lo que necesites, desde donde estés." },
 ];
 
 // The five pieces of an automated office (text only, no images).
@@ -152,6 +152,7 @@ export const proOffer = {
     "WhatsApp directo para no quedarte trabado entre clases",
     "Todas las plantillas listas para importar",
     "Comunidad privada en Skool",
+    "3 meses de Premium en Skool incluidos (valorados en $111)",
     "Tu certificado de Riverius AI Academy al terminar",
   ],
   guarantee: "Si al terminar el curso la pieza más importante de tu oficina no está funcionando, te devuelvo tu dinero.",
@@ -167,6 +168,7 @@ export const entrepreneurOffer = {
     "Tus mensajes y tu guion de llamada, revisados",
     "Cada propuesta revisada antes de que la envíes",
     "Los sistemas que ya vendemos, listos para adaptar a tus clientes",
+    "12 meses de Premium en Skool incluidos (valorados en $444)",
   ],
   guarantee: "Te ayudamos a conseguir clientes hasta que recuperes tu inversión.",
   scarcity: "Cupos limitados: la mentoría la damos personalmente.",
@@ -280,9 +282,9 @@ export const testimonialShots = Object.keys(shotFiles)
   .map((k) => shotFiles[k]);
 
 export const faqHub = [
-  { q: "¿Necesito saber programar?", a: "No. Trabajamos con n8n, una herramienta visual de arrastrar y soltar. Si sabes usar el correo y una hoja de cálculo, puedes empezar." },
+  { q: "¿Necesito saber programar?", a: "No. Todo se construye de forma visual, con herramientas como Make y n8n. Si sabes usar el correo y una hoja de cálculo, puedes empezar." },
   { q: "¿La comunidad en Skool es gratis?", a: "Sí. Puedes unirte gratis y automatizar la primera parte de tu oficina en 30 minutos. Los programas con acompañamiento 1:1 son aparte." },
-  { q: "¿Qué camino es para mí?", a: "Si quieres automatizar tu propio trabajo, el de profesionales. Si quieres vender soluciones de IA, el de emprendedores. Si necesitas formar a un equipo, el de equipos." },
+  { q: "¿Qué camino es para mí?", a: "Si quieres que tu propio trabajo se haga solo, el camino Automatizar. Si quieres cobrar por construir soluciones de IA para otros negocios, el camino Vender IA. Si necesitas formar a un equipo, el de Equipos." },
   { q: "¿Quiénes son los mentores?", a: "Aaisha Ali, que te guía en la estrategia y la creatividad de tu proyecto, y Mariano Rivera, tu mentor principal, que te enseña a construir y a vender. Ambos son co-fundadores de Riverius y acompañan cada programa de principio a fin." },
 ];
 

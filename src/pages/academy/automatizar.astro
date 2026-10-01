@@ -18,24 +18,20 @@ import { course, faqPage } from "../../lib/schema";
 
 const booking = bookingLink(Astro.url.pathname);
 const skool = skoolLink(Astro.url.pathname);
-// "Title: rest." becomes the card title and text; a sentence without a colon is the title alone.
-const steps = proClasses.map((c, i) => {
-  const [title, rest] = c.split(/:\s(.+)/);
-  return { kicker: `Clase ${i + 1}`, title: rest ? title : c, text: rest ? rest.charAt(0).toUpperCase() + rest.slice(1) : undefined };
-});
+const steps = proClasses.map((c, i) => ({ kicker: `Clase ${i + 1}`, title: c.title, text: c.text }));
 ---
 
 <Academy
   title="Construye tu oficina automática"
   description="Construye tu oficina automática en 6 clases: cotizaciones, reportes y citas que se hacen solos, sin programar. Empieza gratis en Skool."
   schema={[
-    course({ name: proOffer.title, description: `${proOffer.promise} ${proClasses.map((c, i) => `Clase ${i + 1}: ${c}`).join(" ")}`, path: "/academy/profesional" }),
+    course({ name: proOffer.title, description: `${proOffer.promise} ${proClasses.map((c, i) => `Clase ${i + 1}: ${c.title}. ${c.text}`).join(" ")}`, path: "/academy/automatizar" }),
     faqPage(faqPro),
   ]}
 >
   <AcademyHero
     compact
-    tag="Para profesionales"
+    tag="Automatiza tu trabajo"
     title="Construye tu oficina automática."
     text="Cotizaciones, reportes, correos y citas que se hacen solos, construidos con tus procesos reales. Sin programar."
     primary={{ label: "Ver el programa", href: "#programa" }}

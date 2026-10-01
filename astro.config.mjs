@@ -9,6 +9,11 @@ export default defineConfig({
   site: "https://riverius.ai",
   // One URL per page (/contact, not /contact/), matching the internal links.
   trailingSlash: "never",
+  // The Academy paths were renamed after the visitor's goal; old links keep working.
+  redirects: {
+    "/academy/profesional": "/academy/automatizar",
+    "/academy/emprendedor": "/academy/vender",
+  },
   integrations: [icon(), sitemap()],
   vite: { plugins: [tailwindcss()] },
   // Pages stay static; only src/pages/api/* runs as a Vercel function.
