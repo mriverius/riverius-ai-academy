@@ -1,6 +1,8 @@
 ---
 // Document shell shared by the agency and the academy.
 import "../styles/global.css";
+import Analytics from "@vercel/analytics/astro";
+import SpeedInsights from "@vercel/speed-insights/astro";
 import { graph } from "../lib/schema";
 
 interface Props {
@@ -50,6 +52,8 @@ const imageUrl = new URL(image.src, Astro.site);
     <meta name="twitter:image:alt" content={image.alt} />
     {schema.length > 0 && <script type="application/ld+json" set:html={graph(schema)} />}
     <script is:inline>document.documentElement.classList.add("js");</script>
+    <Analytics />
+    <SpeedInsights />
   </head>
   <body class="min-h-[100dvh] overflow-x-clip">
     <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-action focus:px-4 focus:py-2 focus:text-on-action">

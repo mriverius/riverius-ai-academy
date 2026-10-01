@@ -2,6 +2,7 @@
 // ring and an orbiting moon that passes behind it. Light follows the pointer
 // with a soft spring; scrolling speeds up the spin.
 // Plain WebGL1, no dependencies. Falls back to the CSS orb if unavailable.
+// Renders at 1x and settles into a still frame on GPUs that can't keep up.
 
 const VERT = `
 attribute vec2 aPos;
@@ -220,7 +221,7 @@ export function mountOpal(
   palette = "aurora",
   body: "planet" | "sun" = "planet",
 ): Opal | null {
-  const gl = canvas.getContext("webgl", { antialias: false, alpha: false, powerPreference: "high-performance" });
+  const gl = canvas.getContext("webgl", { antialias: false, alpha: false });
   if (!gl) return null;
 
   const compile = (type: number, src: string) => {
@@ -291,13 +292,16 @@ export function mountOpal(
   });
 
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const dprCap = matchMedia("(pointer: coarse)").matches ? 1.25 : 1.6;
   let center = [0, 0];
   let radius = 100;
   let running = false;
+  let inView = false;
+  // Set once the GPU proves too slow: the loop stops and the orb holds a still frame.
+  let still = false;
 
   const layout = () => {
-    const dpr = Math.min(window.devicePixelRatio || 1, dprCap);
+    // A soft glow loses nothing at 1x, and it keeps the pixel count down on large screens.
+    const dpr = 1;
     const cr = canvas.getBoundingClientRect();
     canvas.width = Math.max(1, Math.round(cr.width * dpr));
     canvas.height = Math.max(1, Math.round(cr.height * dpr));
@@ -342,7 +346,7 @@ export function mountOpal(
     boost += (Math.min(Math.abs(lenis?.velocity ?? 0) * 0.05, 1.2) - boost) * Math.min(dt * 4, 1);
     spin += dt * (0.22 + boost);
 
-    const intro = reduce ? 1 : 1 - Math.pow(1 - Math.min(elapsed / 2.2, 1), 3);
+    const intro = reduce || still ? 1 : 1 - Math.pow(1 - Math.min(elapsed / 2.2, 1), 3);
 
     gl.uniform2f(u.res, canvas.width, canvas.height);
     gl.uniform1f(u.time, reduce ? 8 : elapsed);
@@ -354,14 +358,32 @@ export function mountOpal(
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   };
 
+  // After a 1s warm-up, time 60 frames; a median slower than ~50fps means this GPU can't keep up.
+  const samples: number[] = [];
+  let prev = 0;
+  const measure = (now: number) => {
+    const gap = now - prev;
+    prev = now;
+    if (now - start < 1000 || samples.length >= 60) return;
+    samples.push(gap);
+    if (samples.length < 60) return;
+    samples.sort((a, b) => a - b);
+    if (samples[30] > 20) {
+      still = true;
+      pause();
+      draw(now);
+    }
+  };
+
   const loop = (now: number) => {
     draw(now);
-    raf = requestAnimationFrame(loop);
+    measure(now);
+    if (running) raf = requestAnimationFrame(loop);
   };
   const play = () => {
-    if (running || reduce) return;
+    if (running || reduce || still || !inView || document.hidden) return;
     running = true;
-    last = performance.now();
+    last = prev = performance.now();
     raf = requestAnimationFrame(loop);
   };
   const pause = () => {
@@ -372,8 +394,13 @@ export function mountOpal(
   const ro = new ResizeObserver(layout);
   ro.observe(canvas);
   ro.observe(anchor);
-  const io = new IntersectionObserver(([entry]) => (entry.isIntersecting ? play() : pause()));
+  const io = new IntersectionObserver(([entry]) => {
+    inView = entry.isIntersecting;
+    if (inView) play();
+    else pause();
+  });
   io.observe(canvas);
+  // Coming back to the tab only resumes the loop if the orb is on screen.
   const onVis = () => (document.hidden ? pause() : play());
   document.addEventListener("visibilitychange", onVis);
 
