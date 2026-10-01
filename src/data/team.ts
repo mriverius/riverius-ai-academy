@@ -18,7 +18,7 @@ type Person = {
 export const team: Person[] = [
   {
     name: "Aaisha Ali",
-    role: "Co-founder and Creative Strategist",
+    role: "Co-founder and Creative Director",
     photo: aaisha,
     bio: [
       "Aaisha is the creative mind behind Riverius. She shapes strategy, brand identity and positioning, so every AI system we build has a clear purpose and a voice of its own.",

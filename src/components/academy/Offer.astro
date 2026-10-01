@@ -1,17 +1,18 @@
 ---
-// Offer card: what's included, the guarantee, the scarcity note and a call to book. No price.
+// Offer card: what's included, the guarantee, the scarcity note and a call to book. Price is optional.
 import { Icon } from "astro-icon/components";
 import { newTab } from "../../lib/links";
 
 interface Props {
   title: string;
   promise?: string;
+  price?: string;
   includes: string[];
   guarantee: string;
   scarcity: string;
   href: string;
 }
-const { title, promise, includes, guarantee, scarcity, href } = Astro.props;
+const { title, promise, price, includes, guarantee, scarcity, href } = Astro.props;
 ---
 
 <div data-reveal class="bezel">
@@ -19,6 +20,12 @@ const { title, promise, includes, guarantee, scarcity, href } = Astro.props;
     <div class="glow sunrise -right-[20%] -top-[30%] -z-10 size-[70%] !opacity-40"></div>
     <h3 class="text-heading">{title}</h3>
     {promise && <p class="mt-3 text-subheading font-semibold text-cosmos-muted">{promise}</p>}
+    {price && (
+      <p class="mt-6 flex items-baseline gap-2">
+        <span class="text-heading font-semibold">{price}</span>
+        <span class="text-caption text-cosmos-muted">USD, pago único</span>
+      </p>
+    )}
     <p class="mt-8 text-caption font-medium text-cosmos-muted">Incluye</p>
     <ul class="mt-4 space-y-3">
       {includes.map((item) => (

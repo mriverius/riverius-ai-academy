@@ -142,10 +142,11 @@ export const officePieces = [
   { title: "Archivos que se ordenan solos", text: "Facturas y documentos en su carpeta, sin moverlos.", icon: "ph:folders-light" },
 ];
 
-// Offers. No prices on the site: every offer ends in a call.
+// Offers. Automatizar shows its price; every offer still ends in a call.
 export const proOffer = {
   title: "Tu oficina automática, construida conmigo",
   promise: "La pieza más importante de tu oficina, funcionando en 6 clases.",
+  price: "$227",
   includes: [
     "Una sesión privada 1:1 en cada clase, sobre tu propio trabajo",
     "Lecciones en video para ver a tu ritmo",
