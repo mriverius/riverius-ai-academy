@@ -8,20 +8,24 @@ import Shots from "../../components/academy/Shots.astro";
 import Mentors from "../../components/academy/Mentors.astro";
 import Faq from "../../components/academy/Faq.astro";
 import ClosingCta from "../../components/academy/ClosingCta.astro";
-import { academy, faqHub } from "../../data/academy";
+import CalcCta from "../../components/academy/CalcCta.astro";
+import { faqHub, skoolLink } from "../../data/academy";
 import { faqPage } from "../../lib/schema";
+
+const skool = skoolLink(Astro.url.pathname);
 ---
 
 <Academy schema={[faqPage(faqHub)]}>
   <AcademyHero
     tag="Riverius AI Academy"
-    title="Aprende IA sin ser técnico."
-    text="Crea agentes de IA y automatizaciones sin programar, con mentores que te acompañan de principio a fin."
+    title="Que la IA haga el trabajo repetitivo. Tú, el que importa."
+    text="Automatiza tu trabajo, conviértelo en un negocio o capacita a tu equipo. Sin programar."
     primary={{ label: "Elige tu camino", href: "#caminos" }}
-    secondary={{ label: "Únete gratis a Skool", href: academy.skool }}
+    secondary={{ label: "Únete gratis a Skool", href: skool }}
   />
   <Stats />
   <Paths />
+  <CalcCta text="¿Cuántas horas te cuesta el trabajo repetitivo? Calcúlalo en 2 minutos." label="Usar la calculadora" class="-mt-8 lg:-mt-16" />
   <Stories />
   <Shots />
   <Mentors />
@@ -29,7 +33,7 @@ import { faqPage } from "../../lib/schema";
   <ClosingCta
     title="¿Aún no sabes por dónde empezar?"
     text="Únete gratis a la comunidad en Skool y automatiza la primera parte de tu oficina en 30 minutos."
-    cta={{ label: "Únete gratis", href: academy.skool }}
+    cta={{ label: "Únete gratis", href: skool }}
     secondary={{ label: "Elige tu camino", href: "#caminos" }}
   />
 </Academy>

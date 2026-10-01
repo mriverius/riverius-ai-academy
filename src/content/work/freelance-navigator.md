@@ -15,8 +15,8 @@ results:
   - value: "$3,000"
     label: "program every call was qualified for"
 quote:
-  text: "Mariano was an absolute game-changer for our team. He built an incredibly effective appointment-setting chatbot that booked six calls within the first 48 hours and fully automated our lead funnel with remarkable speed and skill. Beyond his technical expertise, what really stood out was his genuine commitment to our project's success. He made sure to understand our unique needs and tailored every detail to fit seamlessly into our workflow. Thanks to Mariano’s work, we’ve seen a noticeable boost in our lead quality and overall efficiency. I highly recommend partnering with him if you’re looking for a dedicated professional who delivers real, measurable results."
-  short: "He built an incredibly effective appointment-setting chatbot that booked six calls within the first 48 hours and fully automated our lead funnel."
+  text: "Mariano was an absolute game-changer for our team. They built an incredibly effective appointment-setting chatbot that booked six calls within the first 48 hours and fully automated our lead funnel with remarkable speed and skill. Beyond his technical expertise, what really stood out was his genuine commitment to our project's success. He made sure to understand our unique needs and tailored every detail to fit seamlessly into our workflow. Thanks to Mariano’s work, we’ve seen a noticeable boost in our lead quality and overall efficiency. I highly recommend partnering with him if you’re looking for a dedicated professional who delivers real, measurable results."
+  short: "They built an incredibly effective appointment-setting chatbot that booked six calls within the first 48 hours and fully automated our lead funnel."
   name: "Manuel Rocholl"
   role: "CPO, Freelance Navigator"
 video:

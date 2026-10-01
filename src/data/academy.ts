@@ -9,10 +9,9 @@ import upwork from "../assets/logos/upwork.webp";
 export const academy = {
   name: "Riverius AI Academy",
   description:
-    "Aprende IA sin ser técnico. Crea agentes de IA y automatizaciones sin programar, con acompañamiento 1:1 y una comunidad en Skool.",
-  email: "hola@riverius.ai",
+    "Automatiza tu trabajo con IA, conviértelo en negocio o capacita a tu equipo. Sin programar, en español y con acompañamiento.",
   skool: "https://www.skool.com/riverius-academy",
-  booking: "https://cal.com/mriverius/programa-agentes-ia-riverius-academy",
+  booking: "https://cal.com/mriverius/diagnostico",
   whatsapp: "https://wa.me/50685973818",
   cta: { label: "Únete gratis", href: "https://www.skool.com/riverius-academy" },
   nav: [
@@ -29,11 +28,16 @@ export const academy = {
   ],
 };
 
+// Skool and booking links carry the page they were clicked on: ?utm_source=web&utm_medium=<page>.
+export const pageName = (pathname: string) => pathname.replace(/\/$/, "").split("/").pop() || "academy";
+const withUtm = (url: string, pathname: string) => `${url}?utm_source=web&utm_medium=${pageName(pathname)}`;
+export const skoolLink = (pathname: string) => withUtm(academy.skool, pathname);
+export const bookingLink = (pathname: string) => withUtm(academy.booking, pathname);
+
 export const stats = [
   { value: 100, prefix: "+", suffix: "", label: "profesionales formados" },
   { value: 13, prefix: "+", suffix: "", label: "países" },
-  { value: 1, prefix: "#", suffix: "", label: "comunidad de IA de Costa Rica" },
-  { value: 5, prefix: "", suffix: "", label: "reseñas de 5 estrellas en Skool", stars: true },
+  { value: 5, decimals: 1, prefix: "", suffix: "", label: "calificación en Skool", stars: true },
 ];
 
 // The three paths. The hub sends each visitor to the page made for them.
@@ -43,7 +47,7 @@ export const avatars = [
     href: "/academy/profesional",
     who: "Soy profesional",
     title: "Construye tu oficina automática",
-    text: "Automatiza reportes, correos y tareas repetitivas de tu trabajo con agentes de IA. Dos niveles y tu certificado.",
+    text: "Automatiza reportes, correos y tareas repetitivas de tu trabajo con agentes de IA. 6 clases y tu certificado.",
     fit: ["Trabajas con correos, datos y documentos", "Quieres recuperar horas de tu semana"],
     icon: "ph:briefcase-light",
     cta: "Ver el programa",
@@ -70,18 +74,18 @@ export const avatars = [
   },
 ];
 
+// Aaisha leads strategy and creativity; Mariano is the main mentor and teaches building and selling.
 export const mentors = [
   {
-    // TODO: replace with Aaisha's own bio.
-    name: "Aaisha",
-    role: "Co-fundadora y mentora",
+    name: "Aaisha Ali",
+    role: "Co-fundadora y mentora de estrategia",
     photo: aaisha,
-    bio: "Acompaña a estudiantes y equipos para que avancen con claridad y conviertan lo aprendido en hábitos de trabajo.",
-    credentials: [] as string[],
+    bio: "Me dedico a la estrategia y la creatividad: le doy a cada proyecto una dirección clara y una marca propia.",
+    credentials: ["Estrategia", "Identidad de marca", "Dirección creativa", "Posicionamiento"],
   },
   {
     name: "Mariano Rivera",
-    role: "Co-fundador y mentor",
+    role: "Co-fundador y mentor principal",
     photo: mariano,
     bio: "Me dedico a esto al cien por ciento: construyo automatizaciones y agentes de IA todos los días.",
     credentials: ["Ingeniero en Sistemas de Computación", "5+ años como ingeniero de software", "Top Rated en Upwork"],
@@ -119,22 +123,53 @@ export const path = [
   },
 ];
 
-// Professionals: two levels, then the certificate.
-export const proLevels = path.slice(0, 2);
+// Professionals: 6 classes, then the certificate. "Title: text" splits into the card's title and text.
+export const proClasses = [
+  "Tu primera automatización: responde sola y te avisa al teléfono.",
+  "Cada solicitud se guarda en tu hoja y se responde por correo, sin que la toques.",
+  "Decisiones automáticas: la IA califica cada caso y responde distinto según lo que necesita.",
+  "Tu primer agente de IA: un asistente que elige la herramienta correcta por ti.",
+  "Tu agente, conectado a tus datos, y el plan de automatización de tu propio trabajo.",
+  "Tu agente en tu teléfono: le preguntas lo que necesites, desde donde estés.",
+];
 
-export const proPricing = {
-  title: "Oficina automática",
-  detail: "2 niveles, 12 semanas",
-  // TODO: set the price for the 2-level program (null hides it).
-  price: null as string | null,
+// The five pieces of an automated office (text only, no images).
+export const officePieces = [
+  { title: "Documentos que se escriben solos", text: "Cotizaciones, contratos y constancias con los datos correctos.", icon: "ph:file-text-light" },
+  { title: "Solicitudes que se atienden solas", text: "Citas y pedidos que se registran y se confirman solos.", icon: "ph:tray-arrow-down-light" },
+  { title: "Vencimientos que no se te pasan", text: "Cada mañana, lo que vence hoy y esta semana.", icon: "ph:calendar-check-light" },
+  { title: "Reportes que llegan listos", text: "Tus datos resumidos en tu correo cada semana.", icon: "ph:chart-bar-light" },
+  { title: "Archivos que se ordenan solos", text: "Facturas y documentos en su carpeta, sin moverlos.", icon: "ph:folders-light" },
+];
+
+// Offers. No prices on the site: every offer ends in a call.
+export const proOffer = {
+  title: "Tu oficina automática, construida conmigo",
+  promise: "La pieza más importante de tu oficina, funcionando en 6 clases.",
   includes: [
-    "Nivel 1: Fundamentos y Nivel 2: Avanzados",
-    "Sesión privada 1:1 cada semana",
-    "Lecciones en video semanales",
-    "Soporte por WhatsApp",
+    "Una sesión privada 1:1 en cada clase, sobre tu propio trabajo",
+    "Lecciones en video para ver a tu ritmo",
+    "WhatsApp directo para no quedarte trabado entre clases",
+    "Todas las plantillas listas para importar",
     "Comunidad privada en Skool",
-    "Certificado de Riverius AI Academy",
+    "Tu certificado de Riverius AI Academy al terminar",
   ],
+  guarantee: "Si al terminar el curso la pieza más importante de tu oficina no está funcionando, te devuelvo tu dinero.",
+  scarcity: "Cupos limitados cada mes, porque cada alumno lleva sesiones privadas.",
+};
+
+export const entrepreneurOffer = {
+  title: "Tu primer cliente, con mentoría",
+  includes: [
+    "Tu producto definido: qué vender y a qué tipo de negocio",
+    "Tu precio, calculado por el valor para tu cliente",
+    "Tu demo, lista para mostrar",
+    "Tus mensajes y tu guion de llamada, revisados",
+    "Cada propuesta revisada antes de que la envíes",
+    "Los sistemas que ya vendemos, listos para adaptar a tus clientes",
+  ],
+  guarantee: "Te ayudamos a conseguir clientes hasta que recuperes tu inversión.",
+  scarcity: "Cupos limitados: la mentoría la damos personalmente.",
 };
 
 // Entrepreneurs: learn it, then sell it.
@@ -248,14 +283,14 @@ export const faqHub = [
   { q: "¿Necesito saber programar?", a: "No. Trabajamos con n8n, una herramienta visual de arrastrar y soltar. Si sabes usar el correo y una hoja de cálculo, puedes empezar." },
   { q: "¿La comunidad en Skool es gratis?", a: "Sí. Puedes unirte gratis y automatizar la primera parte de tu oficina en 30 minutos. Los programas con acompañamiento 1:1 son aparte." },
   { q: "¿Qué camino es para mí?", a: "Si quieres automatizar tu propio trabajo, el de profesionales. Si quieres vender soluciones de IA, el de emprendedores. Si necesitas formar a un equipo, el de equipos." },
-  { q: "¿Quiénes son los mentores?", a: "Aaisha y Mariano Rivera, co-fundadores de Riverius. Acompañan cada programa de principio a fin." },
+  { q: "¿Quiénes son los mentores?", a: "Aaisha Ali, que te guía en la estrategia y la creatividad de tu proyecto, y Mariano Rivera, tu mentor principal, que te enseña a construir y a vender. Ambos son co-fundadores de Riverius y acompañan cada programa de principio a fin." },
 ];
 
 export const faqPro = [
-  { q: "¿Necesito saber programar?", a: "No. Todo se construye de forma visual con n8n. Si sabes usar el correo y una hoja de cálculo, puedes empezar." },
-  { q: "¿Cuánto tiempo necesito por semana?", a: "Cada nivel dura seis semanas. Con dos o tres horas por semana, más tu sesión 1:1, avanzas a buen ritmo." },
+  { q: "¿Necesito saber programar?", a: "No. Todo se construye de forma visual, con herramientas como Make y n8n. Si sabes usar el correo y una hoja de cálculo, puedes empezar." },
+  { q: "¿Cuánto tiempo necesito por semana?", a: "Son 6 clases, con tu sesión privada 1:1 en cada una. Avanzas a tu ritmo, y si una semana se te complica, la clase se reprograma." },
   { q: "¿Puedo probar antes de inscribirme?", a: "Sí. Únete gratis a la comunidad en Skool y automatiza la primera parte de tu oficina en 30 minutos." },
-  { q: "¿Recibo un certificado?", a: "Sí. Al completar los dos niveles recibes el certificado de Riverius AI Academy." },
+  { q: "¿Recibo un certificado?", a: "Sí. Al completar las 6 clases recibes el certificado de Riverius AI Academy." },
 ];
 
 export const faqEmprendedor = [

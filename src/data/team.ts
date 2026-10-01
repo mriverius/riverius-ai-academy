@@ -17,15 +17,14 @@ type Person = {
 
 export const team: Person[] = [
   {
-    // TODO: replace with Aaisha's own bio, surname, credentials and links.
-    name: "Aaisha",
-    role: "Co-founder",
+    name: "Aaisha Ali",
+    role: "Co-founder and Creative Strategist",
     photo: aaisha,
     bio: [
-      "Aaisha co-founded Riverius AI to help teams put AI to work in ways that last.",
-      "She works with clients from the first conversation to launch, making sure every project starts from a real problem and ends with a team that uses the solution.",
+      "Aaisha is the creative mind behind Riverius. She shapes strategy, brand identity and positioning, so every AI system we build has a clear purpose and a voice of its own.",
+      "She leads strategy with clients and students alike: where to focus, how to stand out and how the work should look and feel. Where Mariano builds the technology, Aaisha gives it direction and a brand people remember.",
     ],
-    credentials: [],
+    credentials: ["Strategy", "Brand identity", "Creative direction", "Positioning"],
     links: [],
   },
   {

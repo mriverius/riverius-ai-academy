@@ -6,7 +6,7 @@ import { site } from "../data/site";
 import { phases, capabilities } from "../data/services";
 import { faq } from "../data/faq";
 import { team } from "../data/team";
-import { academy, avatars, path, faqHub, faqPro, faqEquipos } from "../data/academy";
+import { academy, avatars, proClasses, proOffer, faqHub, faqPro, faqEquipos } from "../data/academy";
 
 export const GET: APIRoute = async ({ site: base }) => {
   const url = (p: string) => new URL(p, base).href;
@@ -18,7 +18,7 @@ export const GET: APIRoute = async ({ site: base }) => {
 > ${site.description}
 
 ${site.name} is an AI agency. Riverius AI Academy is its Spanish-language school for professionals, entrepreneurs and teams in Latin America.
-Contact: ${site.email} · ${url("/contact")}
+Contact: ${url("/contact")}
 
 ## Agency pages
 
@@ -54,12 +54,14 @@ ${qa(faq)}
 
 - [Academy home](${url("/academy")})
 ${avatars.map((a) => `- [${a.title}](${url(a.href)}): ${a.text}`).join("\n")}
+- [Calculadora](${url("/academy/calculadora")}): how many hours and how much money repetitive work costs you each year
 - Free community on Skool: ${academy.skool}
-- Contact: ${academy.email}
 
-### Program levels
+### ${proOffer.title} (6 classes, for professionals)
 
-${path.map((l) => `- **${l.level} (${l.weeks}): ${l.title}.** ${l.text}`).join("\n")}
+${proOffer.promise}
+
+${proClasses.map((c, i) => `${i + 1}. ${c}`).join("\n")}
 
 ### Academy FAQ
 

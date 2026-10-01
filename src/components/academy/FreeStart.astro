@@ -1,7 +1,8 @@
 ---
 // "Start free" callout: the Skool community's first win in 30 minutes.
 import { Icon } from "astro-icon/components";
-import { academy } from "../../data/academy";
+import { skoolLink } from "../../data/academy";
+import { newTab } from "../../lib/links";
 ---
 
 <section class="relative z-10 -mt-24 px-3 sm:-mt-32 sm:px-6 lg:px-10">
@@ -16,7 +17,7 @@ import { academy } from "../../data/academy";
         <p class="mt-1 text-subheading font-semibold">Automatiza la primera parte de tu oficina en 30 minutos.</p>
         <p class="mt-1 text-cosmos-muted">Únete gratis a la comunidad en Skool y sigue la guía paso a paso.</p>
       </div>
-      <a href={academy.skool} class="btn btn-primary group shrink-0" data-magnetic>
+      <a href={skoolLink(Astro.url.pathname)} {...newTab("https://www.skool.com/")} class="btn btn-primary group shrink-0" data-magnetic>
         Únete gratis
         <span class="btn-island" aria-hidden="true"><Icon name="ph:arrow-up-right" class="size-4" /></span>
       </a>

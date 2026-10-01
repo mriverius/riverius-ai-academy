@@ -73,13 +73,14 @@ if (!reduce) {
   /* Numbers count up when they come into view. */
   document.querySelectorAll<HTMLElement>("[data-count]").forEach((el) => {
     const end = Number(el.dataset.count);
+    const decimals = Number(el.dataset.decimals ?? 0);
     const obj = { v: 0 };
-    el.textContent = "0";
+    el.textContent = (0).toFixed(decimals);
     gsap.to(obj, {
       v: end,
       duration: 1.8,
       ease: "power3.out",
-      onUpdate: () => (el.textContent = String(Math.round(obj.v))),
+      onUpdate: () => (el.textContent = obj.v.toFixed(decimals)),
       scrollTrigger: { trigger: el, start: "top 90%", once: true },
     });
   });

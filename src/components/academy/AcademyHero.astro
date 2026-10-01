@@ -10,10 +10,12 @@ interface Props {
   text: string;
   primary: Link;
   secondary?: Link;
+  /** Optional line under the subtitle, e.g. what the visitor walks away with. */
+  note?: string;
   /** Shorter hero for inner pages. */
   compact?: boolean;
 }
-const { tag, title, text, primary, secondary, compact = false } = Astro.props;
+const { tag, title, text, primary, secondary, note, compact = false } = Astro.props;
 ---
 
 <section id="academy-hero" class:list={["relative isolate overflow-hidden bg-pearl", compact && "is-compact"]}>
@@ -31,6 +33,7 @@ const { tag, title, text, primary, secondary, compact = false } = Astro.props;
     </p>
     <h1 class="display-xl mt-7 max-w-[15ch]"><Words text={title} delay={150} /></h1>
     <p data-reveal style="--i:6" class="mt-7 max-w-[46ch] text-[1.0625rem] leading-[1.75rem] text-cosmos-muted">{text}</p>
+    {note && <p data-reveal style="--i:6" class="mt-5 max-w-[52ch] rounded-[var(--radius-md)] bg-pearl/70 px-5 py-3 text-[0.9375rem] font-medium shadow-[inset_0_0_0_1px_var(--c-line)] backdrop-blur-sm">{note}</p>}
     <div data-reveal style="--i:7" class="mt-10 flex flex-wrap justify-center gap-3">
       <Button href={primary.href} magnetic>{primary.label}</Button>
       {secondary && <Button href={secondary.href} variant="ghost" icon={false}>{secondary.label}</Button>}

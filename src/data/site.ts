@@ -2,7 +2,6 @@ export const site = {
   name: "Riverius AI",
   description:
     "Riverius AI is an AI agency for teams around the world. We find the work worth automating, build the systems, and train your team until AI becomes habit.",
-  email: "hello@riverius.ai",
   cta: { label: "Get in touch", href: "/contact" },
   nav: [
     { label: "Services", href: "/services" },

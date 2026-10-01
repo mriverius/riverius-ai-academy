@@ -6,13 +6,13 @@ import { stats, pressLogos } from "../../data/academy";
 
 <section class="px-4 pb-8 pt-16 sm:px-6 lg:px-10">
   <div class="mx-auto max-w-6xl">
-    <dl class="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
+    <dl class="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-3">
       {
         stats.map((s, i) => (
-          <div data-reveal style={`--i:${i}`} class="text-center">
+          <div data-reveal style={`--i:${i}`} class="text-center last:odd:col-span-2 lg:last:odd:col-span-1">
             <dt class="sr-only">{s.label}</dt>
             <dd class="inline-flex items-center gap-2 text-[2.75rem] font-semibold leading-none tracking-[-0.03em] sm:text-[3.5rem]">
-              {s.prefix}<span data-count={s.value}>{s.value}</span>{s.suffix}
+              {s.prefix}<span data-count={s.value} data-decimals={"decimals" in s ? s.decimals : undefined}>{"decimals" in s ? s.value.toFixed(s.decimals) : s.value}</span>{s.suffix}
               {"stars" in s && s.stars && <Icon name="ph:star-fill" class="size-8 text-mango drop-shadow-[0_4px_12px_rgb(255_196_140/0.8)] sm:size-10" />}
             </dd>
             <dd class="mx-auto mt-3 max-w-[20ch] text-cosmos-muted">{s.label}</dd>

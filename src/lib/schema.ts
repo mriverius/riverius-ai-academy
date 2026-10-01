@@ -19,12 +19,11 @@ export const organization = (): Thing => ({
   name: site.name,
   url: url("/"),
   logo: url("/logo.png"),
-  email: site.email,
   description: site.description,
   sameAs: site.social.map((s) => s.href),
   founder: [
     { "@type": "Person", name: "Mariano Rivera" },
-    { "@type": "Person", name: "Aaisha" },
+    { "@type": "Person", name: "Aaisha Ali" },
   ],
 });
 
@@ -43,7 +42,6 @@ export const academyOrganization = (): Thing => ({
   name: academy.name,
   url: url("/academy"),
   logo: url("/logo-academy.png"),
-  email: academy.email,
   description: academy.description,
   sameAs: [academy.skool, ...academy.social.map((s) => s.href)],
   parentOrganization: { "@id": ids.org },

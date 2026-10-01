@@ -4,7 +4,7 @@ import teaching from "../../assets/academy/teaching.webp";
 import { Icon } from "astro-icon/components";
 import Words from "../Words.astro";
 import Button from "../Button.astro";
-import { academy, howItWorks } from "../../data/academy";
+import { academy, howItWorks, skoolLink } from "../../data/academy";
 
 const bento = ["lg:col-span-3 lg:row-span-2", "lg:col-span-3", "lg:col-span-3", "lg:col-span-2", "lg:col-span-4"];
 ---
@@ -46,7 +46,7 @@ const bento = ["lg:col-span-3 lg:row-span-2", "lg:col-span-3", "lg:col-span-3", 
     </div>
 
     <div data-reveal class="mt-12 flex flex-wrap items-center gap-4">
-      <Button href={academy.skool} magnetic>{academy.cta.label}</Button>
+      <Button href={skoolLink(Astro.url.pathname)} magnetic>{academy.cta.label}</Button>
       <p class="text-caption text-cosmos-muted">Canales privados para compartir proyectos y plantillas.</p>
     </div>
   </div>

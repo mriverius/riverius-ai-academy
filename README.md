@@ -13,7 +13,7 @@ npm run build    # static site in dist/
 | What | File |
 | --- | --- |
 | Brand tokens (color, type, radii, Aurora gradient, bezels, buttons) | `src/styles/global.css` |
-| Name, email, nav, CTA, socials | `src/data/site.ts` |
+| Name, nav, CTA, socials | `src/data/site.ts` |
 | Services (Identify, Build, Adopt) and capabilities | `src/data/services.ts` |
 | FAQ | `src/data/faq.ts` |
 | Case studies (one Markdown file each) | `src/content/work/*.md` |
@@ -45,12 +45,12 @@ The agency is pinned to the dark Cosmos theme and the academy to the light Pearl
 
 ## Before launch
 
-- **Academy:** confirm the contact email in `src/data/academy.ts` (Skool, cal.com, WhatsApp, pricing and stats come from mriverius.com).
+- **Academy:** Skool, cal.com, WhatsApp and stats live in `src/data/academy.ts` (from mriverius.com).
 
 - **Client marquee:** Retreat Sounds is real; the other names in `ClientMarks.astro` are fictional samples. Case studies in `src/content/work/` are real clients.
 - **Logo:** swap the SVG in `Logo.astro` and `public/favicon.svg` for the vector R.
 - **Photography:** put case photos in `src/assets/work/` and add `cover: ../../assets/work/<file>.jpg` to each case. Images in `src/assets/` are resized and converted to WebP at build time.
 - **Forms → Mailchimp:** `/contact` and `/academy/equipos` post to `src/pages/api/subscribe.ts`, which adds the person to the Mailchimp audience, tags them by form, and saves the inquiry as a contact note. Only people who tick the updates box are subscribed to marketing; the rest are stored as transactional. Set `MAILCHIMP_API_KEY` and `MAILCHIMP_AUDIENCE_ID` in `.env` locally (see `.env.example`) and in Vercel's environment variables.
 - **Inquiry alerts:** with `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` set, each inquiry is also sent to Telegram. Create the bot with @BotFather, send it any message, then read your chat ID from `https://api.telegram.org/bot<token>/getUpdates`. The form reports success if either Mailchimp or the alert worked.
-- **Email:** update in `src/data/site.ts`. Form options (role, size, budget) live at the top of `src/pages/contact.astro`.
-- **Aaisha:** add her bio, surname and links in `src/data/team.ts`.
+- **Email:** there is no public address yet. When hello@ / hola@ exist, add `email` back to `src/data/site.ts` and `src/data/academy.ts` and show it in the footers. Form options (role, size, budget) live at the top of `src/pages/contact.astro`.
+- **Aaisha:** add her links (LinkedIn, Instagram…) in `src/data/team.ts`.

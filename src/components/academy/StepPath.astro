@@ -2,7 +2,7 @@
 // Vertical path whose line draws itself with scroll. Used for levels and roadmaps.
 import { Icon } from "astro-icon/components";
 
-type Step = { kicker: string; title: string; text: string; tags?: string[]; badge?: string };
+type Step = { kicker: string; title: string; text?: string; tags?: string[]; badge?: string };
 interface Props {
   steps: Step[];
   finish?: { kicker: string; title: string };
@@ -35,7 +35,7 @@ const { steps, finish, id = "path" } = Astro.props;
               {step.badge && <span class="rounded-full px-3 py-1 text-caption text-cosmos-muted shadow-[inset_0_0_0_1px_var(--c-line)]">{step.badge}</span>}
             </div>
             <h3 class="mt-3 text-heading">{step.title}</h3>
-            <p class="mt-3 max-w-[52ch] text-cosmos-muted">{step.text}</p>
+            {step.text && <p class="mt-3 max-w-[52ch] text-cosmos-muted">{step.text}</p>}
             {step.tags && (
               <ul class="mt-6 flex flex-wrap gap-2">
                 {step.tags.map((t) => (

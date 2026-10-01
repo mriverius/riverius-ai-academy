@@ -2,7 +2,7 @@
 import Shell from "./Shell.astro";
 import Header from "../components/Header.astro";
 import AcademyFooter from "../components/academy/AcademyFooter.astro";
-import { academy } from "../data/academy";
+import { academy, skoolLink } from "../data/academy";
 import { academyOrganization, organization } from "../lib/schema";
 
 interface Props {
@@ -28,10 +28,9 @@ const fullTitle = title ? `${title} | ${academy.name}` : `${academy.name} | IA p
   <Header
     slot="header"
     nav={academy.nav}
-    cta={academy.cta}
+    cta={{ ...academy.cta, href: skoolLink(Astro.url.pathname) }}
     suffix="AI Academy"
     home="/academy"
-    email={academy.email}
     sister={academy.sister}
   />
   <slot />
