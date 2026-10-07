@@ -121,13 +121,17 @@ async function saveToMailchimp(config: FormConfig, q: Inquiry) {
   };
 
   let res = await upsertWith({ ...base, ...extra });
+  let error = res.ok ? "" : await res.text();
   // A merge field missing from the audience must not lose the lead: save the contact without the extras (the note keeps them).
-  if (res.status === 400 && Object.keys(extra).length) {
-    console.error("Mailchimp rejected the extra merge fields, saving without them", await res.text());
+  if (res.status === 400 && Object.keys(extra).length && /merge/i.test(error)) {
+    console.error("Mailchimp rejected the extra merge fields, saving without them", error);
     res = await upsertWith(base);
+    error = res.ok ? "" : await res.text();
   }
   if (!res.ok) {
-    console.error("Mailchimp upsert failed", res.status, await res.text());
+    // A permanently deleted contact can only come back by re-subscribing through a Mailchimp form; no retry helps.
+    const forgotten = error.includes("Forgotten Email Not Subscribed");
+    console.error(forgotten ? `Mailchimp: ${q.email} was permanently deleted from the audience and can't be re-added by the site` : "Mailchimp upsert failed", res.status, error);
     return false;
   }
 

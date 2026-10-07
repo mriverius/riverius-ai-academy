@@ -53,28 +53,29 @@ const label = "font-medium";
             class="space-y-6"
           >
             <input type="hidden" name="form" value="contact" />
+            <p class="text-caption text-cosmos-muted"><span class="text-red-400" aria-hidden="true">*</span> Required</p>
             <div class="grid gap-6 sm:grid-cols-2">
               <div class="flex flex-col gap-2">
-                <label for="first-name" class={label}>First name</label>
+                <label for="first-name" class={label}>First name<span class="text-red-400" aria-hidden="true"> *</span></label>
                 <input id="first-name" name="first_name" autocomplete="given-name" required class={field} aria-describedby="first-name-error" />
                 <p id="first-name-error" class={errorText}>Please enter your first name.</p>
               </div>
               <div class="flex flex-col gap-2">
-                <label for="last-name" class={label}>Last name</label>
+                <label for="last-name" class={label}>Last name<span class="text-red-400" aria-hidden="true"> *</span></label>
                 <input id="last-name" name="last_name" autocomplete="family-name" required class={field} aria-describedby="last-name-error" />
                 <p id="last-name-error" class={errorText}>Please enter your last name.</p>
               </div>
             </div>
 
             <div class="flex flex-col gap-2">
-              <label for="email" class={label}>Work email</label>
+              <label for="email" class={label}>Work email<span class="text-red-400" aria-hidden="true"> *</span></label>
               <input id="email" name="email" type="email" autocomplete="email" required class={field} aria-describedby="email-error" />
               <p id="email-error" class={errorText}>Please enter a valid email.</p>
             </div>
 
             <div class="grid gap-6 sm:grid-cols-2">
               <div class="flex flex-col gap-2">
-                <label for="company" class={label}>Company</label>
+                <label for="company" class={label}>Company<span class="text-red-400" aria-hidden="true"> *</span></label>
                 <input id="company" name="company" autocomplete="organization" required class={field} aria-describedby="company-error" />
                 <p id="company-error" class={errorText}>Please enter your company.</p>
               </div>
@@ -91,7 +92,7 @@ const label = "font-medium";
                 ["size", "Company size", sizes],
               ].map(([id, text, options]) => (
                 <div class="flex flex-col gap-2">
-                  <label for={id as string} class={label}>{text}</label>
+                  <label for={id as string} class={label}>{text}<span class="text-red-400" aria-hidden="true"> *</span></label>
                   <div class="relative">
                     <select id={id as string} name={id as string} required class={select} aria-describedby={`${id}-error`}>
                       <option value="" selected disabled>Select</option>
@@ -105,7 +106,7 @@ const label = "font-medium";
             </div>
 
             <fieldset class="flex flex-col gap-3" aria-describedby="budget-error">
-              <legend class={`${label} mb-3`}>Budget range</legend>
+              <legend class={`${label} mb-3`}>Budget range<span class="text-red-400" aria-hidden="true"> *</span></legend>
               <div class="grid grid-cols-2 gap-2 sm:grid-cols-4">
                 {budgets.map((b, i) => (
                   <label class="budget-option">
@@ -120,7 +121,7 @@ const label = "font-medium";
             </fieldset>
 
             <div class="flex flex-col gap-2">
-              <label for="project" class={label}>Tell us about your project</label>
+              <label for="project" class={label}>Tell us about your project<span class="text-red-400" aria-hidden="true"> *</span></label>
               <textarea
                 id="project"
                 name="project"

@@ -112,28 +112,29 @@ const pill =
             class="space-y-6"
           >
             <input type="hidden" name="form" value="equipos" />
+            <p class="text-caption text-cosmos-muted"><span class="text-red-600" aria-hidden="true">*</span> Obligatorio</p>
             <div class="grid gap-6 sm:grid-cols-2">
               <div class="flex flex-col gap-2">
-                <label for="nombre" class="font-medium">Nombre</label>
+                <label for="nombre" class="font-medium">Nombre<span class="text-red-600" aria-hidden="true"> *</span></label>
                 <input id="nombre" name="nombre" autocomplete="given-name" required class={field} aria-describedby="nombre-error" />
                 <p id="nombre-error" class={errorText}>Escriba su nombre.</p>
               </div>
               <div class="flex flex-col gap-2">
-                <label for="apellido" class="font-medium">Apellido</label>
+                <label for="apellido" class="font-medium">Apellido<span class="text-red-600" aria-hidden="true"> *</span></label>
                 <input id="apellido" name="apellido" autocomplete="family-name" required class={field} aria-describedby="apellido-error" />
                 <p id="apellido-error" class={errorText}>Escriba su apellido.</p>
               </div>
             </div>
 
             <div class="flex flex-col gap-2">
-              <label for="correo" class="font-medium">Correo de trabajo</label>
+              <label for="correo" class="font-medium">Correo de trabajo<span class="text-red-600" aria-hidden="true"> *</span></label>
               <input id="correo" name="correo" type="email" autocomplete="email" required class={field} aria-describedby="correo-error" />
               <p id="correo-error" class={errorText}>Escriba un correo válido.</p>
             </div>
 
             <div class="grid gap-6 sm:grid-cols-2">
               <div class="flex flex-col gap-2">
-                <label for="organizacion" class="font-medium">Organización</label>
+                <label for="organizacion" class="font-medium">Organización<span class="text-red-600" aria-hidden="true"> *</span></label>
                 <input id="organizacion" name="organizacion" autocomplete="organization" required class={field} aria-describedby="organizacion-error" />
                 <p id="organizacion-error" class={errorText}>Escriba el nombre de su organización.</p>
               </div>
@@ -150,7 +151,7 @@ const pill =
                 ["tipo", "Tipo de organización", teamsForm.orgTypes],
               ].map(([id, text, options]) => (
                 <div class="flex flex-col gap-2">
-                  <label for={id as string} class="font-medium">{text}</label>
+                  <label for={id as string} class="font-medium">{text}<span class="text-red-600" aria-hidden="true"> *</span></label>
                   <div class="relative">
                     <select id={id as string} name={id as string} required class={select} aria-describedby={`${id}-error`}>
                       <option value="" selected disabled>Seleccione</option>
@@ -168,7 +169,7 @@ const pill =
               ["modalidad", "Modalidad", teamsForm.modes, "sm:grid-cols-3"],
             ].map(([name, legend, options, cols]) => (
               <fieldset class="flex flex-col gap-3" aria-describedby={`${name}-error`}>
-                <legend class="mb-3 font-medium">{legend}</legend>
+                <legend class="mb-3 font-medium">{legend}<span class="text-red-600" aria-hidden="true"> *</span></legend>
                 <div class:list={["grid grid-cols-2 gap-2", cols]}>
                   {(options as string[]).map((o, i) => (
                     <label>
@@ -182,7 +183,7 @@ const pill =
             ))}
 
             <div class="flex flex-col gap-2">
-              <label for="objetivo" class="font-medium">¿Qué le gustaría lograr?</label>
+              <label for="objetivo" class="font-medium">¿Qué le gustaría lograr?<span class="text-red-600" aria-hidden="true"> *</span></label>
               <textarea id="objetivo" name="objetivo" rows="5" required class={field} aria-describedby="objetivo-error" placeholder="Por ejemplo: que el equipo administrativo automatice sus reportes semanales."></textarea>
               <p id="objetivo-error" class={errorText}>Cuéntenos brevemente su objetivo.</p>
             </div>
