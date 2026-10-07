@@ -31,7 +31,6 @@ const fullTitle = title ? `${title} | ${academy.name}` : `${academy.name} | IA p
     cta={{ ...academy.cta, href: skoolLink(Astro.url.pathname) }}
     suffix="AI Academy"
     home="/academy"
-    sister={academy.sister}
   />
   <slot />
   <AcademyFooter slot="footer" />

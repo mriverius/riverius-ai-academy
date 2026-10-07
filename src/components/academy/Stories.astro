@@ -39,6 +39,7 @@ const trackId = `${id}-track`;
           <div class="bezel-core is-pearl flex h-full flex-col p-2.5">
             <VideoFacade id={st.wistia} title={`Testimonio de ${st.name}`} fallbackAspect={9 / 16} />
             <div class="flex flex-1 flex-col p-4 sm:p-5">
+              {st.metric && <p class="sunrise-pill mb-4 self-start rounded-full px-3.5 py-1.5 text-caption font-semibold text-ink">{st.metric}</p>}
               <p class="text-subheading font-semibold">{st.name}</p>
               <p class="text-caption text-cosmos-muted">{st.role}</p>
               <div class="relative mt-5 space-y-4 pl-5">

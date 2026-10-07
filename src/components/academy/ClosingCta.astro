@@ -7,8 +7,10 @@ interface Props {
   text: string;
   cta: { label: string; href: string };
   secondary?: { label: string; href: string };
+  /** Text link under the buttons. */
+  link?: { label: string; href: string };
 }
-const { title, text, cta, secondary } = Astro.props;
+const { title, text, cta, secondary, link } = Astro.props;
 ---
 
 <section class="px-3 py-20 sm:px-6 lg:px-10 lg:py-32">
@@ -20,5 +22,6 @@ const { title, text, cta, secondary } = Astro.props;
       <Button href={cta.href} magnetic>{cta.label}</Button>
       {secondary && <Button href={secondary.href} variant="ghost" icon={false}>{secondary.label}</Button>}
     </div>
+    {link && <p data-reveal style="--i:5" class="mt-6"><a href={link.href} class="text-cosmos-muted underline underline-offset-4 hover:text-cosmos">{link.label}</a></p>}
   </div>
 </section>

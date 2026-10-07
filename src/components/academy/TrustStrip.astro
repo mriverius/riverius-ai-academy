@@ -1,0 +1,37 @@
+---
+// Compact trust row under an inner-page hero: the hub's stats and press logos in one card.
+import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
+import { stats, pressLogos } from "../../data/academy";
+---
+
+<section class="relative z-10 -mt-24 px-3 sm:-mt-32 sm:px-6 lg:px-10">
+  <div data-reveal class="bezel mx-auto max-w-5xl">
+    <div class="bezel-core is-pearl flex flex-col items-center gap-6 p-6 sm:p-8 lg:flex-row lg:justify-between lg:gap-10">
+      <dl class="grid w-full grid-cols-3 gap-4 text-center lg:w-auto lg:gap-8">
+        {
+          stats.map((s) => (
+            <div class="flex flex-col-reverse items-center">
+              <dt class="mt-1 text-caption text-cosmos-muted">{s.label}</dt>
+              <dd class="inline-flex items-center gap-1.5 text-heading font-semibold">
+                {s.prefix}{"decimals" in s ? s.value.toFixed(s.decimals) : s.value}{s.suffix}
+                {"stars" in s && s.stars && <Icon name="ph:star-fill" class="size-5 text-mango" aria-hidden="true" />}
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+      <div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 border-t border-line pt-6 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
+        <p class="sr-only">Como nos han visto en</p>
+        {
+          pressLogos.map((l) => (
+            <span class="flex items-center gap-2">
+              <Image src={l.logo} alt={l.name} height={56} class="press-logo h-7 w-auto max-w-[110px] object-contain" />
+              {l.label && <span class="text-[0.9375rem] font-semibold tracking-[-0.01em] text-cosmos-muted">{l.label}</span>}
+            </span>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

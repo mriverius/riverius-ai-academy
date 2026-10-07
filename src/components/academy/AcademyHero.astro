@@ -12,10 +12,12 @@ interface Props {
   secondary?: Link;
   /** Optional line under the subtitle, e.g. what the visitor walks away with. */
   note?: string;
+  /** Small line under the buttons. */
+  footnote?: string;
   /** Shorter hero for inner pages. */
   compact?: boolean;
 }
-const { tag, title, text, primary, secondary, note, compact = false } = Astro.props;
+const { tag, title, text, primary, secondary, note, footnote, compact = false } = Astro.props;
 ---
 
 <section id="academy-hero" class:list={["relative isolate overflow-hidden bg-pearl", compact && "is-compact"]}>
@@ -38,6 +40,7 @@ const { tag, title, text, primary, secondary, note, compact = false } = Astro.pr
       <Button href={primary.href} magnetic>{primary.label}</Button>
       {secondary && <Button href={secondary.href} variant="ghost" icon={false}>{secondary.label}</Button>}
     </div>
+    {footnote && <p data-reveal style="--i:8" class="mt-5 text-caption text-cosmos-muted">{footnote}</p>}
     <slot />
   </div>
 

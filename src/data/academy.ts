@@ -6,14 +6,16 @@ import mariano from "../assets/team/mariano-rivera.jpg";
 import teletica from "../assets/logos/teletica.png";
 import fidelitas from "../assets/logos/fidelitas.png";
 import upwork from "../assets/logos/upwork.webp";
+import { OFFER, pageName, tracked } from "./academy-offer";
+export { pageName };
 export const academy = {
   name: "Riverius AI Academy",
   description:
     "Automatiza tu trabajo con IA, conviértelo en negocio o capacita a tu equipo. Sin programar, en español y con acompañamiento.",
-  skool: "https://www.skool.com/riverius-academy",
-  booking: "https://cal.com/mriverius/diagnostico",
-  whatsapp: "https://wa.me/50685973818",
-  cta: { label: "Únete gratis", href: "https://www.skool.com/riverius-academy" },
+  skool: OFFER.skoolUrl,
+  booking: OFFER.calUrl,
+  whatsapp: OFFER.whatsappUrl,
+  cta: { label: "Únete gratis", href: OFFER.skoolUrl },
   nav: [
     { label: "Automatizar", href: "/academy/automatizar" },
     { label: "Vender IA", href: "/academy/vender" },
@@ -21,6 +23,7 @@ export const academy = {
     { label: "Historias", href: "/academy#historias" },
   ],
   sister: { label: "Riverius AI", href: "/" },
+  linkedinCompany: "https://www.linkedin.com/company/riverius-ai",
   social: [
     { label: "YouTube", href: "https://youtube.com/@mriverius", icon: "ph:youtube-logo-light" },
     { label: "Instagram", href: "https://instagram.com/mriverius", icon: "ph:instagram-logo-light" },
@@ -28,11 +31,9 @@ export const academy = {
   ],
 };
 
-// Skool and booking links carry the page they were clicked on: ?utm_source=web&utm_medium=<page>.
-export const pageName = (pathname: string) => pathname.replace(/\/$/, "").split("/").pop() || "academy";
-const withUtm = (url: string, pathname: string) => `${url}?utm_source=web&utm_medium=${pageName(pathname)}`;
-export const skoolLink = (pathname: string) => withUtm(academy.skool, pathname);
-export const bookingLink = (pathname: string) => withUtm(academy.booking, pathname);
+// Skool and booking links carry the page (and optionally the button) they were clicked on.
+export const skoolLink = (pathname: string, content?: string) => tracked(academy.skool, pathname, content);
+export const bookingLink = (pathname: string, content?: string) => tracked(academy.booking, pathname, content);
 
 export const stats = [
   { value: 100, prefix: "+", suffix: "", label: "profesionales formados" },
@@ -47,7 +48,7 @@ export const avatars = [
     href: "/academy/automatizar",
     who: "Quiero automatizar mi trabajo",
     title: "Construye tu oficina automática",
-    text: "Automatiza reportes, correos y tareas repetitivas de tu trabajo con agentes de IA. 6 clases y tu certificado.",
+    text: "Automatiza reportes, correos y tareas repetitivas con agentes de IA. Empieza gratis, aprende con Premium o constrúyela conmigo en la Mentoría.",
     fit: ["Trabajas con correos, datos y documentos", "Quieres recuperar horas de tu semana"],
     icon: "ph:briefcase-light",
     cta: "Ver el programa",
@@ -124,40 +125,64 @@ export const path = [
 ];
 
 // Automatizar: 6 classes, then the certificate.
+// Plain language: every class says what the visitor will see happen, with no technical terms.
 export const proClasses = [
-  { title: "Tu primera automatización", text: "Responde sola y te avisa al teléfono." },
-  { title: "Solicitudes que se responden solas", text: "Cada solicitud se guarda en tu hoja y se responde por correo, sin que la toques." },
-  { title: "Decisiones automáticas", text: "La IA califica cada caso y responde distinto según lo que necesita." },
-  { title: "Tu primer agente de IA", text: "Un asistente que elige la herramienta correcta por ti." },
-  { title: "Tu agente, con tus datos", text: "Lo conectas a tu información y diseñas el plan de automatización de tu propio trabajo." },
-  { title: "Tu agente en tu teléfono", text: "Le preguntas lo que necesites, desde donde estés." },
+  { title: "Tu primera automatización", text: "Llega un mensaje, se responde solo y a ti te llega un aviso al teléfono." },
+  { title: "Solicitudes que se atienden solas", text: "Alguien llena un formulario: sus datos quedan guardados en tu hoja de cálculo y le llega una respuesta por correo, sin que tú hagas nada." },
+  { title: "Respuestas según cada caso", text: "La IA lee cada mensaje, entiende qué necesita la persona y le responde lo que corresponde a su caso, no una respuesta genérica." },
+  { title: "Tu primer asistente de IA", text: "Le pides algo con tus palabras, como \"agenda una reunión con Ana el martes\", y él sabe qué hacer: abrir tu calendario, escribir el correo o buscar el dato." },
+  { title: "Tu asistente conoce tu trabajo", text: "Le das acceso a tus documentos y datos para que responda sobre tu trabajo, y armas el plan de lo que vas a automatizar." },
+  { title: "Tu asistente en tu teléfono", text: "Le escribes desde tu teléfono, como a un compañero de trabajo, y te responde o hace la tarea desde donde estés." },
 ];
 
-// The five pieces of an automated office (text only, no images).
+// What the Mentoría leaves you with: 6 automations built on your current work.
 export const officePieces = [
   { title: "Documentos que se escriben solos", text: "Cotizaciones, contratos y constancias con los datos correctos.", icon: "ph:file-text-light" },
   { title: "Solicitudes que se atienden solas", text: "Citas y pedidos que se registran y se confirman solos.", icon: "ph:tray-arrow-down-light" },
   { title: "Vencimientos que no se te pasan", text: "Cada mañana, lo que vence hoy y esta semana.", icon: "ph:calendar-check-light" },
   { title: "Reportes que llegan listos", text: "Tus datos resumidos en tu correo cada semana.", icon: "ph:chart-bar-light" },
   { title: "Archivos que se ordenan solos", text: "Facturas y documentos en su carpeta, sin moverlos.", icon: "ph:folders-light" },
+  { title: "Tu asistente de IA en el teléfono", text: "Le preguntas lo que necesites sobre tu trabajo, desde donde estés.", icon: "ph:device-mobile-light" },
 ];
 
-// Offers. Automatizar shows its price; every offer still ends in a call.
-export const proOffer = {
-  title: "Tu oficina automática, construida conmigo",
-  promise: "La pieza más importante de tu oficina, funcionando en 6 clases.",
-  price: "$227",
-  includes: [
-    "Una sesión privada 1:1 en cada clase, sobre tu propio trabajo",
-    "Lecciones en video para ver a tu ritmo",
-    "WhatsApp directo para no quedarte trabado entre clases",
-    "Todas las plantillas listas para importar",
-    "Comunidad privada en Skool",
-    "3 meses de Premium en Skool incluidos (valorados en $111)",
-    "Tu certificado de Riverius AI Academy al terminar",
-  ],
-  guarantee: "Si al terminar el curso la pieza más importante de tu oficina no está funcionando, te devuelvo tu dinero.",
-  scarcity: "Cupos limitados cada mes, porque cada alumno lleva sesiones privadas.",
+// The three ways to buy Automatizar. Prices and links come from academy-offer.ts.
+export const mentoriaPromise = "6 automatizaciones de tu trabajo actual, funcionando en 6 sesiones privadas.";
+export const tiers = {
+  standard: {
+    for: "Para probar antes de decidir.",
+    includes: [
+      "Tu primera tarea automatizada en 30 minutos, con plantilla lista",
+      "Diagnóstico gratis: descubre qué 3 tareas te roban más tiempo",
+      "Taller abierto en vivo cada mes: automatizamos juntos",
+      "Prompts listos para tu profesión",
+      "Casos reales de alumnos: un microbiólogo, un reclutador y más",
+    ],
+  },
+  premium: {
+    for: "Para aprender y construir a tu ritmo, con ayuda en grupo.",
+    // TODO: verify against Skool's full Premium description.
+    includes: [
+      "Todo lo de Standard",
+      "Las 6 clases del programa en video",
+      "Automatizaciones ya hechas: las importas y las adaptas",
+      "Tú pides, yo construyo: cada mes armo en vivo una automatización pedida por la comunidad",
+      "2 sesiones en vivo al mes para destrabar tu caso",
+      "Grabaciones de todas las sesiones, para avanzar a tu ritmo",
+    ],
+  },
+  mentoria: {
+    for: "Para tener tu oficina automática funcionando, sin trabarte.",
+    includes: [
+      "Antes de empezar, revisamos tu trabajo y elegimos las 6 tareas que más horas te quitan",
+      "Una sesión privada 1:1 por cada automatización, sobre tus propios procesos y herramientas",
+      "Las 6 clases en vivo: aprendes y construyes en la misma sesión",
+      "WhatsApp directo para no quedarte trabado entre sesiones",
+      "Revisión de lo que construyes cada semana",
+      "Todas las plantillas listas para importar",
+      "1 año de Premium en Skool gratis (valorado en $444), con las clases en video para repasar",
+      "Tu certificado de Riverius AI Academy",
+    ],
+  },
 };
 
 export const entrepreneurOffer = {
@@ -199,20 +224,24 @@ export const teamsSteps = [
   { title: "Su equipo aprende haciendo", text: "Talleres prácticos sobre casos reales de su organización, con seguimiento.", icon: "ph:hand-pointing-light" },
 ];
 
+// tier: which option includes each benefit.
 export const howItWorks = [
-  { title: "Sesión privada 1:1 cada semana", text: "Trabajas directamente con Mariano sobre tu propio proyecto.", icon: "ph:user-focus-light" },
-  { title: "Lecciones en video", text: "Contenido nuevo cada semana, para ver a tu ritmo.", icon: "ph:play-circle-light" },
-  { title: "Soporte por WhatsApp", text: "Resuelve dudas entre sesiones, sin esperar.", icon: "ph:whatsapp-logo-light" },
-  { title: "Llamadas grupales", text: "Encuentros de la comunidad por Zoom y Skool.", icon: "ph:users-three-light" },
-  { title: "Proyectos revisados cada semana", text: "Recibes retroalimentación concreta sobre lo que construyes.", icon: "ph:check-circle-light" },
+  { title: "Cada clase, en vivo y 1:1", text: "Una sesión privada por semana con Mariano, construyendo sobre tu propio trabajo.", icon: "ph:user-focus-light", tier: "Mentoría" },
+  { title: "Soporte por WhatsApp", text: "Resuelve dudas entre sesiones, sin esperar.", icon: "ph:whatsapp-logo-light", tier: "Mentoría" },
+  { title: "Proyectos revisados cada semana", text: "Recibes retroalimentación concreta sobre lo que construyes.", icon: "ph:check-circle-light", tier: "Mentoría" },
+  { title: "Sesiones grupales en vivo", text: "Encuentros de la comunidad por Zoom y Skool para destrabar tu caso.", icon: "ph:users-three-light", tier: "Premium y Mentoría" },
+  { title: "Clases en video", text: "Las 6 clases grabadas, para verlas a tu ritmo.", icon: "ph:play-circle-light", tier: "Premium" },
 ];
 
 
 
 // Success stories (Wistia videos, from mriverius.com/testimonios).
-export const stories = [
+// metric: optional headline result (e.g. "6 horas menos por semana"). Only real, confirmed numbers; empty is hidden.
+type Story = { wistia: string; name: string; role: string; before: string; after: string; metric?: string };
+export const stories: Story[] = [
   {
     wistia: "qlse28rrbj",
+    metric: "", // TODO
     name: "Alonso Hidalgo",
     role: "Microbiólogo",
     before: "Venía de un mundo de laboratorio, sin ninguna experiencia en automatización ni herramientas de IA.",
@@ -220,6 +249,7 @@ export const stories = [
   },
   {
     wistia: "u8rfe4702b",
+    metric: "", // TODO
     name: "Andrey Espinoza",
     role: "IT Recruiting Manager",
     before: "Gestionaba el reclutamiento a mano: cada candidato, cada correo y cada seguimiento, uno por uno.",
@@ -227,6 +257,7 @@ export const stories = [
   },
   {
     wistia: "co5vl5xkc9",
+    metric: "", // TODO
     name: "Fabián Morales",
     role: "Ingeniero en Telecomunicaciones",
     before: "Conocía la tecnología, pero las tareas operativas del día a día seguían comiéndose sus horas.",
@@ -234,6 +265,7 @@ export const stories = [
   },
   {
     wistia: "4dtjtsoyfe",
+    metric: "", // TODO
     name: "Bernal Barrantes",
     role: "Fleet Engineer",
     before: "Gestionaba su flota con reportes y seguimientos manuales que le consumían horas cada semana.",
@@ -241,6 +273,7 @@ export const stories = [
   },
   {
     wistia: "sthpxqj6jk",
+    metric: "", // TODO
     name: "Esteban Hidalgo",
     role: "Comunicador y periodista",
     before: "Hacía todas sus campañas de marketing a mano, pieza por pieza.",
@@ -289,11 +322,25 @@ export const faqHub = [
   { q: "¿Quiénes son los mentores?", a: "Aaisha Ali, que te guía en la estrategia y la creatividad de tu proyecto, y Mariano Rivera, tu mentor principal, que te enseña a construir y a vender. Ambos son co-fundadores de Riverius y acompañan cada programa de principio a fin." },
 ];
 
-export const faqPro = [
+// id: anchor for links into the FAQ. links: buttons shown under the answer.
+type FaqItem = { q: string; a: string; id?: string; links?: { label: string; href: string }[] };
+export const faqPro: FaqItem[] = [
+  { id: "que-opcion", q: "¿Qué opción es para mí?", a: "Si quieres probar, empieza gratis con Standard. Si aprendes bien por tu cuenta y quieres avanzar a tu ritmo con ayuda en grupo, Premium. Si ya intentaste aprender solo y te trabaste, o quieres tu oficina automática funcionando sin perder tiempo, la Mentoría." },
+  { q: "¿Qué diferencia hay entre Premium y la Mentoría?", a: "En Premium aprendes con las clases en video y construyes tú, con sesiones grupales para destrabarte. En la Mentoría todo es en vivo: lo construimos juntos, en sesiones privadas sobre tu propio trabajo, y terminas con 6 automatizaciones funcionando. Además, te regalamos 1 año de Premium." },
+  { q: "¿Qué cuenta como una automatización?", a: "Un proceso de tu trabajo que antes hacías a mano y ahora corre solo: una cotización que se genera sola, un reporte que te llega listo, una solicitud que se registra y se responde sin que la toques." },
+  { q: "¿Qué pasa si alguna automatización no queda funcionando?", a: "Seguimos trabajando contigo sin costo hasta que funcione, siempre que hayas asistido a tus sesiones y completado las tareas entre clases." },
   { q: "¿Necesito saber programar?", a: "No. Todo se construye de forma visual, con herramientas como Make y n8n. Si sabes usar el correo y una hoja de cálculo, puedes empezar." },
-  { q: "¿Cuánto tiempo necesito por semana?", a: "Son 6 clases, con tu sesión privada 1:1 en cada una. Avanzas a tu ritmo, y si una semana se te complica, la clase se reprograma." },
-  { q: "¿Puedo probar antes de inscribirme?", a: "Sí. Únete gratis a la comunidad en Skool y automatiza la primera parte de tu oficina en 30 minutos." },
+  { q: "¿Cuánto tiempo necesito por semana?", a: "En la Mentoría, una sesión privada por semana más el tiempo de práctica. Si una semana se te complica, la sesión se reprograma. En Premium avanzas completamente a tu ritmo." },
+  { q: "¿Puedo probar antes de inscribirme?", a: "Sí. Únete gratis a Standard en Skool y automatiza tu primera tarea en 30 minutos." },
   { q: "¿Recibo un certificado?", a: "Sí. Al completar las 6 clases recibes el certificado de Riverius AI Academy." },
+  {
+    q: "¿Tengo dudas antes de decidir?",
+    a: "Agenda una llamada de 15 minutos o escríbenos por WhatsApp.",
+    links: [
+      { label: "Agenda 15 minutos", href: tracked(OFFER.calUrl, "/academy/automatizar", "faq") },
+      { label: "Escríbenos por WhatsApp", href: OFFER.whatsappUrl },
+    ],
+  },
 ];
 
 export const faqEmprendedor = [

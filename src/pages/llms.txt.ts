@@ -6,7 +6,8 @@ import { site } from "../data/site";
 import { phases, capabilities } from "../data/services";
 import { faq } from "../data/faq";
 import { team } from "../data/team";
-import { academy, avatars, proClasses, proOffer, faqHub, faqPro, faqEquipos } from "../data/academy";
+import { OFFER, mentoriaPrice } from "../data/academy-offer";
+import { academy, avatars, proClasses, mentoriaPromise, faqHub, faqPro, faqEquipos } from "../data/academy";
 
 export const GET: APIRoute = async ({ site: base }) => {
   const url = (p: string) => new URL(p, base).href;
@@ -57,9 +58,9 @@ ${avatars.map((a) => `- [${a.title}](${url(a.href)}): ${a.text}`).join("\n")}
 - [Calculadora](${url("/academy/calculadora")}): how many hours and how much money repetitive work costs you each year
 - Free community on Skool: ${academy.skool}
 
-### ${proOffer.title} (6 classes, for professionals)
+### Construye tu oficina automática (6 classes, for professionals)
 
-${proOffer.promise}
+Three options: Standard (free, on Skool), Premium ($${OFFER.premium.monthly}/month on Skool) and Mentoría (${mentoriaPrice ? `${mentoriaPrice} USD, one-time` : "price on request"}): ${mentoriaPromise}
 
 ${proClasses.map((c, i) => `${i + 1}. **${c.title}.** ${c.text}`).join("\n")}
 

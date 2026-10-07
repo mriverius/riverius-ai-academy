@@ -2,9 +2,10 @@
 import { Icon } from "astro-icon/components";
 import Words from "../Words.astro";
 import { academy } from "../../data/academy";
+import { newTab } from "../../lib/links";
 
 interface Props {
-  items: { q: string; a: string }[];
+  items: { q: string; a: string; id?: string; links?: { label: string; href: string }[] }[];
   formal?: boolean;
 }
 const { items, formal = false } = Astro.props;
@@ -21,17 +22,36 @@ const { items, formal = false } = Astro.props;
     <div class="space-y-3">
       {
         items.map((item, i) => (
-          <details data-reveal style={`--i:${i}`} class="faq group bezel !rounded-[calc(var(--radius-md)+6px)]">
+          <details id={item.id} data-reveal style={`--i:${i}`} class="faq group bezel scroll-mt-28 !rounded-[calc(var(--radius-md)+6px)]">
             <summary class="flex cursor-pointer list-none items-center justify-between gap-6 rounded-[var(--radius-md)] bg-nacre px-6 py-5 font-medium group-open:rounded-b-none [&::-webkit-details-marker]:hidden">
               {item.q}
               <span class="inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-pearl transition-transform duration-500 ease-[var(--ease-drawer)] group-open:rotate-45">
                 <Icon name="ph:plus-light" class="size-4" />
               </span>
             </summary>
-            <p class="rounded-b-[var(--radius-md)] bg-nacre px-6 pb-6 text-cosmos-muted">{item.a}</p>
+            <div class="rounded-b-[var(--radius-md)] bg-nacre px-6 pb-6">
+              <p class="text-cosmos-muted">{item.a}</p>
+              {item.links && (
+                <div class="mt-5 flex flex-wrap gap-3">
+                  {item.links.map((l, n) => (
+                    <a href={l.href} {...newTab(l.href)} class:list={["btn btn-plain", n === 0 ? "btn-primary" : "btn-ghost"]}>{l.label}</a>
+                  ))}
+                </div>
+              )}
+            </div>
           </details>
         ))
       }
     </div>
   </div>
 </section>
+
+<script>
+  // Links like #que-opcion open their answer before scrolling to it.
+  const openFromHash = () => {
+    const target = location.hash && document.getElementById(location.hash.slice(1));
+    if (target instanceof HTMLDetailsElement) target.open = true;
+  };
+  addEventListener("hashchange", openFromHash);
+  openFromHash();
+</script>

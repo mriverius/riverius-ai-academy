@@ -1,0 +1,204 @@
+---
+// Options and prices: Standard (free), Premium and Mentoría (recommended), plus a comparison table.
+// Every price, spot count and link comes from academy-offer.ts.
+import { Icon } from "astro-icon/components";
+import Words from "../Words.astro";
+import { newTab } from "../../lib/links";
+import { tiers, mentoriaPromise } from "../../data/academy";
+import { OFFER, tracked, mentoriaPrice, mentoriaSpots } from "../../data/academy-offer";
+
+const page = Astro.url.pathname;
+const standardHref = tracked(OFFER.skoolUrl, page, "standard");
+const premiumHref = OFFER.premium.checkoutUrl ?? tracked(OFFER.skoolUrl, page, "premium");
+const mentoriaHref = OFFER.mentoria.checkoutUrl ?? tracked(OFFER.calUrl, page, "mentoria");
+const doubtsHref = tracked(OFFER.calUrl, page, "mentoria-dudas");
+const premiumIncludes = OFFER.premium.guarantee ? [...tiers.premium.includes, `Garantía: ${OFFER.premium.guarantee}`] : tiers.premium.includes;
+const mentoriaPriceLabel = mentoriaPrice ? `${mentoriaPrice} pago único` : "Consulta el precio";
+
+// Comparison rows: true = included, false = not included, string = shown as is.
+const rows: [string, boolean | string, boolean | string, boolean | string][] = [
+  ["Precio", "Gratis", `$${OFFER.premium.monthly}/mes`, mentoriaPriceLabel],
+  ["Primera automatización en 30 min", true, true, true],
+  ["Las 6 clases", false, "En video", "En vivo, 1:1"],
+  ["Automatizaciones listas para importar", false, true, true],
+  ["Sesiones en vivo grupales", "1 taller al mes", "2 al mes", true],
+  ["Sesión privada 1:1 en cada clase", false, false, true],
+  ["WhatsApp directo", false, false, true],
+  ["6 automatizaciones de tu trabajo, funcionando", false, false, true],
+  ["Garantía", false, OFFER.premium.guarantee ? "Primer mes" : false, "Seguimos hasta que funcionen"],
+];
+---
+
+<section id="opciones" class="scroll-mt-24 px-3 py-24 sm:px-6 lg:px-10 lg:py-36">
+  <div class="mx-auto max-w-7xl">
+    <div class="px-1 text-center">
+      <p data-reveal class="pill-tag">Opciones y precios</p>
+      <h2 class="display-lg mx-auto mt-6 max-w-[16ch]"><Words text="Elige cómo quieres empezar." /></h2>
+      <p data-reveal class="mx-auto mt-6 max-w-[46ch] text-cosmos-muted">Tres opciones, según cuánto acompañamiento quieres.</p>
+    </div>
+
+    <div class="mt-14 grid gap-4 lg:grid-cols-3 lg:gap-5">
+      <!-- Standard -->
+      <article data-reveal style="--i:0" class="bezel h-full" aria-labelledby="tier-standard">
+        <div class="bezel-core is-pearl flex h-full flex-col p-7 sm:p-9">
+          <h3 id="tier-standard" class="text-heading">Standard</h3>
+          <p class="mt-2 text-cosmos-muted">{tiers.standard.for}</p>
+          <p class="mt-6 text-heading font-semibold">Gratis</p>
+          <ul class="mb-8 mt-6 space-y-3 text-[0.9375rem]">
+            {tiers.standard.includes.map((item) => (
+              <li class="flex gap-3"><Icon name="ph:check-light" class="mt-1 size-4 shrink-0" aria-hidden="true" />{item}</li>
+            ))}
+          </ul>
+          <a href={standardHref} {...newTab(standardHref)} class="btn btn-ghost group mt-auto w-full justify-between" aria-label="Únete gratis a Standard en Skool">
+            Únete gratis
+            <span class="btn-island" aria-hidden="true"><Icon name="ph:arrow-up-right" class="size-4" /></span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Premium -->
+      <article data-reveal style="--i:1" class="bezel h-full" aria-labelledby="tier-premium">
+        <div class="bezel-core is-pearl flex h-full flex-col p-7 sm:p-9">
+          <h3 id="tier-premium" class="text-heading">Premium</h3>
+          <p class="mt-2 text-cosmos-muted">{tiers.premium.for}</p>
+          <p class="mt-6 flex items-baseline gap-1">
+            <span class="text-heading font-semibold">${OFFER.premium.monthly}</span>
+            <span class="text-cosmos-muted">/mes</span>
+          </p>
+          <p class="mt-1 text-caption text-cosmos-muted">o ${OFFER.premium.yearly}/año (2 meses gratis)</p>
+          <ul class="mb-8 mt-6 space-y-3 text-[0.9375rem]">
+            {premiumIncludes.map((item) => (
+              <li class="flex gap-3"><Icon name="ph:check-light" class="mt-1 size-4 shrink-0" aria-hidden="true" />{item}</li>
+            ))}
+          </ul>
+          <a href={premiumHref} {...newTab(premiumHref)} class="btn btn-ghost group mt-auto w-full justify-between" aria-label="Empieza con Premium en Skool">
+            Empieza con Premium
+            <span class="btn-island" aria-hidden="true"><Icon name="ph:arrow-up-right" class="size-4" /></span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Mentoría: first on mobile, last (rightmost) on desktop. -->
+      <article data-reveal style="--i:2" class="mentoria bezel sunrise order-first h-full lg:order-none" aria-labelledby="tier-mentoria">
+        <div class="bezel-core is-pearl relative flex h-full flex-col p-7 sm:p-9">
+          <div class="glow sunrise -right-[30%] -top-[20%] -z-10 size-[80%] !opacity-30"></div>
+          <div class="flex items-center justify-between gap-3">
+            <h3 id="tier-mentoria" class="text-heading">Mentoría</h3>
+            <span class="inline-flex items-center gap-1.5 rounded-full bg-cosmos px-3 py-1 text-caption font-medium text-pearl">
+              <Icon name="ph:star-fill" class="size-3 text-mango" aria-hidden="true" />Recomendada
+            </span>
+          </div>
+          <p class="mt-4 text-subheading font-semibold">{mentoriaPromise}</p>
+          <p class="mt-2 text-cosmos-muted">{tiers.mentoria.for}</p>
+          {mentoriaPrice ? (
+            <p class="mt-6 flex items-baseline gap-2">
+              <span class="text-heading font-semibold">{mentoriaPrice}</span>
+              <span class="text-caption text-cosmos-muted">USD, pago único</span>
+            </p>
+          ) : (
+            <p class="mt-6 text-subheading font-semibold">Consulta el precio</p>
+          )}
+          <ul class="mt-6 space-y-3 text-[0.9375rem]">
+            {tiers.mentoria.includes.map((item) => (
+              <li class="flex gap-3"><Icon name="ph:check-light" class="mt-1 size-4 shrink-0" aria-hidden="true" />{item}</li>
+            ))}
+          </ul>
+          <div class="mt-7 flex gap-4 rounded-[var(--radius-md)] bg-nacre p-5 shadow-[inset_0_0_0_1px_var(--c-line)]">
+            <Icon name="ph:shield-check-light" class="size-6 shrink-0" aria-hidden="true" />
+            <div>
+              <p class="font-semibold">{OFFER.mentoria.guarantee}</p>
+              <p class="mt-1 text-caption text-cosmos-muted">{OFFER.mentoria.guaranteeTerms}</p>
+            </div>
+          </div>
+          {mentoriaSpots && (
+            <p class="mt-5 flex items-center gap-2 text-caption text-cosmos-muted">
+              <Icon name="ph:hourglass-medium-light" class="size-4 shrink-0" aria-hidden="true" />
+              {mentoriaSpots}
+            </p>
+          )}
+          <a href={mentoriaHref} {...newTab(mentoriaHref)} class="btn btn-primary group mt-7 w-full justify-between" data-magnetic aria-label="Reserva tu cupo en la Mentoría">
+            Reserva tu cupo
+            <span class="btn-island" aria-hidden="true"><Icon name="ph:arrow-up-right" class="size-4" /></span>
+          </a>
+          <p class="mt-4 text-center text-[0.9375rem] text-cosmos-muted">
+            <a href={doubtsHref} {...newTab(doubtsHref)} class="font-medium text-cosmos underline underline-offset-4">¿Dudas? Agenda 15 minutos</a>
+            {" "}<span class="block sm:inline">o <a href={OFFER.whatsappUrl} class="underline underline-offset-4">escríbenos por WhatsApp</a></span>
+          </p>
+        </div>
+      </article>
+    </div>
+
+    <div data-reveal class="mt-10 space-y-3 text-center text-cosmos-muted">
+      {OFFER.mentoria.upgradeCredit && (
+        <p>¿Empiezas con Premium y luego quieres la Mentoría? Te descontamos lo que hayas pagado de Premium.</p>
+      )}
+      <p>¿No sabes cuál elegir? <a href="#que-opcion" class="font-medium text-cosmos underline underline-offset-4">Mira qué opción es para ti</a>.</p>
+    </div>
+
+    <!-- Comparison: always visible on desktop, behind a toggle on mobile. -->
+    <div class="mt-12">
+      <div class="text-center lg:hidden">
+        <button type="button" id="compare-toggle" aria-expanded="false" aria-controls="compare-table" class="btn btn-ghost btn-plain">
+          Comparar opciones
+          <Icon name="ph:caret-down-light" class="compare-caret size-4 transition-transform duration-500" aria-hidden="true" />
+        </button>
+      </div>
+      <div id="compare-table" class="hidden lg:block">
+        <div class="bezel mt-6 lg:mt-0">
+          <div class="bezel-core is-pearl overflow-x-auto">
+            <table class="w-full min-w-[620px] text-left text-[0.9375rem]">
+              <caption class="sr-only">Comparación de Standard, Premium y Mentoría</caption>
+              <thead>
+                <tr class="border-b border-line">
+                  <td class="px-5 py-4 sm:px-7"></td>
+                  <th scope="col" class="px-4 py-4 font-semibold">Standard</th>
+                  <th scope="col" class="px-4 py-4 font-semibold">Premium</th>
+                  <th scope="col" class="bg-nacre px-4 py-4 font-semibold">Mentoría</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rows.map(([label, ...cells]) => (
+                  <tr class="border-b border-line last:border-0">
+                    <th scope="row" class="px-5 py-3.5 font-normal text-cosmos-muted sm:px-7">{label}</th>
+                    {cells.map((c, n) => (
+                      <td class:list={["px-4 py-3.5", n === 2 && "bg-nacre font-medium"]}>
+                        {c === true ? (
+                          <><Icon name="ph:check-bold" class="size-4" aria-hidden="true" /><span class="sr-only">Incluido</span></>
+                        ) : c === false ? (
+                          <><span class="text-cosmos-muted" aria-hidden="true">—</span><span class="sr-only">No incluido</span></>
+                        ) : (
+                          c
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .mentoria {
+    padding: 2px;
+    border-radius: calc(var(--radius-lg) + 2px);
+    box-shadow: 0 30px 80px -30px color-mix(in oklab, var(--color-pitahaya) 70%, transparent);
+  }
+  #compare-toggle[aria-expanded="true"] .compare-caret {
+    transform: rotate(180deg);
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById("compare-toggle");
+  const table = document.getElementById("compare-table");
+  toggle?.addEventListener("click", () => {
+    const open = toggle.getAttribute("aria-expanded") !== "true";
+    toggle.setAttribute("aria-expanded", String(open));
+    table?.classList.toggle("hidden", !open);
+  });
+</script>
