@@ -22,9 +22,9 @@ export default defineConfig({
     schema: {
       MAILCHIMP_API_KEY: envField.string({ context: "server", access: "secret" }),
       MAILCHIMP_AUDIENCE_ID: envField.string({ context: "server", access: "secret" }),
-      // Optional: a Telegram alert for each inquiry.
-      TELEGRAM_BOT_TOKEN: envField.string({ context: "server", access: "secret", optional: true }),
-      TELEGRAM_CHAT_ID: envField.string({ context: "server", access: "secret", optional: true }),
+      // Optional: a Make.com custom webhook that receives each agency and Equipos inquiry, for lead scoring.
+      MAKE_WEBHOOK_URL: envField.string({ context: "server", access: "secret", optional: true }),
+      MAKE_API_KEY: envField.string({ context: "server", access: "secret", optional: true }),
     },
   },
 });

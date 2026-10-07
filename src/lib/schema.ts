@@ -20,7 +20,7 @@ export const organization = (): Thing => ({
   url: url("/"),
   logo: url("/logo.png"),
   description: site.description,
-  sameAs: site.social.map((s) => s.href),
+  sameAs: [site.linkedin, ...site.social.map((s) => s.href)],
   founder: [
     { "@type": "Person", name: "Mariano Rivera" },
     { "@type": "Person", name: "Aaisha Ali" },

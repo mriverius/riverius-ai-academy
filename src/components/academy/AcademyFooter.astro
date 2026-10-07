@@ -12,7 +12,7 @@ const year = new Date().getFullYear();
     <div class="max-w-sm">
       <Logo suffix="AI Academy" href="/academy" />
       <p class="mt-5 text-cosmos-muted">IA práctica en español. Aprende a tu ritmo, con una comunidad que te acompaña.</p>
-      <a href={academy.sister.href} class="group mt-8 block rounded-[var(--radius-md)] bg-nacre p-5 transition-colors hover:bg-line/60">
+      <a href={academy.sister.href} target="_blank" rel="noopener" class="group mt-8 block rounded-[var(--radius-md)] bg-nacre p-5 transition-colors hover:bg-line/60">
         <span class="block text-caption text-cosmos-muted">¿Prefieres que lo implementemos por ti?</span>
         <span class="mt-1 inline-flex items-center gap-2 font-semibold">
           Conoce Riverius AI
@@ -37,7 +37,7 @@ const year = new Date().getFullYear();
       <ul class="mt-5 flex gap-2">
         {academy.social.map((s) => (
           <li>
-            <a href={s.href} aria-label={s.label} class="inline-flex size-11 items-center justify-center rounded-full shadow-[inset_0_0_0_1px_var(--c-line)] transition-colors duration-300 hover:bg-nacre">
+            <a href={s.href} {...newTab(s.href)} aria-label={s.label} class="inline-flex size-11 items-center justify-center rounded-full shadow-[inset_0_0_0_1px_var(--c-line)] transition-colors duration-300 hover:bg-nacre">
               <Icon name={s.icon} class="size-5" />
             </a>
           </li>

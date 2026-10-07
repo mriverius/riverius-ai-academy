@@ -1,0 +1,249 @@
+---
+// Aaisha and Mariano's newsletter: a standalone page, without the Riverius AI or Academy header and footer.
+// Posts to /api/subscribe, which saves the contact in Mailchimp with the "Newsletter" tag.
+import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
+import Shell from "../layouts/Shell.astro";
+import mariano from "../assets/team/mariano-rivera.jpg";
+import aaisha from "../assets/team/aaisha.jpg";
+
+// Update as the waitlist grows.
+const waitlist = 20;
+
+const authors = [
+  { name: "Aaisha Ali", photo: aaisha, text: "Strategist and creative director. Turns new AI tools into ideas you can actually use." },
+  { name: "Mariano Rivera", photo: mariano, text: "Builds AI automations and agents every day. Systems engineer with 5+ years in software." },
+];
+const perks = [
+  { icon: "ph:lightbulb-light", title: "One practical tip a day", text: "A prompt, a tool or a shortcut you can try in minutes, not a theory lesson." },
+  { icon: "ph:newspaper-light", title: "The AI news that matters", text: "What changed and why it matters to you, without the hype or the noise." },
+  { icon: "ph:clock-light", title: "Short enough to read", text: "Written to be read with your morning coffee, then put to work." },
+];
+
+const field =
+  "w-full rounded-full bg-pearl/70 px-5 py-3.5 text-cosmos shadow-[inset_0_0_0_1px_var(--c-line)] backdrop-blur-sm transition-shadow duration-300 placeholder:text-cosmos-muted focus:shadow-[inset_0_0_0_2px_var(--c-action)] focus:outline-none aria-[invalid=true]:shadow-[inset_0_0_0_2px_#ff9ed2]";
+---
+
+<Shell
+  title="Aaisha & Mariano's AI Newsletter"
+  description={`Daily AI tips and the AI news that matters, from Aaisha Ali and Mariano Rivera. Join ${waitlist}+ people on the waitlist.`}
+  siteName="Aaisha & Mariano's AI Newsletter"
+  favicon="/favicon-newsletter.svg"
+  theme="dark"
+>
+  <!-- Hero -->
+  <section class="relative isolate overflow-x-clip px-4 pb-24 pt-10 sm:px-6 lg:pb-32">
+    <div class="glow aurora left-1/2 top-[-18rem] -z-10 size-[44rem] -translate-x-1/2 !opacity-40" aria-hidden="true"></div>
+    <div class="glow sunrise -right-40 top-[26rem] -z-10 size-[28rem] !opacity-20" aria-hidden="true"></div>
+
+    <div class="mx-auto flex max-w-5xl items-center justify-between">
+      <p class="flex items-center gap-3 text-[0.9375rem] font-semibold">
+        <span class="flex -space-x-2">
+          {authors.map((a) => (
+            <span class="inline-flex size-8 overflow-hidden rounded-full ring-2 ring-pearl">
+              <Image src={a.photo} alt="" width={64} height={64} class="size-full scale-[1.3] object-cover" />
+            </span>
+          ))}
+        </span>
+        Aaisha &amp; Mariano
+      </p>
+      <a href="#join" class="text-[0.9375rem] font-medium text-cosmos-muted transition-colors hover:text-cosmos">Join the waitlist</a>
+    </div>
+
+    <div class="mx-auto mt-20 max-w-3xl text-center sm:mt-28">
+      <p class="pill-tag"><span class="size-1.5 rounded-full bg-jade shadow-[0_0_10px_var(--color-jade)]"></span>Waitlist open</p>
+      <h1 class="display-xl mx-auto mt-7 max-w-[14ch]">Get sharper with AI, <span class="aurora-text">every day.</span></h1>
+      <p class="mx-auto mt-6 max-w-[48ch] text-[1.0625rem] leading-[1.75rem] text-cosmos-muted">
+        Join Aaisha and Mariano's newsletter: one practical AI tip and the news that matters, straight to your inbox every day.
+      </p>
+
+      <form id="join" action="/api/subscribe" method="post" novalidate class="mx-auto mt-10 max-w-xl scroll-mt-10 text-left">
+        <input type="hidden" name="form" value="newsletter" />
+        <div class="grid gap-3 sm:grid-cols-2">
+          <div>
+            <label for="first-name" class="sr-only">First name</label>
+            <input id="first-name" name="first_name" autocomplete="given-name" placeholder="First name" required maxlength="80" class={field} aria-describedby="first-name-error" />
+            <p id="first-name-error" class="mt-2 hidden px-5 text-caption text-pitahaya">Please enter your first name.</p>
+          </div>
+          <div>
+            <label for="last-name" class="sr-only">Last name</label>
+            <input id="last-name" name="last_name" autocomplete="family-name" placeholder="Last name" required maxlength="80" class={field} aria-describedby="last-name-error" />
+            <p id="last-name-error" class="mt-2 hidden px-5 text-caption text-pitahaya">Please enter your last name.</p>
+          </div>
+          <div class="sm:col-span-2">
+            <label for="email" class="sr-only">Your email</label>
+            <input id="email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="you@email.com" required maxlength="254" class={field} aria-describedby="email-error email-hint" />
+            <p id="email-error" class="mt-2 hidden px-5 text-caption text-pitahaya"></p>
+            <p id="email-hint" class="mt-2 hidden px-5 text-caption text-cosmos-muted">
+              Did you mean <button type="button" id="email-fix" class="font-semibold text-cosmos underline underline-offset-4"></button>?
+            </p>
+          </div>
+        </div>
+        <div class="absolute -left-[9999px]" aria-hidden="true">
+          <label>Leave this empty <input type="text" name="company_url" tabindex="-1" autocomplete="off" /></label>
+        </div>
+        <button type="submit" class="btn btn-glow group mt-3 w-full justify-between" data-magnetic>
+          <span data-label>Join the waitlist</span>
+          <span class="btn-island" aria-hidden="true"><Icon name="ph:arrow-right" class="size-4" /></span>
+        </button>
+        <p id="form-error" role="alert" class="mt-3 hidden text-center text-caption text-pitahaya"></p>
+      </form>
+
+      <div id="joined" class="mx-auto mt-10 hidden max-w-xl rounded-[var(--radius-lg)] bg-nacre/80 p-8 shadow-[inset_0_0_0_1px_var(--c-line)] backdrop-blur-sm" tabindex="-1">
+        <span class="inline-flex size-12 items-center justify-center rounded-full bg-jade text-ink"><Icon name="ph:check-bold" class="size-5" /></span>
+        <p class="mt-4 text-subheading font-semibold" id="joined-title">You're on the list.</p>
+        <p class="mt-2 text-cosmos-muted">We'll email you as soon as the first issue goes out.</p>
+      </div>
+
+      <div class="mt-8 flex items-center justify-center gap-3 text-[0.9375rem] text-cosmos-muted">
+        <span class="flex -space-x-2" aria-hidden="true">
+          {authors.map((a) => (
+            <span class="inline-flex size-7 overflow-hidden rounded-full ring-2 ring-pearl">
+              <Image src={a.photo} alt="" width={56} height={56} class="size-full scale-[1.3] object-cover" />
+            </span>
+          ))}
+        </span>
+        <span>Join <strong class="font-semibold text-cosmos">{waitlist}+ people</strong> on the waitlist. No spam, unsubscribe anytime.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- What you get -->
+  <section class="px-4 pb-24 sm:px-6 lg:pb-32">
+    <div class="mx-auto max-w-5xl">
+      <h2 class="text-center text-caption font-medium uppercase tracking-[0.16em] text-cosmos-muted">What lands in your inbox</h2>
+      <ul class="mt-10 grid gap-4 md:grid-cols-3">
+        {perks.map((p) => (
+          <li class="bezel">
+            <div class="bezel-core flex h-full flex-col p-7">
+              <span class="inline-flex size-11 items-center justify-center rounded-full bg-pearl shadow-[inset_0_0_0_1px_var(--c-line)]"><Icon name={p.icon} class="size-5" /></span>
+              <h3 class="mt-8 text-subheading font-semibold">{p.title}</h3>
+              <p class="mt-2 text-cosmos-muted">{p.text}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Authors -->
+  <section class="px-4 pb-24 sm:px-6 lg:pb-32">
+    <div class="mx-auto max-w-5xl">
+      <h2 class="text-center text-caption font-medium uppercase tracking-[0.16em] text-cosmos-muted">Written by</h2>
+      <ul class="mt-10 grid gap-4 md:grid-cols-2">
+        {authors.map((a) => (
+          <li class="bezel">
+            <div class="bezel-core flex items-center gap-5 p-6 sm:p-7">
+              <span class="inline-flex size-20 shrink-0 overflow-hidden rounded-full">
+                <Image src={a.photo} alt={a.name} width={160} height={160} class="size-full scale-[1.3] object-cover" />
+              </span>
+              <div>
+                <h3 class="text-subheading font-semibold">{a.name}</h3>
+                <p class="mt-1 text-cosmos-muted">{a.text}</p>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <div class="mt-16 text-center">
+        <a href="#join" class="btn btn-glow group">
+          Join the waitlist
+          <span class="btn-island" aria-hidden="true"><Icon name="ph:arrow-up" class="size-4" /></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="border-t border-line px-4 py-8 text-center text-caption text-cosmos-muted sm:px-6">
+    © {new Date().getFullYear()} Aaisha Ali &amp; Mariano Rivera. Unsubscribe anytime from any email.
+  </footer>
+</Shell>
+
+<script>
+  // Email checks: a real-looking address, plus a "did you mean" for common domain typos.
+  const DOMAINS = ["gmail.com", "hotmail.com", "outlook.com", "yahoo.com", "icloud.com", "live.com", "proton.me", "protonmail.com", "aol.com"];
+  const EMAIL = /^[^\s@]+@[a-z0-9-]+(\.[a-z0-9-]+)*\.[a-z]{2,}$/i;
+
+  const distance = (a: string, b: string) => {
+    const d = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array(b.length).fill(0)]);
+    for (let j = 1; j <= b.length; j++) d[0][j] = j;
+    for (let i = 1; i <= a.length; i++)
+      for (let j = 1; j <= b.length; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    return d[a.length][b.length];
+  };
+  const suggest = (email: string) => {
+    const [user, domain] = email.toLowerCase().split("@");
+    if (!user || !domain || DOMAINS.includes(domain)) return null;
+    const best = DOMAINS.map((d) => [d, distance(domain, d)] as const).sort((a, b) => a[1] - b[1])[0];
+    return best[1] > 0 && best[1] <= 2 ? `${user}@${best[0]}` : null;
+  };
+  const emailError = (value: string) => {
+    if (!value) return "Please enter your email.";
+    if (!EMAIL.test(value) || value.includes("..")) return "That doesn't look like a valid email. Check for typos.";
+    return "";
+  };
+
+  const form = document.getElementById("join") as HTMLFormElement;
+  const names = ["first-name", "last-name"].map((id) => document.getElementById(id) as HTMLInputElement);
+  const email = document.getElementById("email") as HTMLInputElement;
+  const $ = (id: string) => document.getElementById(id) as HTMLElement;
+  const fix = $("email-fix");
+  let touched = false;
+
+  const showEmail = () => {
+    const value = email.value.trim();
+    const error = touched ? emailError(value) : "";
+    email.setAttribute("aria-invalid", String(!!error));
+    $("email-error").textContent = error;
+    $("email-error").classList.toggle("hidden", !error);
+    const hint = !error && value ? suggest(value) : null;
+    fix.textContent = hint ?? "";
+    $("email-hint").classList.toggle("hidden", !hint);
+    return !error;
+  };
+  const showName = (input: HTMLInputElement) => {
+    const ok = input.value.trim() !== "";
+    input.setAttribute("aria-invalid", String(!ok));
+    $(`${input.id}-error`).classList.toggle("hidden", ok);
+    return ok;
+  };
+
+  email.addEventListener("blur", () => ((touched = true), showEmail()));
+  email.addEventListener("input", () => touched && showEmail());
+  names.forEach((input) => input.addEventListener("input", () => input.getAttribute("aria-invalid") === "true" && showName(input)));
+  fix.addEventListener("click", () => {
+    email.value = fix.textContent ?? "";
+    showEmail();
+    email.focus();
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    touched = true;
+    const invalidName = names.map((input) => (showName(input) ? null : input)).find(Boolean);
+    const emailOk = showEmail();
+    if (invalidName) return invalidName.focus();
+    if (!emailOk) return email.focus();
+
+    email.value = email.value.trim().toLowerCase();
+    const button = form.querySelector("button[type=submit]") as HTMLButtonElement;
+    const label = form.querySelector("[data-label]") as HTMLElement;
+    button.disabled = true;
+    label.textContent = "Joining…";
+    $("form-error").classList.add("hidden");
+    try {
+      const res = await fetch(form.action, { method: "POST", body: new FormData(form), headers: { Accept: "application/json" } });
+      if (!res.ok) throw new Error(String(res.status));
+      $("joined-title").textContent = `You're on the list, ${names[0].value.trim()}.`;
+      form.classList.add("hidden");
+      $("joined").classList.remove("hidden");
+      $("joined").focus();
+    } catch {
+      $("form-error").textContent = "We couldn't add you right now. Please try again in a moment.";
+      $("form-error").classList.remove("hidden");
+    } finally {
+      button.disabled = false;
+      label.textContent = "Join the waitlist";
+    }
+  });
+</script>

@@ -28,6 +28,7 @@ export const academy = {
     { label: "YouTube", href: "https://youtube.com/@mriverius", icon: "ph:youtube-logo-light" },
     { label: "Instagram", href: "https://instagram.com/mriverius", icon: "ph:instagram-logo-light" },
     { label: "LinkedIn", href: "https://linkedin.com/in/mriverius", icon: "ph:linkedin-logo-light" },
+    { label: "TikTok", href: "https://www.tiktok.com/@mriverius", icon: "ph:tiktok-logo-light" },
   ],
 };
 
@@ -335,9 +336,9 @@ export const faqPro: FaqItem[] = [
   { q: "¿Recibo un certificado?", a: "Sí. Al completar las 6 clases recibes el certificado de Riverius AI Academy." },
   {
     q: "¿Tengo dudas antes de decidir?",
-    a: "Agenda una llamada de 15 minutos o escríbenos por WhatsApp.",
+    a: "Agenda una llamada de 20 minutos o escríbenos por WhatsApp.",
     links: [
-      { label: "Agenda 15 minutos", href: tracked(OFFER.calUrl, "/academy/automatizar", "faq") },
+      { label: "Agenda 20 minutos", href: tracked(OFFER.calUrl, "/academy/automatizar", "faq") },
       { label: "Escríbenos por WhatsApp", href: OFFER.whatsappUrl },
     ],
   },

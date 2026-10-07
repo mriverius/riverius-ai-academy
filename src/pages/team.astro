@@ -7,6 +7,7 @@ import CtaPanel from "../components/CtaPanel.astro";
 import Words from "../components/Words.astro";
 import { team, featured, principles } from "../data/team";
 import { person as personSchema } from "../lib/schema";
+import { newTab } from "../lib/links";
 
 const schema = await Promise.all(team.map(async (p) => personSchema(p, (await getImage({ src: p.photo, width: 880 })).src)));
 ---
@@ -50,7 +51,7 @@ const schema = await Promise.all(team.map(async (p) => personSchema(p, (await ge
               <ul data-reveal class="mt-8 flex gap-2">
                 {person.links.map((l) => (
                   <li>
-                    <a href={l.href} aria-label={`${person.name} on ${l.label}`} class="inline-flex size-11 items-center justify-center rounded-full shadow-[inset_0_0_0_1px_var(--c-line)] transition-colors duration-300 hover:bg-nacre">
+                    <a href={l.href} {...newTab(l.href)} aria-label={`${person.name} on ${l.label}`} class="inline-flex size-11 items-center justify-center rounded-full shadow-[inset_0_0_0_1px_var(--c-line)] transition-colors duration-300 hover:bg-nacre">
                       <Icon name={l.icon} class="size-5" />
                     </a>
                   </li>

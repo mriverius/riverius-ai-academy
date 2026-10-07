@@ -9,6 +9,7 @@ import Mentors from "../../components/academy/Mentors.astro";
 import Faq from "../../components/academy/Faq.astro";
 import ClosingCta from "../../components/academy/ClosingCta.astro";
 import Offer from "../../components/academy/Offer.astro";
+import SellStart from "../../components/academy/SellStart.astro";
 import Words from "../../components/Words.astro";
 import Button from "../../components/Button.astro";
 import { roadmap, stories, faqEmprendedor, entrepreneurOffer, bookingLink, skoolLink } from "../../data/academy";
@@ -39,6 +40,7 @@ const skool = skoolLink(Astro.url.pathname);
     primary={{ label: "Ver la ruta", href: "#ruta" }}
     secondary={{ label: "Agenda una llamada", href: booking }}
   />
+  <SellStart />
 
   <!-- Roadmap -->
   <section id="ruta" class="scroll-mt-24 px-3 py-24 sm:px-6 lg:px-10 lg:py-36">

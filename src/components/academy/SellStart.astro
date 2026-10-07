@@ -1,0 +1,58 @@
+---
+// Vender: two ways in. Start free on Skool, or the 3-month mentorship built on the Riverius AI agency playbook.
+import { Icon } from "astro-icon/components";
+import { skoolLink } from "../../data/academy";
+import { newTab } from "../../lib/links";
+
+const skool = skoolLink(Astro.url.pathname, "card");
+---
+
+<section class="relative z-10 -mt-24 px-3 sm:-mt-32 sm:px-6 lg:px-10">
+  <div data-reveal class="bezel mx-auto max-w-5xl">
+    <div class="bezel-core is-pearl grid md:grid-cols-2">
+      <!-- Free -->
+      <div class="flex flex-col p-7 sm:p-9">
+        <span class="free-badge inline-flex size-14 items-center justify-center rounded-full">
+          <Icon name="ph:gift-light" class="size-7" />
+        </span>
+        <p class="mt-6 text-caption font-medium text-cosmos-muted">Empieza gratis</p>
+        <h2 class="mt-1 text-subheading font-semibold">Aprende a construir en la comunidad de Skool.</h2>
+        <p class="mt-2 pb-7 text-cosmos-muted">Únete gratis y construye tus primeras soluciones de IA, sin programar y a tu ritmo.</p>
+        <a href={skool} {...newTab(skool)} class="btn btn-ghost group mt-auto self-start">
+          Únete gratis
+          <span class="btn-island" aria-hidden="true"><Icon name="ph:arrow-up-right" class="size-4" /></span>
+        </a>
+      </div>
+
+      <!-- Mentorship -->
+      <div class="relative isolate flex flex-col overflow-hidden border-t border-line p-7 sm:p-9 md:border-l md:border-t-0">
+        <div class="glow sunrise -right-[30%] -top-[40%] -z-10 size-[90%] !opacity-35"></div>
+        <div class="flex items-center justify-between gap-3">
+          <span class="inline-flex size-14 items-center justify-center rounded-full bg-cosmos text-pearl">
+            <Icon name="ph:rocket-launch-light" class="size-7" />
+          </span>
+          <span class="rounded-full bg-nacre px-3 py-1 text-caption font-medium shadow-[inset_0_0_0_1px_var(--c-line)]">3 meses de acompañamiento</span>
+        </div>
+        <p class="mt-6 text-caption font-medium text-cosmos-muted">Mentoría</p>
+        <h2 class="mt-1 text-subheading font-semibold">Aprende a vender y a escalar tu negocio.</h2>
+        <p class="mt-2 pb-7 text-cosmos-muted">
+          Durante 3 meses te enseño lo que hice con mi agencia,{" "}
+          <a href="https://www.riverius.ai/" target="_blank" rel="noopener" class="font-medium text-cosmos underline underline-offset-4">Riverius AI</a>,
+          para construir un negocio de más de $6k al mes que sigue creciendo.
+        </p>
+        <a href="#mentoria" class="btn btn-primary group mt-auto self-start">
+          Ver la mentoría
+          <span class="btn-island" aria-hidden="true"><Icon name="ph:arrow-down" class="size-4" /></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .free-badge {
+    background: linear-gradient(135deg, #ffc8e4, #ffdcb8 50%, #c4f7e1);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.8), 0 12px 30px -12px rgb(255 196 140 / 0.9);
+    color: var(--color-ink);
+  }
+</style>

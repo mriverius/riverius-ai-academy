@@ -7,8 +7,8 @@ export const site = {
     { label: "Services", href: "/services" },
     { label: "Work", href: "/work" },
     { label: "Team", href: "/team" },
-    { label: "Academy", href: "/academy", highlight: true },
   ],
+  linkedin: "https://www.linkedin.com/company/riverius-ai",
   social: [
     { label: "LinkedIn", href: "https://linkedin.com/in/mriverius", icon: "ph:linkedin-logo-light" },
     { label: "Instagram", href: "https://instagram.com/mriverius", icon: "ph:instagram-logo-light" },
