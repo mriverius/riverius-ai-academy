@@ -1,0 +1,25 @@
+---
+// Wistia's own player (web component), for pages where the video is the point:
+// it shows its own play button and handles each browser's autoplay rules.
+interface Props {
+  id: string;
+  aspect?: number;
+}
+const { id, aspect = 16 / 9 } = Astro.props;
+---
+
+<script is:inline src="https://fast.wistia.com/player.js" async></script>
+<script is:inline src={`https://fast.wistia.com/embed/${id}.js`} async type="module"></script>
+<div class="overflow-hidden rounded-[var(--radius-lg)] bg-ink">
+  <wistia-player media-id={id} aspect={String(aspect)} player-color="1e1638" style={`--swatch: url('https://fast.wistia.com/embed/medias/${id}/swatch'); --pad: ${100 / aspect}%`}></wistia-player>
+</div>
+
+<style is:global>
+  /* Blurred poster while the player loads. */
+  wistia-player:not(:defined) {
+    display: block;
+    padding-top: var(--pad);
+    background: center / contain no-repeat var(--swatch);
+    filter: blur(5px);
+  }
+</style>

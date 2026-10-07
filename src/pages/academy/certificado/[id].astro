@@ -2,7 +2,7 @@
 // Public certificate page, reachable only by its unguessable link: the student shares it and adds it to LinkedIn.
 import { Icon } from "astro-icon/components";
 import Academy from "../../../layouts/Academy.astro";
-import VideoFacade from "../../../components/academy/VideoFacade.astro";
+import WistiaPlayer from "../../../components/academy/WistiaPlayer.astro";
 import { certificates, courses, issuer, certificatePath, issuedLabel, linkedinAddUrl } from "../../../data/certificates";
 
 export const getStaticPaths = () => certificates.map((c) => ({ params: { id: c.id }, props: { cert: c } }));
@@ -118,7 +118,7 @@ const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeUR
       {cert.project && (
         <div class="bezel">
           <div class="bezel-core is-pearl flex h-full flex-col p-2.5">
-            <VideoFacade id={cert.project.wistia} title={`Defensa del proyecto de ${cert.student}: ${cert.project.title}`} />
+            <WistiaPlayer id={cert.project.wistia} />
             <div class="p-5 sm:p-7">
               <p class="text-caption font-medium text-cosmos-muted">Proyecto final</p>
               <h2 class="mt-1 text-subheading font-semibold">{cert.project.title}</h2>
