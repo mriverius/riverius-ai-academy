@@ -21,10 +21,27 @@ export const courses = {
   },
 } satisfies Record<string, { name: string; hours: number; proof: string; outcome: string; skills: string[] }>;
 
-type Certificate = { id: string; student: string; course: keyof typeof courses; issued: string /* YYYY-MM-DD */ };
+type Certificate = {
+  id: string;
+  student: string;
+  course: keyof typeof courses;
+  issued: string; // YYYY-MM-DD
+  // Optional final project defense, shown under the certificate as proof of the work.
+  project?: { wistia: string; title: string; text: string };
+};
 
 export const certificates: Certificate[] = [
-  { id: "RAA-cc854610-812d-44ea-9a30-07170d82f42b", student: "Jose Alonso Hidalgo Molina", course: "agentes-avanzados-n2", issued: "2026-07-22" },
+  {
+    id: "RAA-cc854610-812d-44ea-9a30-07170d82f42b",
+    student: "Jose Alonso Hidalgo Molina",
+    course: "agentes-avanzados-n2",
+    issued: "2026-07-22",
+    project: {
+      wistia: "ydxphe2awn",
+      title: "Recepcionista IA para una clínica, 24/7",
+      text: "Atiende el WhatsApp de la clínica a cualquier hora, informa servicios y requisitos, y agenda citas en Google Calendar sin intervención humana.",
+    },
+  },
 ];
 
 export const certificatePath = (id: string) => `/academy/certificado/${id}`;
