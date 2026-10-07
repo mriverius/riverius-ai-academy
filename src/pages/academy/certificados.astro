@@ -1,0 +1,66 @@
+---
+// Certificate directory: search a student and copy their certificate link.
+// Public on purpose (certificates are meant to be shared), but noindex and out of the sitemap.
+import { Icon } from "astro-icon/components";
+import Shell from "../../layouts/Shell.astro";
+import { certificates, courses, certificatePath, issuedLabel } from "../../data/certificates";
+
+const rows = [...certificates]
+  .sort((a, b) => b.issued.localeCompare(a.issued))
+  .map((c) => ({ ...c, courseName: courses[c.course].name, date: issuedLabel(c.issued), url: new URL(certificatePath(c.id), Astro.site).href }));
+---
+
+<Shell title="Certificados · Admin" description="Directorio de certificados de Riverius AI Academy." siteName="Riverius AI Academy" lang="es" theme="light" favicon="/favicon-academy.svg" noindex>
+  <section class="mx-auto max-w-5xl px-4 py-16 sm:px-6">
+    <p class="pill-tag">Admin</p>
+    <h1 class="mt-5 text-heading font-semibold">Certificados</h1>
+    <p class="mt-2 text-cosmos-muted">{rows.length} {rows.length === 1 ? "certificado" : "certificados"}. Busca por estudiante, curso o ID y copia el enlace para enviárselo.</p>
+
+    <label for="search" class="sr-only">Buscar</label>
+    <div class="relative mt-8">
+      <Icon name="ph:magnifying-glass-light" class="pointer-events-none absolute left-5 top-1/2 size-5 -translate-y-1/2 text-cosmos-muted" />
+      <input id="search" type="search" placeholder="Buscar estudiante, curso o ID…" autocomplete="off" class="w-full rounded-full bg-pearl py-3.5 pl-13 pr-5 shadow-[inset_0_0_0_1px_var(--c-line)] focus:shadow-[inset_0_0_0_2px_var(--c-action)] focus:outline-none" />
+    </div>
+
+    <ul id="list" class="mt-6 space-y-3">
+      {rows.map((r) => (
+        <li class="bezel" data-search={`${r.student} ${r.courseName} ${r.id}`.toLowerCase()}>
+          <div class="bezel-core is-pearl flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
+            <div class="min-w-0">
+              <p class="font-semibold">{r.student}</p>
+              <p class="text-caption text-cosmos-muted">{r.courseName} · {r.date}</p>
+              <p class="mt-1 truncate font-mono text-caption text-cosmos-muted">{r.url}</p>
+            </div>
+            <div class="flex shrink-0 gap-2">
+              <button type="button" data-copy={r.url} class="btn btn-primary btn-plain">Copiar enlace</button>
+              <a href={r.url} target="_blank" rel="noopener" class="btn btn-ghost btn-plain">Ver</a>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ul>
+    <p id="empty" class="mt-6 hidden text-center text-cosmos-muted">Ningún certificado coincide con la búsqueda.</p>
+  </section>
+</Shell>
+
+<script>
+  const search = document.getElementById("search") as HTMLInputElement;
+  const items = [...document.querySelectorAll<HTMLElement>("#list > li")];
+  search.addEventListener("input", () => {
+    const q = search.value.trim().toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "");
+    let shown = 0;
+    for (const li of items) {
+      const hit = (li.dataset.search ?? "").normalize("NFD").replace(/\p{Diacritic}/gu, "").includes(q);
+      li.hidden = !hit;
+      if (hit) shown++;
+    }
+    document.getElementById("empty")?.classList.toggle("hidden", shown > 0);
+  });
+  document.querySelectorAll<HTMLButtonElement>("[data-copy]").forEach((b) =>
+    b.addEventListener("click", async () => {
+      await navigator.clipboard.writeText(b.dataset.copy ?? "");
+      b.textContent = "¡Copiado!";
+      setTimeout(() => (b.textContent = "Copiar enlace"), 2000);
+    }),
+  );
+</script>

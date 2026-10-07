@@ -14,7 +14,8 @@ export default defineConfig({
     "/academy/profesional": "/academy/automatizar",
     "/academy/emprendedor": "/academy/vender",
   },
-  integrations: [icon(), sitemap()],
+  // Certificate pages and their directory are shared by link, not found through search: keep them out of the sitemap.
+  integrations: [icon(), sitemap({ filter: (page) => !/\/academy\/certificados?(\/|$)/.test(page) })],
   vite: { plugins: [tailwindcss()] },
   // Pages stay static; only src/pages/api/* runs as a Vercel function.
   adapter: vercel(),
