@@ -3,6 +3,7 @@
 import { Icon } from "astro-icon/components";
 import Academy from "../../../layouts/Academy.astro";
 import WistiaPlayer from "../../../components/academy/WistiaPlayer.astro";
+import VideoFacade from "../../../components/academy/VideoFacade.astro";
 import { certificates, courses, issuer, certificatePath, issuedLabel, linkedinAddUrl } from "../../../data/certificates";
 
 export const getStaticPaths = () => certificates.map((c) => ({ params: { id: c.id }, props: { cert: c } }));
@@ -16,7 +17,7 @@ const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeUR
 
 <Academy
   title={`Certificado de ${cert.student}`}
-  description={`${cert.student} completó ${course.name} en Riverius AI Academy (${course.hours} horas).`}
+  description={`${cert.student} completó la ${course.name} en Riverius AI Academy (${course.duration}).`}
   noindex
 >
   <!-- Hero: who earned it, then the certificate, large. -->
@@ -29,7 +30,7 @@ const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeUR
       </p>
       <h1 class="display-lg mx-auto mt-6 max-w-[18ch]">{cert.student}</h1>
       <p class="mx-auto mt-5 max-w-[52ch] text-[1.0625rem] leading-[1.75rem] text-cosmos-muted">
-        Completó <span class="font-medium text-cosmos">{course.name}</span> en Riverius AI Academy · {date} · {course.hours} horas
+        Completó la <span class="font-medium text-cosmos">{course.name}</span> en Riverius AI Academy · {date} · {course.duration}
       </p>
     </div>
 
@@ -49,9 +50,9 @@ const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeUR
             <p class="cert-kicker">Se otorga el presente certificado a</p>
             <p class="cert-name">{cert.student}</p>
             <p class="cert-body">
-              Por haber completado satisfactoriamente el curso <strong>{course.name}</strong>. {course.proof} {course.outcome}
+              Por haber completado satisfactoriamente la <strong>{course.name}</strong>. {course.proof} {course.outcome}
             </p>
-            <p class="cert-meta">Emitido el {date} · Duración: {course.hours} horas</p>
+            <p class="cert-meta">Emitido el {date} · Duración: {course.duration}</p>
 
             <div class="cert-footer">
               <div class="cert-sign">
@@ -90,13 +91,13 @@ const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeUR
         <div class="bezel-core is-pearl h-full p-7 sm:p-9">
           <p class="text-caption font-medium text-cosmos-muted">Verificación</p>
           <p class="mt-2">
-            Este certificado verifica que {cert.student} completó el curso <span class="font-medium">{course.name}</span> de Riverius AI Academy el {date}, impartido por Mariano Rivera.
+            Este certificado verifica que {cert.student} completó la <span class="font-medium">{course.name}</span> de Riverius AI Academy el {date}, impartida por Mariano Rivera.
           </p>
           <dl class="mt-6 divide-y divide-line border-y border-line text-[0.9375rem]">
             {[
               ["Emitido", date],
-              ["Duración", `${course.hours} horas`],
-              ["Instructor", "Mariano Rivera"],
+              ["Duración", course.duration],
+              ["Mentor", "Mariano Rivera"],
             ].map(([k, v]) => (
               <div class="flex justify-between gap-4 py-3">
                 <dt class="text-cosmos-muted">{k}</dt>
@@ -118,7 +119,11 @@ const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeUR
       {cert.project && (
         <div class="bezel">
           <div class="bezel-core is-pearl flex h-full flex-col p-2.5">
-            <WistiaPlayer id={cert.project.wistia} />
+            {cert.project.youtube ? (
+              <VideoFacade id={cert.project.youtube} provider="youtube" title={cert.project.title} />
+            ) : cert.project.wistia ? (
+              <WistiaPlayer id={cert.project.wistia} />
+            ) : null}
             <div class="p-5 sm:p-7">
               <p class="text-caption font-medium text-cosmos-muted">Proyecto final</p>
               <h2 class="mt-1 text-subheading font-semibold">{cert.project.title}</h2>

@@ -11,35 +11,58 @@ export const issuer = {
 };
 
 export const courses = {
-  "agentes-avanzados-n2": {
-    name: "Agentes de IA Avanzados · Nivel 2",
-    hours: 15,
-    proof: "Demostró su dominio mediante la presentación de un proyecto funcional.",
+  "mentoria-agentes": {
+    name: "Mentoría 1:1 en Agentes de IA",
+    duration: "6 semanas",
+    proof: "Demostró su dominio mediante la presentación de un agente funcionando en un negocio real.",
     outcome:
-      "Ahora es capaz de construir agentes de IA con múltiples herramientas, memoria conversacional, integración de APIs, conocimiento sobre documentos propios (RAG) y controles de aprobación humana.",
-    skills: ["Agentes de IA", "Memoria conversacional", "Integración de APIs", "RAG", "Aprobación humana"],
+      "Ahora es capaz de diseñar, construir y mantener agentes de IA que atienden por WhatsApp, conocen la información de un negocio y se conectan a sus herramientas.",
+    skills: ["Agentes de IA", "Agentes para WhatsApp", "Automatización sin código", "Integración de herramientas"],
   },
-} satisfies Record<string, { name: string; hours: number; proof: string; outcome: string; skills: string[] }>;
+} satisfies Record<string, { name: string; duration: string; proof: string; outcome: string; skills: string[] }>;
 
 type Certificate = {
   id: string;
-  student: string;
+  student: string; // first name + last name
   course: keyof typeof courses;
   issued: string; // YYYY-MM-DD
-  // Optional final project defense, shown under the certificate as proof of the work.
-  project?: { wistia: string; title: string; text: string };
+  // Optional final project, shown under the certificate as proof of the work. One video: Wistia or YouTube.
+  project?: { wistia?: string; youtube?: string; title: string; text: string };
 };
 
 export const certificates: Certificate[] = [
   {
     id: "RAA-cc854610-812d-44ea-9a30-07170d82f42b",
-    student: "Jose Alonso Hidalgo Molina",
-    course: "agentes-avanzados-n2",
+    student: "Alonso Hidalgo",
+    course: "mentoria-agentes",
     issued: "2026-07-22",
     project: {
-      wistia: "ydxphe2awn",
+      youtube: "ysut2BtecN0",
       title: "Recepcionista IA para una clínica, 24/7",
       text: "Atiende el WhatsApp de la clínica a cualquier hora, informa servicios y requisitos, y agenda citas en Google Calendar sin intervención humana.",
+    },
+  },
+  {
+    id: "RAA-28ad55a6-a20a-49d8-91e3-27ab276ffe01",
+    student: "Junior Owens",
+    course: "mentoria-agentes",
+    issued: "2026-10-08",
+    project: {
+      youtube: "6vsgJmEb5m0",
+      title: "Agente de WhatsApp para un autolavado",
+      // TODO: confirm with Junior what the agent does (bookings, prices, reminders…).
+      text: "Atiende por WhatsApp a los clientes de un autolavado, para que el dueño no tenga que responder cada mensaje.",
+    },
+  },
+  {
+    id: "RAA-01b29ef9-ba42-4dc5-861f-a3e58349a4b3",
+    student: "Fabián Morales",
+    course: "mentoria-agentes",
+    issued: "2026-08-20",
+    project: {
+      youtube: "M_8ibeM_Hkw",
+      title: "Pedidos por WhatsApp para una floristería",
+      text: "Muestra el catálogo, calcula el total con adicionales y envío, define la entrega y registra cada pedido en Google Sheets.",
     },
   },
 ];

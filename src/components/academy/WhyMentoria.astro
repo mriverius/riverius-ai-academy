@@ -1,0 +1,91 @@
+---
+// /academy/mentoria: why a mentoría instead of more content.
+// Copy on the left; on the right, a two-column contrast where the Mentoría column sits on a glowing panel.
+// Built on a grid (not a <table>) so both columns share row heights and the panel never touches the left rules.
+import { Image } from "astro:assets";
+import teaching from "../../assets/academy/teaching.webp";
+import Words from "../Words.astro";
+import { mentoriaContrast } from "../../data/academy";
+
+const cols = ["Solo con tutoriales", "Con la Mentoría"];
+const rows = mentoriaContrast.length + 1; // header + rows
+---
+
+<section class="px-3 sm:px-6 lg:px-10">
+  <div class="pearl-sheen relative isolate mx-auto max-w-7xl overflow-hidden rounded-[calc(var(--radius-lg)+8px)] bg-nacre px-5 py-20 shadow-[inset_0_0_0_1px_var(--c-line)] sm:px-10 lg:px-16 lg:py-28">
+    <div class="glow sunrise -right-[10%] -top-[30%] -z-10 size-[520px] !opacity-40"></div>
+
+    <div class="grid gap-14 lg:grid-cols-[1fr_1.15fr] lg:gap-20">
+      <div class="lg:sticky lg:top-32 lg:self-start">
+        <p data-reveal class="pill-tag bg-pearl/70">Por qué una mentoría</p>
+        <h2 class="display-lg mt-6 max-w-[18ch] !text-[clamp(1.875rem,3vw,2.625rem)]"><Words text="Información ya tienes de sobra. Lo que te falta es alguien a tu lado." /></h2>
+        <p data-reveal class="mt-6 max-w-[46ch] text-cosmos-muted">
+          Ya viste tutoriales, guardaste videos y quizás empezaste un curso. El problema no es entender qué es un agente. El problema es que cuando te trabas con tu caso, nadie te responde. En la Mentoría no te doy más contenido. Me siento contigo cada semana y construimos tu agente hasta que funcione en tu negocio.
+        </p>
+        <div data-reveal class="bezel mt-8 max-w-[22rem]">
+          <div class="bezel-core relative aspect-[16/10] overflow-hidden">
+            <Image src={teaching} alt="Una sesión en vivo con estudiantes" widths={[360, 720]} sizes="22rem" class="absolute inset-0 size-full object-cover" />
+          </div>
+        </div>
+      </div>
+
+      <div data-reveal role="table" aria-label="Solo con tutoriales comparado con la Mentoría" class="contrast grid grid-cols-2 gap-x-3 sm:gap-x-4" style={`--rows:${rows}`}>
+        <!-- The glowing panel behind the Mentoría column. -->
+        <div class="panel sunrise col-start-2 row-start-1" aria-hidden="true">
+          <div class="size-full rounded-[calc(var(--radius-lg)-2px)] bg-pearl"></div>
+        </div>
+
+        <div role="row" class="contents">
+          <p role="columnheader" class="cell rule col-start-1 row-start-1 self-end pb-4 pr-2 text-caption font-medium uppercase tracking-[0.12em] text-cosmos-muted">{cols[0]}</p>
+          <p role="columnheader" class="cell rule is-inset col-start-2 row-start-1 flex items-center gap-2 px-4 pb-4 pt-6 font-semibold sm:px-6">
+            <svg viewBox="0 0 24 24" class="size-4 shrink-0" aria-hidden="true"><defs><linearGradient id="why-star" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff9ed2" /><stop offset=".5" stop-color="#ffc48c" /><stop offset="1" stop-color="#8ef0c8" /></linearGradient></defs><path fill="url(#why-star)" d="M12 0C12.8 7 17 11.2 24 12C17 12.8 12.8 17 12 24C11.2 17 7 12.8 0 12C7 11.2 11.2 7 12 0Z" /></svg>
+            {cols[1]}
+          </p>
+        </div>
+
+        {mentoriaContrast.map(([before, after], i) => {
+          const last = i === mentoriaContrast.length - 1;
+          return (
+            <div role="row" class="contents">
+              <p role="cell" class:list={["cell col-start-1 py-5 pr-2 text-[0.9375rem] leading-6 text-cosmos-muted", !last && "rule"]} style={`grid-row:${i + 2}`}>{before}</p>
+              <p role="cell" class:list={["cell is-inset col-start-2 px-4 py-5 text-[0.9375rem] font-medium leading-6 sm:px-6", !last && "rule", last && "pb-7"]} style={`grid-row:${i + 2}`}>{after}</p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contrast {
+    grid-template-rows: repeat(var(--rows), auto);
+  }
+  .panel {
+    grid-row: 1 / -1;
+    padding: 1.5px;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 30px 80px -34px color-mix(in oklab, var(--color-pitahaya) 75%, transparent);
+  }
+  .cell {
+    position: relative;
+    z-index: 1;
+  }
+  /* Hairline under each row; inside the panel it stops short of the border. */
+  .rule::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 1px;
+    background: var(--c-line);
+  }
+  .is-inset.rule::after {
+    inset-inline: 1.5rem;
+  }
+  @media (max-width: 639px) {
+    .is-inset.rule::after {
+      inset-inline: 1rem;
+    }
+  }
+</style>

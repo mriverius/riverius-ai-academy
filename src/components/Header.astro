@@ -11,8 +11,10 @@ interface Props {
   menuExtra?: Link[];
   /** Small cross-link to the sister brand, shown in the pill on desktop. */
   sister?: Link;
+  /** Logo mark: the agency star (default) or the Academy R. */
+  mark?: "star" | "r";
 }
-const { nav, cta, suffix, home, menuExtra = [], sister } = Astro.props;
+const { nav, cta, suffix, home, menuExtra = [], sister, mark } = Astro.props;
 const path = Astro.url.pathname;
 const menuLabel = { open: suffix.includes("Academy") ? "Abrir menú" : "Open menu", close: suffix.includes("Academy") ? "Cerrar menú" : "Close menu" };
 ---
@@ -24,7 +26,7 @@ const menuLabel = { open: suffix.includes("Academy") ? "Abrir menú" : "Open men
   <div
     class="nav-pill flex h-14 w-full max-w-[68rem] items-center justify-between gap-6 rounded-full bg-[var(--nav-bg)] pl-5 pr-2 text-cosmos shadow-[inset_0_0_0_1px_var(--bezel-ring),inset_0_1px_0_var(--bezel-highlight),0_20px_50px_-30px_rgb(30_22_56/0.5)] backdrop-blur-md backdrop-saturate-150"
   >
-    <Logo suffix={suffix} href={home} />
+    <Logo mark={mark} suffix={suffix} href={home} />
 
     <nav class="hidden items-center gap-0.5 lg:flex" aria-label="Primary">
       {

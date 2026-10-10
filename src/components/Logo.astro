@@ -1,17 +1,25 @@
 ---
-// Placeholder mark until the vector R (fluted column + star) is delivered.
-// Swap the <svg> for the final logo; keep the wordmark text for accessibility.
+// mark="r": the R logo (fluted column + star), used by the Academy. Default: the star, used by the agency.
+// The wordmark text stays for accessibility.
+import { Image } from "astro:assets";
+import rMark from "../assets/brand/riverius-r.png";
+
 interface Props {
+  mark?: "star" | "r";
   suffix?: string;
   href?: string;
   class?: string;
 }
-const { suffix = "AI", href = "/", class: className = "" } = Astro.props;
+const { mark = "star", suffix = "AI", href = "/", class: className = "" } = Astro.props;
 ---
 
 <a href={href} class:list={["group inline-flex items-center gap-2.5", className]} aria-label={`Riverius ${suffix}, home`}>
-  <svg viewBox="0 0 24 24" class="logo-star size-[22px] transition-transform duration-[900ms] ease-[var(--ease-drawer)] group-hover:rotate-90" aria-hidden="true">
-    <path fill="currentColor" d="M12 0C12.8 7 17 11.2 24 12C17 12.8 12.8 17 12 24C11.2 17 7 12.8 0 12C7 11.2 11.2 7 12 0Z"></path>
-  </svg>
+  {mark === "r" ? (
+    <Image src={rMark} alt="" width={28} height={28} densities={[1, 2, 3]} class="size-7 transition-transform duration-[900ms] ease-[var(--ease-drawer)] group-hover:-rotate-6" />
+  ) : (
+    <svg viewBox="0 0 24 24" class="logo-star size-[22px] transition-transform duration-[900ms] ease-[var(--ease-drawer)] group-hover:rotate-90" aria-hidden="true">
+      <path fill="currentColor" d="M12 0C12.8 7 17 11.2 24 12C17 12.8 12.8 17 12 24C11.2 17 7 12.8 0 12C7 11.2 11.2 7 12 0Z"></path>
+    </svg>
+  )}
   <span class="whitespace-nowrap text-[1.0625rem] font-semibold tracking-[-0.01em]">Riverius <span class="font-light opacity-70">{suffix}</span></span>
 </a>

@@ -4,24 +4,27 @@ import Button from "../Button.astro";
 
 interface Props {
   title: string;
-  text: string;
+  text?: string;
   cta: { label: string; href: string };
   secondary?: { label: string; href: string };
   /** Text link under the buttons. */
   link?: { label: string; href: string };
+  /** Small line under the buttons. */
+  footnote?: string;
 }
-const { title, text, cta, secondary, link } = Astro.props;
+const { title, text, cta, secondary, link, footnote } = Astro.props;
 ---
 
 <section class="px-3 py-20 sm:px-6 lg:px-10 lg:py-32">
   <div class="pearl-sheen relative isolate mx-auto max-w-7xl overflow-hidden rounded-[calc(var(--radius-lg)+8px)] bg-nacre px-6 py-20 text-center shadow-[inset_0_0_0_1px_var(--c-line)] sm:px-12 lg:py-32">
     <div class="glow sunrise left-1/2 top-full -z-10 size-[760px] -translate-x-1/2 -translate-y-1/2 !opacity-70"></div>
     <h2 class="display-lg mx-auto max-w-[18ch]"><Words text={title} /></h2>
-    <p data-reveal style="--i:3" class="mx-auto mt-6 max-w-[44ch] text-cosmos-muted">{text}</p>
+    {text && <p data-reveal style="--i:3" class="mx-auto mt-6 max-w-[44ch] text-cosmos-muted">{text}</p>}
     <div data-reveal style="--i:4" class="mt-10 flex flex-wrap justify-center gap-3">
       <Button href={cta.href} magnetic>{cta.label}</Button>
       {secondary && <Button href={secondary.href} variant="ghost" icon={false}>{secondary.label}</Button>}
     </div>
+    {footnote && <p data-reveal style="--i:5" class="mt-5 text-caption text-cosmos-muted">{footnote}</p>}
     {link && <p data-reveal style="--i:5" class="mt-6"><a href={link.href} class="text-cosmos-muted underline underline-offset-4 hover:text-cosmos">{link.label}</a></p>}
   </div>
 </section>

@@ -1,0 +1,103 @@
+---
+// Mentoría 1:1: your own AI agent, built with you. Standard and Premium sit beside it in the options.
+// /academy/automatizar redirects here (astro.config.mjs).
+import Academy from "../../layouts/Academy.astro";
+import AcademyHero from "../../components/academy/AcademyHero.astro";
+import Stats from "../../components/academy/Stats.astro";
+import AgentUses from "../../components/academy/AgentUses.astro";
+import WhyMentoria from "../../components/academy/WhyMentoria.astro";
+import Stories from "../../components/academy/Stories.astro";
+import StepPath from "../../components/academy/StepPath.astro";
+import MentoriaPrice from "../../components/academy/MentoriaPrice.astro";
+import FitCheck from "../../components/academy/FitCheck.astro";
+import Mentors from "../../components/academy/Mentors.astro";
+import Faq from "../../components/academy/Faq.astro";
+import ClosingCta from "../../components/academy/ClosingCta.astro";
+import Words from "../../components/Words.astro";
+import Button from "../../components/Button.astro";
+import { academy, mentoriaSteps, mentoriaStories, faqMentoria, mentoriaPromise, bookingLink } from "../../data/academy";
+import { mentoriaSpotsShort } from "../../data/academy-offer";
+import { course, faqPage } from "../../lib/schema";
+
+const page = Astro.url.pathname;
+const call = (content: string) => ({ label: "Agenda tu llamada gratis", href: bookingLink(page, content) });
+const description =
+  "Mentoría 1:1 para construir tu propio agente de IA para WhatsApp, Telegram, Teams o tu sitio web, sobre tu negocio y sin programar. Lo ves funcionando desde la primera sesión.";
+---
+
+<Academy
+  title="Mentoría: tu agente de IA en 6 semanas"
+  description={description}
+  headerCta={call("menu")}
+  schema={[
+    course({ name: "Mentoría 1:1: tu agente de IA", description: `${mentoriaPromise} ${description}`, path: "/academy/mentoria" }),
+    faqPage(faqMentoria),
+  ]}
+>
+  <!-- 1. Hero -->
+  <AcademyHero
+    compact
+    tag="Mentoría 1:1 · Agentes de IA"
+    title="Deja de responder lo mismo todo el día. Tu agente de IA lo hace por ti."
+    text="Un agente que conoce tu negocio y responde por ti a tus clientes o a tu equipo, en WhatsApp, Telegram, Teams o tu sitio web. Lo construimos juntos en 6 semanas, sesión a sesión. Sin programar."
+    primary={call("hero")}
+    secondary={{ label: "Ver cómo funciona", href: "#como-funciona" }}
+    footnote={mentoriaSpotsShort}
+  />
+
+  <!-- 2. Stats and press -->
+  <Stats />
+
+  <!-- 3. What your agent can do -->
+  <AgentUses />
+
+  <!-- 4. Why a mentoría -->
+  <WhyMentoria />
+
+  <!-- 5. Stories -->
+  <Stories
+    title="Agentes de IA que ya trabajan en negocios reales."
+    text="Construidos por personas que empezaron sin saber programar."
+    items={mentoriaStories}
+  />
+
+  <!-- 6. How it works -->
+  <section id="como-funciona" class="scroll-mt-24 px-3 py-24 sm:px-6 lg:px-10 lg:py-36">
+    <div class="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
+      <div class="px-1 lg:sticky lg:top-32 lg:self-start">
+        <p data-reveal class="pill-tag">Cómo funciona</p>
+        <h2 class="display-lg mt-6"><Words text="Así construimos tu agente." /></h2>
+        <div data-reveal class="mt-8"><Button href={call("como-funciona").href} magnetic>Agenda tu llamada gratis</Button></div>
+      </div>
+      <StepPath
+        id="mentoria"
+        steps={mentoriaSteps}
+        finish={{
+          kicker: "Al terminar",
+          title: "Tu certificado para LinkedIn",
+          text: "Lo agregas a tu perfil y a tu currículum, con Riverius AI como la organización que lo emite.",
+          links: [
+            { label: "Síguenos en LinkedIn", href: academy.linkedinCompany, icon: "ph:linkedin-logo-light" },
+            { label: "Ver proyectos y certificados", href: "/academy/certificados", icon: "ph:arrow-right" },
+          ],
+        }}
+      />
+    </div>
+  </section>
+
+  <!-- 7. Options, price and guarantee (#opciones: older links point here) -->
+  <MentoriaPrice />
+
+  <!-- 8. Who it's for -->
+  <FitCheck />
+
+  <!-- 9. Who's with you -->
+  <Mentors />
+
+  <!-- 10. FAQ -->
+  <Faq items={faqMentoria} />
+
+  <!-- 11. Closing -->
+  <ClosingCta title="Tu agente puede estar respondiendo desde la primera sesión." cta={call("cierre")} footnote={mentoriaSpotsShort} />
+
+</Academy>

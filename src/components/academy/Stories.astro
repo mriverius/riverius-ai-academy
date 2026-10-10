@@ -3,15 +3,18 @@ import { Icon } from "astro-icon/components";
 import Words from "../Words.astro";
 import VideoFacade from "./VideoFacade.astro";
 import { stories, type Story } from "../../data/academy";
+import { certificatePath } from "../../data/certificates";
 
 interface Props {
   title?: string;
+  /** Optional line under the title. */
+  text?: string;
   only?: string[];
   // Page-specific stories; when set, replaces the shared list.
   items?: Story[];
   id?: string;
 }
-const { title = "Llegaron sin saber de IA. Hoy trabaja por ellos.", only, items: custom, id = "historias" } = Astro.props;
+const { title = "Llegaron sin saber de IA. Hoy trabaja por ellos.", text, only, items: custom, id = "historias" } = Astro.props;
 const source = custom ?? stories;
 const items = only ? source.filter((s) => only.includes(s.name)) : source;
 const trackId = `${id}-track`;
@@ -24,6 +27,7 @@ const few = items.length <= 3;
     <div class:list={[few && "flex flex-col items-center"]}>
       <p data-reveal class="pill-tag">Historias reales</p>
       <h2 class:list={["display-lg mt-6", few ? "max-w-[20ch]" : "max-w-[16ch]"]}><Words text={title} /></h2>
+      {text && <p data-reveal class="mt-6 max-w-[46ch] text-cosmos-muted">{text}</p>}
     </div>
     {items.length > 3 && (
       <div data-reveal class="flex gap-2" aria-label="Navegar historias">
@@ -43,7 +47,7 @@ const few = items.length <= 3;
         <li data-reveal style={`--i:${i}`} class="bezel w-[82vw] shrink-0 snap-start sm:w-[340px]">
           <div class="bezel-core is-pearl flex h-full flex-col p-2.5">
             {st.youtube ? (
-              <VideoFacade id={st.youtube} provider="youtube" title={`Testimonio de ${st.name}`} />
+              <VideoFacade id={st.youtube} provider="youtube" title={`Testimonio de ${st.name}`} fallbackAspect={9 / 16} />
             ) : st.wistia ? (
               <VideoFacade id={st.wistia} title={`Testimonio de ${st.name}`} fallbackAspect={9 / 16} />
             ) : (
@@ -53,7 +57,7 @@ const few = items.length <= 3;
               {st.metric && <p class="sunrise-pill mb-4 self-start rounded-full px-3.5 py-1.5 text-caption font-semibold text-ink">{st.metric}</p>}
               <p class="text-subheading font-semibold">{st.name}</p>
               <p class="text-caption text-cosmos-muted">{st.role}</p>
-              <div class="relative mt-5 space-y-4 pl-5">
+              <div class:list={["relative mt-5 space-y-4 pl-5", st.certificate && "mb-5"]}>
                 <span class="absolute bottom-2 left-[5px] top-2 w-px bg-line" aria-hidden="true" />
                 <div class="relative">
                   <span class="absolute -left-5 top-1.5 size-[11px] rounded-full bg-pearl shadow-[inset_0_0_0_1.5px_var(--c-cosmos-muted)]" aria-hidden="true" />
@@ -66,6 +70,15 @@ const few = items.length <= 3;
                   <p class="mt-1 text-[0.9375rem] font-medium leading-6">{st.after}</p>
                 </div>
               </div>
+              {st.certificate && (
+                <a href={certificatePath(st.certificate)} class="group mt-auto flex items-center justify-between gap-3 border-t border-line pt-4 text-[0.9375rem] font-medium">
+                  <span class="inline-flex items-center gap-2">
+                    <Icon name="ph:seal-check-light" class="size-5" aria-hidden="true" />
+                    Ver su certificado
+                  </span>
+                  <Icon name="ph:arrow-right" class="size-4 transition-transform duration-500 ease-[var(--ease-drawer)] group-hover:translate-x-0.5" aria-hidden="true" />
+                </a>
+              )}
             </div>
           </div>
         </li>

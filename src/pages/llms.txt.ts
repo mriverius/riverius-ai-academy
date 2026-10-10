@@ -7,7 +7,7 @@ import { phases, capabilities } from "../data/services";
 import { faq } from "../data/faq";
 import { team } from "../data/team";
 import { OFFER, mentoriaPrice } from "../data/academy-offer";
-import { academy, avatars, proClasses, mentoriaPromise, faqHub, faqPro, faqEquipos } from "../data/academy";
+import { academy, avatars, proClasses, mentoriaPromise, mentoriaSteps, faqHub, faqMentoria, faqEquipos } from "../data/academy";
 
 export const GET: APIRoute = async ({ site: base }) => {
   const url = (p: string) => new URL(p, base).href;
@@ -58,15 +58,19 @@ ${avatars.map((a) => `- [${a.title}](${url(a.href)}): ${a.text}`).join("\n")}
 - [Calculadora](${url("/academy/calculadora")}): how many hours and how much money repetitive work costs you each year
 - Free community on Skool: ${academy.skool}
 
-### Construye tu oficina automática (6 classes, for professionals)
+### [Mentoría 1:1: your own AI agent](${url("/academy/mentoria")})
 
-Three options: Standard (free, on Skool), Premium ($${OFFER.premium.monthly}/month on Skool) and Mentoría (${mentoriaPrice ? `${mentoriaPrice} USD, one-time` : "price on request"}): ${mentoriaPromise}
+${mentoriaPromise} An AI agent for WhatsApp, Telegram, Microsoft Teams or your website, built together in 6 weekly 1:1 sessions, without code. ${mentoriaPrice ? `${mentoriaPrice} USD, one-time` : "Price on request"}.
+
+${mentoriaSteps.map((s) => `- **${s.title}.** ${s.text}`).join("\n")}
+
+Alternative, at your own pace: Premium ($${OFFER.premium.monthly}/month on Skool) with 10+ video lessons, or Standard (free, on Skool).
 
 ${proClasses.map((c, i) => `${i + 1}. **${c.title}.** ${c.text}`).join("\n")}
 
 ### Academy FAQ
 
-${qa([...faqHub, ...faqPro, ...faqEquipos].filter((i, n, all) => all.findIndex((j) => j.q === i.q) === n))}
+${qa([...faqHub, ...faqMentoria, ...faqEquipos].filter((i, n, all) => all.findIndex((j) => j.q === i.q) === n))}
 `;
 
   return new Response(body, { headers: { "Content-Type": "text/plain; charset=utf-8" } });

@@ -1,11 +1,19 @@
 ---
 // Vertical path whose line draws itself with scroll. Used for levels and roadmaps.
 import { Icon } from "astro-icon/components";
+import { newTab } from "../../lib/links";
 
-type Step = { kicker: string; title: string; text?: string; tags?: string[]; badge?: string };
+type Step = { kicker?: string; title: string; text?: string; tags?: string[]; badge?: string };
 interface Props {
   steps: Step[];
-  finish?: { kicker: string; title: string; text?: string; link?: { label: string; href: string; icon?: string } };
+  finish?: {
+    kicker: string;
+    title: string;
+    text?: string;
+    link?: { label: string; href: string; icon?: string };
+    /** Small secondary buttons under the text. */
+    links?: { label: string; href: string; icon?: string }[];
+  };
   id?: string;
 }
 const { steps, finish, id = "path" } = Astro.props;
@@ -30,11 +38,13 @@ const { steps, finish, id = "path" } = Astro.props;
         </span>
         <div class="bezel">
           <div class="bezel-core is-pearl p-7 sm:p-10">
-            <div class="flex flex-wrap items-center justify-between gap-3">
-              <p class="text-caption font-medium text-cosmos-muted">{step.kicker}</p>
-              {step.badge && <span class="rounded-full px-3 py-1 text-caption text-cosmos-muted shadow-[inset_0_0_0_1px_var(--c-line)]">{step.badge}</span>}
-            </div>
-            <h3 class="mt-3 text-heading">{step.title}</h3>
+            {(step.kicker || step.badge) && (
+              <div class="mb-3 flex flex-wrap items-center justify-between gap-3">
+                <p class="text-caption font-medium text-cosmos-muted">{step.kicker}</p>
+                {step.badge && <span class="rounded-full px-3 py-1 text-caption text-cosmos-muted shadow-[inset_0_0_0_1px_var(--c-line)]">{step.badge}</span>}
+              </div>
+            )}
+            <h3 class="text-heading">{step.title}</h3>
             {step.text && <p class="mt-3 max-w-[52ch] text-cosmos-muted">{step.text}</p>}
             {step.tags && (
               <ul class="mt-6 flex flex-wrap gap-2">
@@ -59,6 +69,16 @@ const { steps, finish, id = "path" } = Astro.props;
           <p class="text-caption font-medium">{finish.kicker}</p>
           <h3 class="mt-2 text-heading">{finish.title}</h3>
           {finish.text && <p class="mt-3 max-w-[52ch]">{finish.text}</p>}
+          {finish.links && (
+            <div class="mt-5 flex flex-wrap gap-2">
+              {finish.links.map((l) => (
+                <a href={l.href} {...newTab(l.href)} class="inline-flex items-center gap-1.5 rounded-full bg-pearl/80 px-3.5 py-2 text-caption font-medium shadow-[inset_0_0_0_1px_var(--c-line)] backdrop-blur-sm transition-colors hover:bg-pearl">
+                  {l.icon && <Icon name={l.icon} class="size-4" aria-hidden="true" />}
+                  {l.label}
+                </a>
+              ))}
+            </div>
+          )}
           {finish.link && (
             <a href={finish.link.href} target="_blank" rel="noopener" class="btn btn-primary group mt-6">
               {finish.link.label}

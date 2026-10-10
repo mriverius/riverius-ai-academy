@@ -11,7 +11,9 @@ export default defineConfig({
   trailingSlash: "never",
   // The Academy paths were renamed after the visitor's goal; old links keep working.
   redirects: {
-    "/academy/profesional": "/academy/automatizar",
+    "/academy/profesional": { status: 301, destination: "/academy/mentoria" },
+    // Automatizar became the Mentoría page (one offer: your own AI agent, 1:1).
+    "/academy/automatizar": { status: 301, destination: "/academy/mentoria" },
     "/academy/emprendedor": "/academy/vender",
   },
   // Certificate pages and their directory are shared by link, not found through search: keep them out of the sitemap.

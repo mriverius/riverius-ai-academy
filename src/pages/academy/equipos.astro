@@ -4,6 +4,7 @@ import { Icon } from "astro-icon/components";
 import Academy from "../../layouts/Academy.astro";
 import AcademyHero from "../../components/academy/AcademyHero.astro";
 import Mentors from "../../components/academy/Mentors.astro";
+import Stats from "../../components/academy/Stats.astro";
 import Faq from "../../components/academy/Faq.astro";
 import Words from "../../components/Words.astro";
 import CalcCta from "../../components/academy/CalcCta.astro";
@@ -44,10 +45,10 @@ const pill =
     tag="Para equipos y líderes"
     title="Que su equipo deje de perder horas en tareas repetitivas."
     text="Talleres prácticos donde su equipo automatiza procesos reales de su organización, con resultados medibles."
-    note="Al terminar, su equipo tiene: procesos reales automatizados, horas ahorradas medidas por persona y un plan de automatización por área."
     primary={{ label: "Solicitar cotización", href: "#cotizacion" }}
     secondary={{ label: "Cómo funciona", href: "#como-funciona" }}
   />
+  <Stats />
 
   <!-- How it works -->
   <section id="como-funciona" class="scroll-mt-24 px-3 py-24 sm:px-6 lg:px-10 lg:py-32">
@@ -55,7 +56,7 @@ const pill =
       <h2 class="display-lg max-w-[18ch] px-1"><Words text="Una capacitación hecha para su equipo." /></h2>
       <ol class="mt-14 grid gap-4 md:grid-cols-3">
         {teamsSteps.map((s, i) => (
-          <li data-reveal style={`--i:${i}`} class:list={["bezel", i === 1 && "md:translate-y-8"]}>
+          <li data-reveal style={`--i:${i}`} class="bezel">
             <div class="bezel-core is-pearl spotlight flex h-full flex-col p-7 sm:p-9">
               <span class="inline-flex size-12 items-center justify-center rounded-full bg-nacre shadow-[inset_0_0_0_1px_var(--c-line)]">
                 <Icon name={s.icon} class="size-6" />

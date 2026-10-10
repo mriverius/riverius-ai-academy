@@ -1,0 +1,78 @@
+---
+// /academy/mentoria: who it's for, and where to go if it isn't.
+// "Yes" sits on the same glowing panel as the Mentoría column above; "no" stays quiet, each with its way out.
+import { Icon } from "astro-icon/components";
+import Words from "../Words.astro";
+import { newTab } from "../../lib/links";
+import { academy, mentoriaFit, skoolLink } from "../../data/academy";
+
+const page = Astro.url.pathname;
+// The Skool link carries this page's tracking.
+const href = (h: string) => (h === academy.skool ? skoolLink(page, "es-para-ti") : h);
+// The arrow travels with the last word, so it never wraps onto a line by itself.
+const words = (label: string) => label.replace(/\.$/, "").split(" ");
+const linkHead = (label: string) => words(label).slice(0, -1).join(" ") + " ";
+const linkTail = (label: string) => words(label).at(-1);
+---
+
+<section class="px-3 pb-24 sm:px-6 lg:px-10 lg:pb-36">
+  <div class="mx-auto max-w-6xl">
+    <div class="px-1 text-center">
+      <p data-reveal class="pill-tag">Para quién es</p>
+      <h2 class="display-lg mt-6"><Words text="¿Es para ti?" /></h2>
+    </div>
+
+    <div class="mt-14 grid gap-5 md:grid-cols-2">
+      <!-- Yes -->
+      <div data-reveal style="--i:0" class="fit-yes sunrise">
+        <div class="flex h-full flex-col rounded-[calc(var(--radius-lg)-2px)] bg-pearl p-7 sm:p-10">
+          <p class="flex items-center gap-2.5 text-subheading font-semibold">
+            <svg viewBox="0 0 24 24" class="size-4 shrink-0" aria-hidden="true"><defs><linearGradient id="fit-star" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff9ed2" /><stop offset=".5" stop-color="#ffc48c" /><stop offset="1" stop-color="#8ef0c8" /></linearGradient></defs><path fill="url(#fit-star)" d="M12 0C12.8 7 17 11.2 24 12C17 12.8 12.8 17 12 24C11.2 17 7 12.8 0 12C7 11.2 11.2 7 12 0Z" /></svg>
+            Es para ti si:
+          </p>
+          <!-- The three points spread to fill the card, so it matches the "no" card's height. -->
+          <ul class="mt-6 flex flex-1 flex-col">
+            {mentoriaFit.yes.map((item) => (
+              <li class="flex flex-1 items-center gap-4 border-t border-line py-5 first:border-0 first:pt-0 last:pb-0">
+                <span class="inline-flex size-7 shrink-0 items-center justify-center rounded-full bg-cosmos text-pearl">
+                  <Icon name="ph:check-bold" class="size-3.5" aria-hidden="true" />
+                </span>
+                <p class="pt-0.5 text-[1.0625rem] font-medium leading-7">{item.text}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <!-- No -->
+      <div data-reveal style="--i:1" class="rounded-[var(--radius-lg)] p-7 shadow-[inset_0_0_0_1px_var(--c-line)] sm:p-10">
+        <p class="text-subheading font-semibold text-cosmos-muted">No es para ti si:</p>
+        <ul class="mt-6">
+          {mentoriaFit.no.map((item) => (
+            <li class="flex gap-4 border-t border-line py-5 first:border-0 first:pt-0 last:pb-0">
+              <span class="inline-flex size-7 shrink-0 items-center justify-center rounded-full shadow-[inset_0_0_0_1px_var(--c-line)]">
+                <Icon name="ph:x" class="size-3.5 text-cosmos-muted" aria-hidden="true" />
+              </span>
+              <div class="pt-0.5">
+                <p class="leading-7 text-cosmos-muted">{item.text}</p>
+                {item.link && (
+                  <a href={href(item.link.href)} {...newTab(href(item.link.href))} class="group mt-1.5 block text-[0.9375rem] font-medium">
+                    {linkHead(item.link.label)}<span class="whitespace-nowrap">{linkTail(item.link.label)}<Icon name="ph:arrow-right" class="ml-1.5 inline size-4 -translate-y-px transition-transform duration-500 ease-[var(--ease-drawer)] group-hover:translate-x-0.5" aria-hidden="true" /></span>
+                  </a>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .fit-yes {
+    padding: 1.5px;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 30px 80px -34px color-mix(in oklab, var(--color-pitahaya) 75%, transparent);
+  }
+</style>

@@ -1,0 +1,34 @@
+---
+// /academy/mentoria: what your agent can do.
+import { Icon } from "astro-icon/components";
+import Words from "../Words.astro";
+import Button from "../Button.astro";
+import { agentUses, bookingLink } from "../../data/academy";
+---
+
+<section class="px-3 py-24 sm:px-6 lg:px-10 lg:py-36">
+  <div class="mx-auto max-w-7xl">
+    <div class="px-1">
+      <p data-reveal class="pill-tag">Qué puede hacer tu agente</p>
+      <h2 class="display-lg mt-6 max-w-[20ch]"><Words text="Un agente para lo que tu negocio repite todos los días." /></h2>
+    </div>
+    <ul class="mt-14 grid gap-4 md:grid-cols-3">
+      {agentUses.map((use, i) => (
+        <li data-reveal style={`--i:${i}`} class="bezel">
+          <div class="bezel-core is-pearl spotlight flex h-full flex-col p-7 sm:p-9">
+            <span class="inline-flex size-12 items-center justify-center rounded-full bg-nacre shadow-[inset_0_0_0_1px_var(--c-line)]">
+              <Icon name={use.icon} class="size-6" />
+            </span>
+            <h3 class="mt-10 text-subheading font-semibold">{use.title}</h3>
+            <p class="mt-2 text-cosmos-muted">{use.text}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+
+    <div data-reveal class="mt-10 flex flex-col items-start gap-5 px-1 sm:flex-row sm:items-center sm:justify-between">
+      <p class="max-w-[58ch] text-cosmos-muted">¿Lo que buscas no está aquí? No te preocupes: todo se puede lograr con IA. Agendemos una llamada para conocer tu caso.</p>
+      <Button href={bookingLink(Astro.url.pathname, "que-puede-hacer")} class="shrink-0">Agenda tu llamada gratis</Button>
+    </div>
+  </div>
+</section>

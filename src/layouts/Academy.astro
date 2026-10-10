@@ -10,8 +10,10 @@ interface Props {
   description?: string;
   schema?: Record<string, unknown>[];
   noindex?: boolean;
+  /** Replaces the header button (default: join Skool). */
+  headerCta?: { label: string; href: string };
 }
-const { title, description = academy.description, schema = [], noindex } = Astro.props;
+const { title, description = academy.description, schema = [], noindex, headerCta } = Astro.props;
 const fullTitle = title ? `${title} | ${academy.name}` : `${academy.name} | IA práctica en español`;
 ---
 
@@ -20,8 +22,6 @@ const fullTitle = title ? `${title} | ${academy.name}` : `${academy.name} | IA p
   description={description}
   siteName={academy.name}
   lang="es"
-  favicon="/favicon-academy.svg"
-  touchIcon="/apple-touch-icon-academy.png"
   theme="light"
   image={{ src: "/og/academy.jpg", alt: "Riverius AI Academy: IA práctica en español" }}
   schema={[academyOrganization(), organization(), ...schema]}
@@ -30,9 +30,10 @@ const fullTitle = title ? `${title} | ${academy.name}` : `${academy.name} | IA p
   <Header
     slot="header"
     nav={academy.nav}
-    cta={{ ...academy.cta, href: skoolLink(Astro.url.pathname) }}
+    cta={headerCta ?? { ...academy.cta, href: skoolLink(Astro.url.pathname) }}
     suffix="AI Academy"
     home="/academy"
+    mark="r"
   />
   <slot />
   <AcademyFooter slot="footer" />

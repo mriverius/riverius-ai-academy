@@ -10,7 +10,7 @@ const rows = [...certificates]
   .map((c) => ({ ...c, courseName: courses[c.course].name, date: issuedLabel(c.issued), url: new URL(certificatePath(c.id), Astro.site).href }));
 ---
 
-<Shell title="Certificados · Admin" description="Directorio de certificados de Riverius AI Academy." siteName="Riverius AI Academy" lang="es" theme="light" favicon="/favicon-academy.svg" noindex>
+<Shell title="Certificados · Admin" description="Directorio de certificados de Riverius AI Academy." siteName="Riverius AI Academy" lang="es" theme="light" noindex>
   <section class="mx-auto max-w-5xl px-4 py-16 sm:px-6">
     <p class="pill-tag">Admin</p>
     <h1 class="mt-5 text-heading font-semibold">Certificados</h1>

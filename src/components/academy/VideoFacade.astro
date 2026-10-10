@@ -3,17 +3,19 @@
 // so the page loads no third-party player up front.
 import { Icon } from "astro-icon/components";
 import { wistia } from "../../lib/wistia";
+import { youtubeThumb } from "../../lib/youtube";
 
 interface Props {
   id: string;
-  // "youtube" expects a Shorts id. Its custom thumbnail (maxresdefault) is 16:9 with the vertical frame in the middle; the 9:16 crop keeps just that.
+  // "youtube": the poster is the custom thumbnail (maxresdefault, 16:9), cropped to fallbackAspect.
+  // For Shorts pass 9 / 16: the vertical frame sits in the middle of that thumbnail.
   provider?: "wistia" | "youtube";
   title: string;
   fallbackAspect?: number;
   class?: string;
 }
 const { id, provider = "wistia", title, fallbackAspect = 16 / 9, class: className = "" } = Astro.props;
-const meta = provider === "youtube" ? { thumb: `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`, aspect: 9 / 16 } : await wistia(id, fallbackAspect);
+const meta = provider === "youtube" ? { thumb: await youtubeThumb(id), aspect: fallbackAspect } : await wistia(id, fallbackAspect);
 const source = provider === "youtube" ? { "data-youtube": id } : { "data-wistia": id };
 ---
 

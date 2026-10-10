@@ -1,38 +1,28 @@
 ---
+// Academy hub. Its one job: send each visitor to the right path (Mentoría, Vender IA or Equipos).
 import Academy from "../../layouts/Academy.astro";
 import AcademyHero from "../../components/academy/AcademyHero.astro";
 import Stats from "../../components/academy/Stats.astro";
 import Paths from "../../components/academy/Paths.astro";
-import Stories from "../../components/academy/Stories.astro";
-import Shots from "../../components/academy/Shots.astro";
-import Mentors from "../../components/academy/Mentors.astro";
-import Faq from "../../components/academy/Faq.astro";
 import ClosingCta from "../../components/academy/ClosingCta.astro";
-import CalcCta from "../../components/academy/CalcCta.astro";
-import { faqHub, skoolLink } from "../../data/academy";
-import { faqPage } from "../../lib/schema";
+import { skoolLink } from "../../data/academy";
 
 const skool = skoolLink(Astro.url.pathname);
 ---
 
-<Academy schema={[faqPage(faqHub)]}>
+<Academy>
   <AcademyHero
     tag="Riverius AI Academy"
     title="Que la IA haga el trabajo repetitivo. Tú, el que importa."
-    text="Automatiza tu trabajo, conviértelo en un negocio o capacita a tu equipo. Sin programar."
+    text="Construye tu propio agente de IA, aprende a venderlo a otros negocios o capacita a tu equipo. Sin programar."
     primary={{ label: "Elige tu camino", href: "#caminos" }}
     secondary={{ label: "Únete gratis a Skool", href: skool }}
   />
   <Stats />
   <Paths />
-  <CalcCta text="¿Cuántas horas te cuesta el trabajo repetitivo? Calcúlalo en 2 minutos." label="Usar la calculadora" class="-mt-8 lg:-mt-16" />
-  <Stories />
-  <Shots />
-  <Mentors />
-  <Faq items={faqHub} />
   <ClosingCta
     title="¿Aún no sabes por dónde empezar?"
-    text="Únete gratis a la comunidad en Skool y automatiza la primera parte de tu oficina en 30 minutos."
+    text="Únete gratis a la comunidad en Skool y crea tu primer agente de IA en 15 minutos."
     cta={{ label: "Únete gratis", href: skool }}
     secondary={{ label: "Elige tu camino", href: "#caminos" }}
   />
