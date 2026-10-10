@@ -17,7 +17,7 @@ export const academy = {
   cta: { label: "Únete gratis", href: OFFER.skoolUrl },
   nav: [
     { label: "Mentoría", href: "/academy/mentoria" },
-    { label: "Vender IA", href: "/academy/vender" },
+    { label: "Aceleradora IA", href: "/academy/vender" },
     { label: "Equipos", href: "/academy/equipos" },
   ],
   sister: { label: "Riverius AI", href: "/" },
@@ -170,7 +170,7 @@ export const mentoriaFit: { yes: FitItem[]; no: FitItem[] } = {
   no: [
     { text: "Solo estás explorando.", link: { label: "Empieza gratis en la comunidad.", href: OFFER.skoolUrl } },
     { text: "Quieres que lo hagamos todo por ti, sin involucrarte.", link: { label: "Para eso está Riverius AI.", href: "https://www.riverius.ai/" } },
-    { text: "Quieres construir agentes para otros negocios y cobrar por eso.", link: { label: "Para eso está Vender IA.", href: "/academy/vender" } },
+    { text: "Quieres construir agentes para otros negocios y cobrar por eso.", link: { label: "Para eso está la Aceleradora IA.", href: "/academy/vender" } },
   ],
 };
 
@@ -189,7 +189,6 @@ export const tiers = {
   },
   premium: {
     for: "Para aprender y construir a tu ritmo, con ayuda en grupo.",
-    // TODO: verify against Skool's full Premium description.
     includes: [
       "Todo lo de Standard",
       "Más de 10 lecciones en video, de cero a tu propio agente",
@@ -360,7 +359,7 @@ export const projects = [
 export const faqHub = [
   { q: "¿Necesito saber programar?", a: "No. Todo se construye de forma visual, con herramientas como Make y n8n. Si sabes usar el correo y una hoja de cálculo, puedes empezar." },
   { q: "¿La comunidad en Skool es gratis?", a: "Sí. Puedes unirte gratis y crear tu primer agente de IA en 15 minutos. Los programas con acompañamiento 1:1 son aparte." },
-  { q: "¿Qué camino es para mí?", a: "Si quieres tu propio agente de IA para tu negocio, la Mentoría. Si quieres cobrar por construir soluciones de IA para otros negocios, el camino Vender IA. Si necesitas formar a un equipo, el de Equipos." },
+  { q: "¿Qué camino es para mí?", a: "Si quieres tu propio agente de IA para tu negocio, la Mentoría. Si quieres cobrar por construir soluciones de IA para otros negocios, la Aceleradora IA. Si necesitas formar a un equipo, el de Equipos." },
   { q: "¿Quiénes son los mentores?", a: "Aaisha Ali, que te guía en la estrategia y la creatividad de tu proyecto, y Mariano Rivera, tu mentor principal, que te enseña a construir y a vender. Ambos son co-fundadores de Riverius y acompañan cada programa de principio a fin." },
 ];
 

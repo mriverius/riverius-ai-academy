@@ -1,66 +1,88 @@
 ---
-// Certificate directory: search a student and copy their certificate link.
-// Public on purpose (certificates are meant to be shared), but noindex and out of the sitemap.
+// Public list of students' certificates, linked from /academy/mentoria. Search by name; each row opens the certificate.
+// noindex and left out of the sitemap (astro.config.mjs), so search engines don't list students' names.
 import { Icon } from "astro-icon/components";
-import Shell from "../../layouts/Shell.astro";
+import Academy from "../../layouts/Academy.astro";
 import { certificates, courses, certificatePath, issuedLabel } from "../../data/certificates";
 
 const rows = [...certificates]
   .sort((a, b) => b.issued.localeCompare(a.issued))
-  .map((c) => ({ ...c, courseName: courses[c.course].name, date: issuedLabel(c.issued), url: new URL(certificatePath(c.id), Astro.site).href }));
+  .map((c) => ({ ...c, courseName: courses[c.course].name, date: issuedLabel(c.issued), href: certificatePath(c.id) }));
 ---
 
-<Shell title="Certificados · Admin" description="Directorio de certificados de Riverius AI Academy." siteName="Riverius AI Academy" lang="es" theme="light" noindex>
-  <section class="mx-auto max-w-5xl px-4 py-16 sm:px-6">
-    <p class="pill-tag">Admin</p>
-    <h1 class="mt-5 text-heading font-semibold">Certificados</h1>
-    <p class="mt-2 text-cosmos-muted">{rows.length} {rows.length === 1 ? "certificado" : "certificados"}. Busca por estudiante, curso o ID y copia el enlace para enviárselo.</p>
+<Academy
+  title="Proyectos y certificados"
+  description="Certificados verificados y proyectos finales de estudiantes de Riverius AI Academy."
+  noindex
+>
+  <section class="px-3 pb-24 pt-36 sm:px-6 lg:px-10 lg:pb-36 lg:pt-44">
+    <div class="mx-auto max-w-3xl">
+      <div class="px-1 text-center">
+        <p class="pill-tag">Certificados verificados</p>
+        <h1 class="display-lg mx-auto mt-6 max-w-[18ch]">Proyectos y certificados de nuestros estudiantes.</h1>
+        <p class="mx-auto mt-6 max-w-[48ch] text-cosmos-muted">
+          Cada certificado se otorga al presentar un agente funcionando en un negocio real. Ábrelo para ver el proyecto y verificarlo.
+        </p>
+      </div>
 
-    <label for="search" class="sr-only">Buscar</label>
-    <div class="relative mt-8">
-      <Icon name="ph:magnifying-glass-light" class="pointer-events-none absolute left-5 top-1/2 size-5 -translate-y-1/2 text-cosmos-muted" />
-      <input id="search" type="search" placeholder="Buscar estudiante, curso o ID…" autocomplete="off" class="w-full rounded-full bg-pearl py-3.5 pl-13 pr-5 shadow-[inset_0_0_0_1px_var(--c-line)] focus:shadow-[inset_0_0_0_2px_var(--c-action)] focus:outline-none" />
+      <label for="search" class="sr-only">Buscar por nombre</label>
+      <div class="relative mt-12">
+        <Icon name="ph:magnifying-glass-light" class="pointer-events-none absolute left-5 top-1/2 size-5 -translate-y-1/2 text-cosmos-muted" aria-hidden="true" />
+        <input
+          id="search"
+          type="search"
+          placeholder="Buscar por nombre…"
+          autocomplete="off"
+          class="w-full rounded-full bg-pearl py-4 pl-13 pr-5 shadow-[inset_0_0_0_1px_var(--c-line)] transition-shadow duration-300 placeholder:text-cosmos-muted focus:shadow-[inset_0_0_0_2px_var(--c-action)] focus:outline-none"
+        />
+      </div>
+
+      <ul id="list" class="mt-6 space-y-3">
+        {rows.map((r) => (
+          <li class="bezel" data-search={r.student.toLowerCase()}>
+            <a href={r.href} class="group bezel-core is-pearl flex items-center justify-between gap-5 p-5 sm:px-7 sm:py-6">
+              <div class="flex min-w-0 items-center gap-4">
+                <span class="hidden size-11 shrink-0 items-center justify-center rounded-full bg-nacre sm:inline-flex shadow-[inset_0_0_0_1px_var(--c-line)]">
+                  <Icon name="ph:seal-check-light" class="size-5" aria-hidden="true" />
+                </span>
+                <div class="min-w-0">
+                  <p class="text-subheading font-semibold">{r.student}</p>
+                  {r.project && <p class="text-[0.9375rem] leading-6 text-cosmos-muted">{r.project.title}</p>}
+                  <p class="mt-1 text-caption text-cosmos-muted">{r.courseName} · {r.date}</p>
+                </div>
+              </div>
+              <span class="flex shrink-0 items-center gap-2 text-[0.9375rem] font-medium">
+                <span class="hidden sm:inline">Ver certificado</span>
+                <span class="inline-flex size-10 items-center justify-center rounded-full bg-cosmos text-pearl transition-transform duration-500 ease-[var(--ease-drawer)] group-hover:translate-x-0.5">
+                  <Icon name="ph:arrow-right" class="size-4" aria-hidden="true" />
+                </span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p id="empty" class="mt-8 hidden text-center text-cosmos-muted">Ningún certificado coincide con ese nombre.</p>
+
+      <p class="mt-14 text-center text-cosmos-muted">
+        ¿Quieres construir tu propio agente? <a href="/academy/mentoria" class="font-medium text-cosmos underline underline-offset-4">Conoce la Mentoría</a>.
+      </p>
     </div>
-
-    <ul id="list" class="mt-6 space-y-3">
-      {rows.map((r) => (
-        <li class="bezel" data-search={`${r.student} ${r.courseName} ${r.id}`.toLowerCase()}>
-          <div class="bezel-core is-pearl flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
-            <div class="min-w-0">
-              <p class="font-semibold">{r.student}</p>
-              <p class="text-caption text-cosmos-muted">{r.courseName} · {r.date}</p>
-              <p class="mt-1 truncate font-mono text-caption text-cosmos-muted">{r.url}</p>
-            </div>
-            <div class="flex shrink-0 gap-2">
-              <button type="button" data-copy={r.url} class="btn btn-primary btn-plain">Copiar enlace</button>
-              <a href={r.url} target="_blank" rel="noopener" class="btn btn-ghost btn-plain">Ver</a>
-            </div>
-          </div>
-        </li>
-      ))}
-    </ul>
-    <p id="empty" class="mt-6 hidden text-center text-cosmos-muted">Ningún certificado coincide con la búsqueda.</p>
   </section>
-</Shell>
+</Academy>
 
 <script>
-  const search = document.getElementById("search") as HTMLInputElement;
+  // Filter by name, ignoring case and accents ("fabian" finds "Fabián").
+  const plain = (s: string) => s.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "");
+  const search = document.getElementById("search") as HTMLInputElement | null;
   const items = [...document.querySelectorAll<HTMLElement>("#list > li")];
-  search.addEventListener("input", () => {
-    const q = search.value.trim().toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "");
+  search?.addEventListener("input", () => {
+    const q = plain(search.value.trim());
     let shown = 0;
     for (const li of items) {
-      const hit = (li.dataset.search ?? "").normalize("NFD").replace(/\p{Diacritic}/gu, "").includes(q);
+      const hit = plain(li.dataset.search ?? "").includes(q);
       li.hidden = !hit;
       if (hit) shown++;
     }
     document.getElementById("empty")?.classList.toggle("hidden", shown > 0);
   });
-  document.querySelectorAll<HTMLButtonElement>("[data-copy]").forEach((b) =>
-    b.addEventListener("click", async () => {
-      await navigator.clipboard.writeText(b.dataset.copy ?? "");
-      b.textContent = "¡Copiado!";
-      setTimeout(() => (b.textContent = "Copiar enlace"), 2000);
-    }),
-  );
 </script>

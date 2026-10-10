@@ -50,8 +50,7 @@ export const certificates: Certificate[] = [
     project: {
       youtube: "6vsgJmEb5m0",
       title: "Agente de WhatsApp para un autolavado",
-      // TODO: confirm with Junior what the agent does (bookings, prices, reminders…).
-      text: "Atiende por WhatsApp a los clientes de un autolavado, para que el dueño no tenga que responder cada mensaje.",
+      text: "Atiende por WhatsApp a los clientes del autolavado, entiende qué servicio quieren y agenda la cita en el calendario.",
     },
   },
   {
