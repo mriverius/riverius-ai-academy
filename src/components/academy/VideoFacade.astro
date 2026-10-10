@@ -1,21 +1,24 @@
 ---
-// Click-to-play Wistia video. Shows a poster until the visitor presses play,
+// Click-to-play Wistia or YouTube Shorts video. Shows a poster until the visitor presses play,
 // so the page loads no third-party player up front.
 import { Icon } from "astro-icon/components";
 import { wistia } from "../../lib/wistia";
 
 interface Props {
   id: string;
+  // "youtube" expects a Shorts id. Its custom thumbnail (maxresdefault) is 16:9 with the vertical frame in the middle; the 9:16 crop keeps just that.
+  provider?: "wistia" | "youtube";
   title: string;
   fallbackAspect?: number;
   class?: string;
 }
-const { id, title, fallbackAspect = 16 / 9, class: className = "" } = Astro.props;
-const meta = await wistia(id, fallbackAspect);
+const { id, provider = "wistia", title, fallbackAspect = 16 / 9, class: className = "" } = Astro.props;
+const meta = provider === "youtube" ? { thumb: `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`, aspect: 9 / 16 } : await wistia(id, fallbackAspect);
+const source = provider === "youtube" ? { "data-youtube": id } : { "data-wistia": id };
 ---
 
 <div class:list={["video relative isolate overflow-hidden rounded-[var(--radius-lg)] bg-ink", className]} style={`aspect-ratio: ${meta.aspect}`}>
-  <button type="button" data-wistia={id} data-title={title} class="group absolute inset-0 size-full cursor-pointer" aria-label={`Ver video: ${title}`}>
+  <button type="button" {...source} data-title={title} class="group absolute inset-0 size-full cursor-pointer" aria-label={`Ver video: ${title}`}>
     {meta.thumb ? (
       <img src={meta.thumb} alt="" width="960" height={Math.round(960 / meta.aspect)} loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover transition-transform duration-[1200ms] ease-[var(--ease-out-soft)] group-hover:scale-[1.04]" />
     ) : (

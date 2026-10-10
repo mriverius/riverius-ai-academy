@@ -2,23 +2,28 @@
 import { Icon } from "astro-icon/components";
 import Words from "../Words.astro";
 import VideoFacade from "./VideoFacade.astro";
-import { stories } from "../../data/academy";
+import { stories, type Story } from "../../data/academy";
 
 interface Props {
   title?: string;
   only?: string[];
+  // Page-specific stories; when set, replaces the shared list.
+  items?: Story[];
   id?: string;
 }
-const { title = "Llegaron sin saber de IA. Hoy trabaja por ellos.", only, id = "historias" } = Astro.props;
-const items = only ? stories.filter((s) => only.includes(s.name)) : stories;
+const { title = "Llegaron sin saber de IA. Hoy trabaja por ellos.", only, items: custom, id = "historias" } = Astro.props;
+const source = custom ?? stories;
+const items = only ? source.filter((s) => only.includes(s.name)) : source;
 const trackId = `${id}-track`;
+// Three or fewer fit on one row on desktop: center them instead of scrolling.
+const few = items.length <= 3;
 ---
 
 <section id={id} class="scroll-mt-24 pt-24 lg:pt-36">
-  <div class="mx-auto flex max-w-7xl flex-col gap-8 px-4 sm:px-6 lg:flex-row lg:items-end lg:justify-between lg:px-10">
-    <div>
+  <div class:list={["mx-auto flex max-w-7xl flex-col gap-8 px-4 sm:px-6 lg:px-10", few ? "items-center text-center" : "lg:flex-row lg:items-end lg:justify-between"]}>
+    <div class:list={[few && "flex flex-col items-center"]}>
       <p data-reveal class="pill-tag">Historias reales</p>
-      <h2 class="display-lg mt-6 max-w-[16ch]"><Words text={title} /></h2>
+      <h2 class:list={["display-lg mt-6", few ? "max-w-[20ch]" : "max-w-[16ch]"]}><Words text={title} /></h2>
     </div>
     {items.length > 3 && (
       <div data-reveal class="flex gap-2" aria-label="Navegar historias">
@@ -32,12 +37,18 @@ const trackId = `${id}-track`;
     )}
   </div>
 
-  <ul id={trackId} class="edge-track mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+  <ul id={trackId} class:list={["edge-track mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden", few && "lg:justify-center-safe"]}>
     {
       items.map((st, i) => (
         <li data-reveal style={`--i:${i}`} class="bezel w-[82vw] shrink-0 snap-start sm:w-[340px]">
           <div class="bezel-core is-pearl flex h-full flex-col p-2.5">
-            <VideoFacade id={st.wistia} title={`Testimonio de ${st.name}`} fallbackAspect={9 / 16} />
+            {st.youtube ? (
+              <VideoFacade id={st.youtube} provider="youtube" title={`Testimonio de ${st.name}`} />
+            ) : st.wistia ? (
+              <VideoFacade id={st.wistia} title={`Testimonio de ${st.name}`} fallbackAspect={9 / 16} />
+            ) : (
+              <div class="flex aspect-[9/16] items-center justify-center rounded-[var(--radius-lg)] bg-nacre text-caption text-cosmos-muted">Video pendiente</div>
+            )}
             <div class="flex flex-1 flex-col p-4 sm:p-5">
               {st.metric && <p class="sunrise-pill mb-4 self-start rounded-full px-3.5 py-1.5 text-caption font-semibold text-ink">{st.metric}</p>}
               <p class="text-subheading font-semibold">{st.name}</p>

@@ -5,7 +5,7 @@ import { Icon } from "astro-icon/components";
 import Words from "../Words.astro";
 import { newTab } from "../../lib/links";
 import { tiers, mentoriaPromise } from "../../data/academy";
-import { OFFER, tracked, mentoriaPrice, mentoriaSpots } from "../../data/academy-offer";
+import { OFFER, tracked, mentoriaPrice, mentoriaSpots, mentoriaSpotsLeft } from "../../data/academy-offer";
 
 const page = Astro.url.pathname;
 const standardHref = tracked(OFFER.skoolUrl, page, "standard");
@@ -19,13 +19,14 @@ const mentoriaPriceLabel = mentoriaPrice ? `${mentoriaPrice} pago único` : "Con
 const rows: [string, boolean | string, boolean | string, boolean | string][] = [
   ["Precio", "Gratis", `$${OFFER.premium.monthly}/mes`, mentoriaPriceLabel],
   ["Primera automatización en 30 min", true, true, true],
-  ["Las 6 clases", false, "En video", "En vivo, 1:1"],
+  ["Las 6 clases", false, "En video", "Como apoyo, según tu proyecto"],
   ["Automatizaciones listas para importar", false, true, true],
-  ["Sesiones en vivo grupales", "1 taller al mes", "2 al mes", true],
-  ["Sesión privada 1:1 en cada clase", false, false, true],
+  ["Sesiones en vivo grupales", "1 taller al mes", "2 al mes", "2 al mes, durante la mentoría"],
+  ["Sesión privada 1:1 cada semana", false, false, true],
   ["WhatsApp directo", false, false, true],
-  ["6 automatizaciones de tu trabajo, funcionando", false, false, true],
-  ["Garantía", false, OFFER.premium.guarantee ? "Primer mes" : false, "Seguimos hasta que funcionen"],
+  ["Tu agente de WhatsApp construido contigo", false, false, true],
+  ["Soporte después de terminar", false, false, "30 días"],
+  ["Garantía", false, OFFER.premium.guarantee ? "Primer mes" : false, "4 semanas extra sin costo"],
 ];
 ---
 
@@ -103,19 +104,22 @@ const rows: [string, boolean | string, boolean | string, boolean | string][] = [
               <li class="flex gap-3"><Icon name="ph:check-light" class="mt-1 size-4 shrink-0" aria-hidden="true" />{item}</li>
             ))}
           </ul>
-          <div class="mt-7 flex gap-4 rounded-[var(--radius-md)] bg-nacre p-5 shadow-[inset_0_0_0_1px_var(--c-line)]">
+          {mentoriaSpots && (
+            <div class="mt-7 flex gap-3 rounded-[var(--radius-md)] px-5 py-4 shadow-[inset_0_0_0_1px_var(--c-line)]">
+              <Icon name="ph:hourglass-medium-light" class="mt-0.5 size-5 shrink-0" aria-hidden="true" />
+              <div>
+                <p class="font-semibold">{mentoriaSpots}</p>
+                {mentoriaSpotsLeft && <p class="mt-1 text-caption text-cosmos-muted">{mentoriaSpotsLeft}</p>}
+              </div>
+            </div>
+          )}
+          <div class="mt-5 flex gap-4 rounded-[var(--radius-md)] bg-nacre p-5 shadow-[inset_0_0_0_1px_var(--c-line)]">
             <Icon name="ph:shield-check-light" class="size-6 shrink-0" aria-hidden="true" />
             <div>
               <p class="font-semibold">{OFFER.mentoria.guarantee}</p>
               <p class="mt-1 text-caption text-cosmos-muted">{OFFER.mentoria.guaranteeTerms}</p>
             </div>
           </div>
-          {mentoriaSpots && (
-            <p class="mt-5 flex items-center gap-2 text-caption text-cosmos-muted">
-              <Icon name="ph:hourglass-medium-light" class="size-4 shrink-0" aria-hidden="true" />
-              {mentoriaSpots}
-            </p>
-          )}
           <a href={mentoriaHref} {...newTab(mentoriaHref)} class="btn btn-primary group mt-7 w-full justify-between" data-magnetic aria-label="Reserva tu cupo en la Mentoría">
             Reserva tu cupo
             <span class="btn-island" aria-hidden="true"><Icon name="ph:arrow-up-right" class="size-4" /></span>

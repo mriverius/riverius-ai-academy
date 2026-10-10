@@ -15,11 +15,14 @@ export const OFFER = {
   mentoria: {
     price: 397 as number | null, // USD. If null, shows "Consulta el precio" and the button goes to Cal.com
     checkoutUrl: null as string | null, // TODO: direct payment link. If null, the main button goes to Cal.com
-    spotsThisMonth: null as number | null, // TODO: spots available. If null, the spots line is hidden
-    monthLabel: null as string | null, // TODO: e.g. "noviembre". If null, says "este mes"
+    spotsPerMonth: 5 as number | null, // Total spots each month. If null, the spots line is hidden
+    spotsTaken: 3, // Spots already taken this month. Update as people sign up
     upgradeCredit: false, // TODO: true only once the Premium-to-Mentoría discount is confirmed
-    guarantee: "Si al terminar no tienes tus 6 automatizaciones funcionando, seguimos trabajando contigo sin costo hasta que lo estén.",
-    guaranteeTerms: "Aplica si asistes a tus sesiones y completas las tareas entre clases.",
+    guarantee: "Si tu agente no queda funcionando, seguimos contigo hasta 4 semanas más, sin costo.",
+    guaranteeTerms: "Aplica si asistes a tus sesiones y completas las tareas entre ellas.",
+    // Full terms, shown in the guarantee section.
+    guaranteeDetail:
+      "Funcionando quiere decir que hace lo que definimos por escrito antes de empezar. Aplica si asistes a tus sesiones y completas las tareas entre ellas. No incluye los costos de servicios externos (WhatsApp Business, IA, hosting) ni los tiempos de aprobación de Meta.",
   },
 };
 
@@ -29,6 +32,10 @@ export const tracked = (url: string, pathname: string, content?: string) =>
   `${url}?utm_source=web&utm_medium=${pageName(pathname)}${content ? `&utm_content=${content}` : ""}`;
 
 export const mentoriaPrice = OFFER.mentoria.price === null ? null : `$${OFFER.mentoria.price}`;
-export const mentoriaSpots = OFFER.mentoria.spotsThisMonth
-  ? `Solo ${OFFER.mentoria.spotsThisMonth} cupos ${OFFER.mentoria.monthLabel ? `en ${OFFER.mentoria.monthLabel}` : "este mes"}, porque cada alumno lleva sesiones privadas.`
+export const mentoriaSpots = OFFER.mentoria.spotsPerMonth
+  ? `Solo ${OFFER.mentoria.spotsPerMonth} cupos por mes, porque cada sesión es privada.`
+  : null;
+// TODO: confirm wording of the remaining-spots line.
+export const mentoriaSpotsLeft = OFFER.mentoria.spotsPerMonth
+  ? `Quedan ${Math.max(OFFER.mentoria.spotsPerMonth - OFFER.mentoria.spotsTaken, 0)} de ${OFFER.mentoria.spotsPerMonth} este mes.`
   : null;

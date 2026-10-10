@@ -136,18 +136,18 @@ export const proClasses = [
   { title: "Tu asistente en tu teléfono", text: "Le escribes desde tu teléfono, como a un compañero de trabajo, y te responde o hace la tarea desde donde estés." },
 ];
 
-// What the Mentoría leaves you with: 6 automations built on your current work.
-export const officePieces = [
-  { title: "Documentos que se escriben solos", text: "Cotizaciones, contratos y constancias con los datos correctos.", icon: "ph:file-text-light" },
-  { title: "Solicitudes que se atienden solas", text: "Citas y pedidos que se registran y se confirman solos.", icon: "ph:tray-arrow-down-light" },
-  { title: "Vencimientos que no se te pasan", text: "Cada mañana, lo que vence hoy y esta semana.", icon: "ph:calendar-check-light" },
-  { title: "Reportes que llegan listos", text: "Tus datos resumidos en tu correo cada semana.", icon: "ph:chart-bar-light" },
-  { title: "Archivos que se ordenan solos", text: "Facturas y documentos en su carpeta, sin moverlos.", icon: "ph:folders-light" },
-  { title: "Tu asistente de IA en el teléfono", text: "Le preguntas lo que necesites sobre tu trabajo, desde donde estés.", icon: "ph:device-mobile-light" },
+// Mentoría: the route to your WhatsApp sales agent, one step per weekly session.
+export const agentSteps = [
+  { title: "Tu agente responde", text: "Desde la primera sesión ya le escribes a tu agente y te contesta con la información de tu negocio.", icon: "ph:chat-circle-dots-light" },
+  { title: "Conoce tu negocio", text: "Le cargamos tus productos, precios y preguntas frecuentes para que responda como tú lo harías.", icon: "ph:storefront-light" },
+  { title: "Vende y registra", text: "Toma los datos del cliente, los guarda en tu hoja de cálculo y te avisa al teléfono.", icon: "ph:table-light" },
+  { title: "Llega a tu WhatsApp", text: "Lo conectamos a tu número para que atienda a tus clientes reales.", icon: "ph:whatsapp-logo-light" },
+  { title: "Lo afinamos", text: "Lo probamos con conversaciones reales y corregimos lo que haga falta.", icon: "ph:sliders-horizontal-light" },
+  { title: "Es tuyo", text: "Queda funcionando y documentado, y sabes cómo mantenerlo y mejorarlo.", icon: "ph:key-light" },
 ];
 
 // The three ways to buy Automatizar. Prices and links come from academy-offer.ts.
-export const mentoriaPromise = "6 automatizaciones de tu trabajo actual, funcionando en 6 sesiones privadas.";
+export const mentoriaPromise = "Tu agente de ventas por WhatsApp, funcionando en 6 semanas.";
 export const tiers = {
   standard: {
     for: "Para probar antes de decidir.",
@@ -172,16 +172,15 @@ export const tiers = {
     ],
   },
   mentoria: {
-    for: "Para tener tu oficina automática funcionando, sin trabarte.",
+    for: "Para quien ya sabe lo que quiere resolver y busca a alguien que lo guíe paso a paso.",
     includes: [
-      "Antes de empezar, revisamos tu trabajo y elegimos las 6 tareas que más horas te quitan",
-      "Una sesión privada 1:1 por cada automatización, sobre tus propios procesos y herramientas",
-      "Las 6 clases en vivo: aprendes y construyes en la misma sesión",
-      "WhatsApp directo para no quedarte trabado entre sesiones",
-      "Revisión de lo que construyes cada semana",
-      "Todas las plantillas listas para importar",
-      "1 año de Premium en Skool gratis (valorado en $444), con las clases en video para repasar",
-      "Tu certificado de Riverius AI Academy",
+      "Antes de empezar, definimos por escrito qué hace tu agente y cuándo se considera terminado",
+      "Tu agente respondiendo desde la primera sesión",
+      "6 sesiones privadas 1:1 de 60 minutos, una por semana",
+      "WhatsApp directo durante toda la mentoría",
+      "30 días de soporte después de la entrega",
+      "Acceso a Premium durante la mentoría y el soporte",
+      "Al finalizar, tu certificado de Riverius AI Academy para LinkedIn",
     ],
   },
 };
@@ -227,18 +226,19 @@ export const teamsSteps = [
 
 // tier: which option includes each benefit.
 export const howItWorks = [
-  { title: "Cada clase, en vivo y 1:1", text: "Una sesión privada por semana con Mariano, construyendo sobre tu propio trabajo.", icon: "ph:user-focus-light", tier: "Mentoría" },
-  { title: "Soporte por WhatsApp", text: "Resuelve dudas entre sesiones, sin esperar.", icon: "ph:whatsapp-logo-light", tier: "Mentoría" },
-  { title: "Proyectos revisados cada semana", text: "Recibes retroalimentación concreta sobre lo que construyes.", icon: "ph:check-circle-light", tier: "Mentoría" },
+  { title: "Sesiones privadas 1:1 cada semana", text: "60 minutos con Mariano, construyendo sobre tu negocio.", icon: "ph:user-focus-light", tier: "Mentoría" },
+  { title: "WhatsApp directo", text: "Resuelve dudas entre sesiones, sin esperar a la próxima.", icon: "ph:whatsapp-logo-light", tier: "Mentoría" },
+  { title: "30 días de soporte después de la entrega", text: "Si algo falla cuando tu agente ya está atendiendo clientes, lo ajustamos contigo.", icon: "ph:lifebuoy-light", tier: "Mentoría" },
+  { title: "Las clases como apoyo", text: "Te asigno solo los videos que tu proyecto necesita, no el curso completo.", icon: "ph:books-light", tier: "Mentoría" },
   { title: "Sesiones grupales en vivo", text: "Encuentros de la comunidad por Zoom y Skool para destrabar tu caso.", icon: "ph:users-three-light", tier: "Premium y Mentoría" },
   { title: "Clases en video", text: "Las 6 clases grabadas, para verlas a tu ritmo.", icon: "ph:play-circle-light", tier: "Premium" },
-];
+]
 
 
 
 // Success stories (Wistia videos, from mriverius.com/testimonios).
 // metric: optional headline result (e.g. "6 horas menos por semana"). Only real, confirmed numbers; empty is hidden.
-type Story = { wistia: string; name: string; role: string; before: string; after: string; metric?: string };
+export type Story = { wistia: string; youtube?: string; name: string; role: string; before: string; after: string; metric?: string };
 export const stories: Story[] = [
   {
     wistia: "qlse28rrbj",
@@ -279,6 +279,34 @@ export const stories: Story[] = [
     role: "Comunicador y periodista",
     before: "Hacía todas sus campañas de marketing a mano, pieza por pieza.",
     after: "La IA le ayuda a crear historias, generar imágenes y publicarlas en redes sociales.",
+  },
+];
+
+// Stories shown only on /academy/automatizar (the shared list above stays as is for /academy and /vender).
+export const automatizarStories: Story[] = [
+  {
+    wistia: "",
+    youtube: "S1ail5OKUL0",
+    name: "Junior Owens",
+    role: "Dueño de agencia",
+    before: "Fue agente de call center durante 14 años.",
+    after: "Hoy tiene su propia agencia y vende chatbots de WhatsApp a dueños de autolavados.",
+  },
+  {
+    wistia: "",
+    youtube: "0AmDTO3CLg8",
+    name: "Alonso Hidalgo",
+    role: "Microbiólogo y dueño de agencia de IA",
+    before: "Microbiólogo de profesión, trabajaba en una clínica.",
+    after: "Hoy tiene su propia agencia de IA y vende soluciones de IA a otras clínicas.",
+  },
+  {
+    wistia: "",
+    youtube: "dt7cK3FL3hQ",
+    name: "Fabián Morales",
+    role: "Ingeniero en Telecomunicaciones y dueño de floristería",
+    before: "Ingeniero en Telecomunicaciones, decidió emprender y montar un negocio de venta de flores con su esposa.",
+    after: "Usa IA para ayudar en las operaciones de su floristería.",
   },
 ];
 
@@ -326,14 +354,18 @@ export const faqHub = [
 // id: anchor for links into the FAQ. links: buttons shown under the answer.
 type FaqItem = { q: string; a: string; id?: string; links?: { label: string; href: string }[] };
 export const faqPro: FaqItem[] = [
-  { id: "que-opcion", q: "¿Qué opción es para mí?", a: "Si quieres probar, empieza gratis con Standard. Si aprendes bien por tu cuenta y quieres avanzar a tu ritmo con ayuda en grupo, Premium. Si ya intentaste aprender solo y te trabaste, o quieres tu oficina automática funcionando sin perder tiempo, la Mentoría." },
-  { q: "¿Qué diferencia hay entre Premium y la Mentoría?", a: "En Premium aprendes con las clases en video y construyes tú, con sesiones grupales para destrabarte. En la Mentoría todo es en vivo: lo construimos juntos, en sesiones privadas sobre tu propio trabajo, y terminas con 6 automatizaciones funcionando. Además, te regalamos 1 año de Premium." },
+  { id: "que-opcion", q: "¿Qué opción es para mí?", a: "Si quieres probar, empieza gratis con Standard. Si aprendes bien por tu cuenta y quieres automatizar tu trabajo a tu ritmo, con ayuda en grupo, Premium. Si quieres un agente que responda y venda por WhatsApp, construido contigo paso a paso, la Mentoría." },
+  { q: "¿Qué diferencia hay entre Premium y la Mentoría?", a: "En Premium aprendes con los videos y construyes por tu cuenta, con apoyo en grupo. En la Mentoría construimos juntos tu agente, en sesiones privadas, y lo ves respondiendo desde la primera semana." },
+  { q: "¿Mi agente tiene que ser de ventas?", a: "No. La mayoría de alumnos crea agentes de ventas y atención por WhatsApp, pero también hemos construido agentes de soporte interno y de recordatorios. Antes de empezar revisamos tu caso y definimos el alcance." },
+  { q: "¿Qué necesito tener antes de empezar?", a: "Solo la información de tu negocio: productos, precios y las preguntas que más te hacen. La revisamos juntos en una llamada antes de empezar." },
+  { q: "¿Hay costos aparte?", a: "Sí. WhatsApp Business, el servicio de IA y el hosting se pagan directamente a cada proveedor. Antes de empezar te explicamos cuánto vas a pagar según tu caso." },
+  { q: "¿Qué pasa cuando termino?", a: "Tienes 30 días de soporte. Después, si quieres seguir mejorando tu agente con acompañamiento, puedes quedarte en la comunidad Premium por $37 al mes." },
   { q: "¿Qué cuenta como una automatización?", a: "Un proceso de tu trabajo que antes hacías a mano y ahora corre solo: una cotización que se genera sola, un reporte que te llega listo, una solicitud que se registra y se responde sin que la toques." },
-  { q: "¿Qué pasa si alguna automatización no queda funcionando?", a: "Seguimos trabajando contigo sin costo hasta que funcione, siempre que hayas asistido a tus sesiones y completado las tareas entre clases." },
+  { q: "¿Qué pasa si mi agente no queda funcionando?", a: "Seguimos contigo hasta 4 semanas más, sin costo, siempre que hayas asistido a tus sesiones y completado las tareas entre ellas." },
   { q: "¿Necesito saber programar?", a: "No. Todo se construye de forma visual, con herramientas como Make y n8n. Si sabes usar el correo y una hoja de cálculo, puedes empezar." },
   { q: "¿Cuánto tiempo necesito por semana?", a: "En la Mentoría, una sesión privada por semana más el tiempo de práctica. Si una semana se te complica, la sesión se reprograma. En Premium avanzas completamente a tu ritmo." },
   { q: "¿Puedo probar antes de inscribirme?", a: "Sí. Únete gratis a Standard en Skool y automatiza tu primera tarea en 30 minutos." },
-  { q: "¿Recibo un certificado?", a: "Sí. Al completar las 6 clases recibes el certificado de Riverius AI Academy." },
+  { q: "¿Recibo un certificado?", a: "Sí. Al completar las 6 clases en Premium, o al finalizar tu Mentoría, recibes el certificado de Riverius AI Academy para agregarlo a tu perfil de LinkedIn y a tu currículum." },
   {
     q: "¿Tengo dudas antes de decidir?",
     a: "Agenda una llamada de 20 minutos o escríbenos por WhatsApp.",

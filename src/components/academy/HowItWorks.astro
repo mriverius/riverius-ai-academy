@@ -5,15 +5,16 @@ import { Icon } from "astro-icon/components";
 import Words from "../Words.astro";
 import { howItWorks } from "../../data/academy";
 
-const bento = ["lg:col-span-3 lg:row-span-2", "lg:col-span-3", "lg:col-span-3", "lg:col-span-3", "lg:col-span-3"];
+// Photo card spans two rows on the left; the rest fill a 2-column grid beside and below it.
+const bento = ["lg:col-span-3 lg:row-span-2", "lg:col-span-3", "lg:col-span-3", "lg:col-span-2", "lg:col-span-2", "lg:col-span-2"];
 ---
 
 <section class="px-3 sm:px-6 lg:px-10">
   <div class="pearl-sheen relative isolate mx-auto max-w-7xl overflow-hidden rounded-[calc(var(--radius-lg)+8px)] bg-nacre px-5 py-20 shadow-[inset_0_0_0_1px_var(--c-line)] sm:px-10 lg:px-16 lg:py-28">
     <div class="glow sunrise -right-[10%] -top-[30%] -z-10 size-[520px] !opacity-40"></div>
     <div class="max-w-3xl">
-      <h2 class="display-lg"><Words text="En la Mentoría, todo es en vivo." /></h2>
-      <p data-reveal class="mt-6 max-w-[48ch] text-cosmos-muted">Cada clase es una sesión privada contigo, sobre tu propio trabajo. En Premium avanzas con las clases en video y te destrabas en las sesiones grupales.</p>
+      <h2 class="display-lg"><Words text="Contigo en cada paso, no frente a un video." /></h2>
+      <p data-reveal class="mt-6 max-w-[48ch] text-cosmos-muted">Cada sesión es privada y sobre tu negocio. En Premium avanzas con las clases en video y te destrabas en las sesiones grupales.</p>
     </div>
 
     <div class="mt-14 grid gap-4 lg:grid-cols-6 lg:grid-rows-[repeat(3,minmax(11rem,auto))]">
