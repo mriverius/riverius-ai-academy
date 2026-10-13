@@ -9,12 +9,14 @@ export default defineConfig({
   site: "https://riverius.ai",
   // One URL per page (/contact, not /contact/), matching the internal links.
   trailingSlash: "never",
-  // The Academy paths were renamed after the visitor's goal; old links keep working.
+  // The Mentoría is now the Academy home; every old path keeps working.
   redirects: {
-    "/academy/profesional": { status: 301, destination: "/academy/mentoria" },
-    // Automatizar became the Mentoría page (one offer: your own AI agent, 1:1).
-    "/academy/automatizar": { status: 301, destination: "/academy/mentoria" },
-    "/academy/emprendedor": "/academy/vender",
+    "/academy/mentoria": { status: 301, destination: "/academy" },
+    "/academy/automatizar": { status: 301, destination: "/academy" },
+    "/academy/profesional": { status: 301, destination: "/academy" },
+    // The Aceleradora IA (vender / emprendedor) was retired.
+    "/academy/vender": { status: 301, destination: "/academy" },
+    "/academy/emprendedor": { status: 301, destination: "/academy" },
   },
   // Certificate pages and their directory are shared by link, not found through search: keep them out of the sitemap.
   integrations: [icon(), sitemap({ filter: (page) => !/\/academy\/certificados?(\/|$)/.test(page) })],

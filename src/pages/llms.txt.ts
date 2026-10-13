@@ -7,7 +7,7 @@ import { phases, capabilities } from "../data/services";
 import { faq } from "../data/faq";
 import { team } from "../data/team";
 import { OFFER, mentoriaPrice } from "../data/academy-offer";
-import { academy, avatars, proClasses, mentoriaPromise, mentoriaSteps, faqHub, faqMentoria, faqEquipos } from "../data/academy";
+import { academy, proClasses, mentoriaPromise, mentoriaSteps, faqHub, faqMentoria, faqEquipos } from "../data/academy";
 
 export const GET: APIRoute = async ({ site: base }) => {
   const url = (p: string) => new URL(p, base).href;
@@ -18,7 +18,7 @@ export const GET: APIRoute = async ({ site: base }) => {
 
 > ${site.description}
 
-${site.name} is an AI agency. Riverius AI Academy is its Spanish-language school for professionals, entrepreneurs and teams in Latin America.
+${site.name} is an AI agency. Riverius AI Academy is its Spanish-language school for professionals and teams in Latin America.
 Contact: ${url("/contact")}
 
 ## Agency pages
@@ -53,12 +53,12 @@ ${qa(faq)}
 
 > ${academy.description}
 
-- [Academy home](${url("/academy")})
-${avatars.map((a) => `- [${a.title}](${url(a.href)}): ${a.text}`).join("\n")}
+- [Academy home: Mentoría 1:1, your own AI agent](${url("/academy")}): built together in 6 weeks, without code
+- [Capacitación en IA para equipos](${url("/academy/equipos")}): tailored workshops for companies, schools and public institutions
 - [Calculadora](${url("/academy/calculadora")}): how many hours and how much money repetitive work costs you each year
 - Free community on Skool: ${academy.skool}
 
-### [Mentoría 1:1: your own AI agent](${url("/academy/mentoria")})
+### [Mentoría 1:1: your own AI agent](${url("/academy")})
 
 ${mentoriaPromise} An AI agent for WhatsApp, Telegram, Microsoft Teams or your website, built together in 6 weekly 1:1 sessions, without code. ${mentoriaPrice ? `${mentoriaPrice} USD, one-time` : "Price on request"}.
 

@@ -1,5 +1,5 @@
 ---
-// Public list of students' certificates, linked from /academy/mentoria. Search by name; each row opens the certificate.
+// Public list of students' certificates, linked from /academy. Search by name; each row opens the certificate.
 // noindex and left out of the sitemap (astro.config.mjs), so search engines don't list students' names.
 import { Icon } from "astro-icon/components";
 import Academy from "../../layouts/Academy.astro";
@@ -64,7 +64,7 @@ const rows = [...certificates]
       <p id="empty" class="mt-8 hidden text-center text-cosmos-muted">Ningún certificado coincide con ese nombre.</p>
 
       <p class="mt-14 text-center text-cosmos-muted">
-        ¿Quieres construir tu propio agente? <a href="/academy/mentoria" class="font-medium text-cosmos underline underline-offset-4">Conoce la Mentoría</a>.
+        ¿Quieres construir tu propio agente? <a href="/academy#opciones" class="font-medium text-cosmos underline underline-offset-4">Conoce la Mentoría</a>.
       </p>
     </div>
   </section>

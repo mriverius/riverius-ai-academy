@@ -20,8 +20,8 @@ npm run build    # static site in dist/
 | Hero planet (WebGL shader: spin, ring, moon) | `src/scripts/opal.ts`, `src/components/HeroOpal.astro` |
 | Academy (Spanish, own header/footer, Tropical sunrise palette) | `src/pages/academy/`, `src/layouts/Academy.astro`, `src/data/academy.ts` |
 | Team members, recognition logos, principles | `src/data/team.ts` |
-| Academy success stories and project gallery (Wistia IDs) | `src/data/academy.ts` (`stories`, `projects`) |
-| Academy paths: hub + `/academy/automatizar`, `/academy/vender`, `/academy/equipos` (old `/profesional` and `/emprendedor` URLs redirect) | `src/pages/academy/`, sections in `src/components/academy/` |
+| Academy success stories (Wistia / YouTube IDs) | `src/data/academy.ts` (`stories`, `mentoriaStories`) |
+| Academy pages: `/academy` (the Mentoría 1:1) and `/academy/equipos` (B2B); old `/mentoria`, `/automatizar`, `/profesional`, `/vender` and `/emprendedor` URLs redirect to `/academy` | `src/pages/academy/`, sections in `src/components/academy/` |
 | Motion (smooth scroll, reveals, scrub, stack, horizontal pan, magnetic) | `src/scripts/motion.ts` |
 | Placeholder logo | `src/components/Logo.astro` |
 | Client marquee (Retreat Sounds is real, the rest are samples) | `src/components/ClientMarks.astro` |

@@ -27,7 +27,6 @@ const year = new Date().getFullYear();
         {academy.nav.map((item) => (
           <li><a href={item.href} class="transition-opacity hover:opacity-60">{item.label}</a></li>
         ))}
-        <li><a href="/academy/mentoria#historias" class="transition-opacity hover:opacity-60">Historias</a></li>
         <li><a href="/academy/calculadora" class="transition-opacity hover:opacity-60">Calculadora</a></li>
         <li><a href={skoolLink(Astro.url.pathname)} {...newTab(academy.skool)} class="transition-opacity hover:opacity-60">Comunidad en Skool</a></li>
       </ul>

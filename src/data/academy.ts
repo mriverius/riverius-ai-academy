@@ -10,14 +10,18 @@ export { pageName };
 export const academy = {
   name: "Riverius AI Academy",
   description:
-    "Automatiza tu trabajo con IA, conviértelo en negocio o capacita a tu equipo. Sin programar, en español y con acompañamiento.",
+    "Construye tu propio agente de IA con una mentoría 1:1, o capacita a tu equipo. Sin programar, en español y con acompañamiento.",
   skool: OFFER.skoolUrl,
   booking: OFFER.calUrl,
   whatsapp: OFFER.whatsappUrl,
-  cta: { label: "Únete gratis", href: OFFER.skoolUrl },
+  // Header button on every Academy page (the link gets the page's tracking in the layout).
+  cta: { label: "Agenda tu llamada gratis", href: OFFER.calUrl },
+  // Header: direct links into the home page (the Mentoría), plus Equipos (B2B). Absolute, so they work from every page.
   nav: [
-    { label: "Mentoría", href: "/academy/mentoria" },
-    { label: "Aceleradora IA", href: "/academy/vender" },
+    { label: "Cómo funciona", href: "/academy#como-funciona" },
+    { label: "Testimonios", href: "/academy#historias" },
+    { label: "Precios", href: "/academy#opciones" },
+    { label: "Preguntas", href: "/academy#preguntas" },
     { label: "Equipos", href: "/academy/equipos" },
   ],
   sister: { label: "Riverius AI", href: "/" },
@@ -38,40 +42,6 @@ export const stats = [
   { value: 100, prefix: "+", suffix: "", label: "profesionales formados" },
   { value: 13, prefix: "+", suffix: "", label: "países" },
   { value: 5, decimals: 1, prefix: "", suffix: "", label: "calificación en Skool", stars: true },
-];
-
-// The three paths. The hub sends each visitor to the page made for them.
-export const avatars = [
-  {
-    slug: "mentoria",
-    href: "/academy/mentoria",
-    who: "Quiero mi propio agente de IA",
-    title: "Mentoría 1:1: tu agente de IA",
-    text: "Un agente que conoce tu negocio y responde por ti a tus clientes o a tu equipo. Lo construimos juntos en 6 semanas, sin programar.",
-    fit: ["Tus clientes o tu equipo preguntan lo mismo todos los días", "Quieres entenderlo y poder mantenerlo tú mismo"],
-    icon: "ph:chat-circle-dots-light",
-    cta: "Ver la Mentoría",
-  },
-  {
-    slug: "vender",
-    href: "/academy/vender",
-    who: "Quiero vender soluciones de IA",
-    title: "Tu primer cliente de IA",
-    text: "Construye una solución que los negocios pagan y aprende a venderla, cobrarla bien y cobrarla cada mes.",
-    fit: ["Quieres ofrecer soluciones de IA", "Tienes o quieres un negocio propio"],
-    icon: "ph:rocket-launch-light",
-    cta: "Ver la ruta",
-  },
-  {
-    slug: "equipos",
-    href: "/academy/equipos",
-    who: "Quiero capacitar a mi equipo",
-    title: "Capacitación en IA para su organización",
-    text: "Talleres y programas a la medida para empresas, centros educativos e instituciones públicas.",
-    fit: ["Necesita formar a varias personas", "Busca resultados medibles en su equipo", "Quiere saber dónde implementar IA en su organización"],
-    icon: "ph:users-three-light",
-    cta: "Solicitar cotización",
-  },
 ];
 
 // Aaisha leads strategy and creativity; Mariano is the main mentor and teaches building and selling.
@@ -99,30 +69,6 @@ export const pressLogos = [
 ];
 
 
-export const path = [
-  {
-    level: "Fundamentos",
-    weeks: "6 semanas",
-    title: "Crea tus primeros agentes de IA",
-    text: "Entiende cómo piensa un agente y construye tus primeros flujos en n8n, con su interfaz visual de arrastrar y soltar.",
-    topics: ["Qué es un agente de IA", "Tus primeros flujos en n8n", "Correo, hojas y formularios"],
-  },
-  {
-    level: "Agentes avanzados",
-    weeks: "6 semanas",
-    title: "Agentes que escuchan y ven",
-    text: "Suma reconocimiento de audio e imágenes, memoria y herramientas para que tus agentes resuelvan tareas completas.",
-    topics: ["Reconocimiento de audio", "Análisis de imágenes", "Memoria y herramientas"],
-  },
-  {
-    level: "Sistemas en producción",
-    weeks: "6 semanas",
-    title: "Tu agente en WhatsApp, listo para usarse",
-    text: "Lleva tus agentes a producción: conectados a WhatsApp y a bases de datos, para que trabajen con personas reales.",
-    topics: ["Integración con WhatsApp", "Bases de datos", "Monitoreo y mejora"],
-  },
-];
-
 // Automatizar: 6 classes, then the certificate.
 // Plain language: every class says what the visitor will see happen, with no technical terms.
 export const proClasses = [
@@ -134,7 +80,7 @@ export const proClasses = [
   { title: "Tu asistente en tu teléfono", text: "Le escribes desde tu teléfono, como a un compañero de trabajo, y te responde o hace la tarea desde donde estés." },
 ];
 
-// /academy/mentoria: what your agent can do.
+// /academy: what your agent can do.
 export const agentUses = [
   { title: "Ventas y atención a clientes", text: "Responde preguntas, explica tus productos y precios, toma los datos del cliente y te avisa cuando hay una venta.", icon: "ph:storefront-light" },
   { title: "Soporte para tu equipo", text: "Busca en tus manuales y documentos y le responde a tu equipo en segundos, sin que nadie tenga que buscar.", icon: "ph:lifebuoy-light" },
@@ -170,7 +116,7 @@ export const mentoriaFit: { yes: FitItem[]; no: FitItem[] } = {
   no: [
     { text: "Solo estás explorando.", link: { label: "Empieza gratis en la comunidad.", href: OFFER.skoolUrl } },
     { text: "Quieres que lo hagamos todo por ti, sin involucrarte.", link: { label: "Para eso está Riverius AI.", href: "https://www.riverius.ai/" } },
-    { text: "Quieres construir agentes para otros negocios y cobrar por eso.", link: { label: "Para eso está la Aceleradora IA.", href: "/academy/vender" } },
+    { text: "Necesitas capacitar a todo un equipo.", link: { label: "Para eso está Equipos.", href: "/academy/equipos" } },
   ],
 };
 
@@ -211,31 +157,6 @@ export const tiers = {
     ],
   },
 };
-
-export const entrepreneurOffer = {
-  title: "Tu primer cliente, con mentoría",
-  includes: [
-    "Tu producto definido: qué vender y a qué tipo de negocio",
-    "Tu precio, calculado por el valor para tu cliente",
-    "Tu demo, lista para mostrar",
-    "Tus mensajes y tu guion de llamada, revisados",
-    "Cada propuesta revisada antes de que la envíes",
-    "Los sistemas que ya vendemos, listos para adaptar a tus clientes",
-    "12 meses de Premium en Skool incluidos (valorados en $444)",
-  ],
-  guarantee: "Te ayudamos a conseguir clientes hasta que recuperes tu inversión.",
-  scarcity: "Cupos limitados: la mentoría la damos personalmente.",
-};
-
-// Entrepreneurs: learn it, then sell it.
-export const roadmap = [
-  { phase: "Aprende", title: "Crea tus primeros agentes", text: "Las bases de los agentes de IA y tus primeros flujos en n8n, sin programar.", tags: ["Nivel 1: Fundamentos"] },
-  { phase: "Aprende", title: "Domina agentes avanzados", text: "Audio, imágenes, memoria y herramientas: agentes que resuelven tareas completas.", tags: ["Nivel 2: Avanzados"] },
-  { phase: "Aprende", title: "Llévalos a producción", text: "Agentes en WhatsApp conectados a bases de datos, listos para clientes reales.", tags: ["WhatsApp", "Bases de datos"] },
-  { phase: "Vende", title: "Elige tu nicho y tu oferta", text: "Encuentra un problema que duela en un sector que conoces y empaquétalo como solución.", tags: ["Nicho", "Oferta"] },
-  { phase: "Vende", title: "Consigue tus primeros clientes", text: "Prospección, demos que convencen y propuestas claras para cerrar tus primeras ventas.", tags: ["Demos", "Propuestas"] },
-  { phase: "Vende", title: "Entrega y crece", text: "Precios, mantenimiento y acuerdos mensuales para que tus ingresos sean recurrentes.", tags: ["Precios", "Recurrencia"] },
-];
 
 // Teams: quotation form options (usted, first contact with organizations).
 export const teamsForm = {
@@ -297,7 +218,7 @@ export const stories: Story[] = [
   },
 ];
 
-// Stories shown only on /academy/mentoria (the shared list above stays as is for /academy and /vender).
+// Stories shown on /academy (the shared list above stays for other uses).
 export const mentoriaStories: Story[] = [
   {
     wistia: "",
@@ -328,39 +249,11 @@ export const mentoriaStories: Story[] = [
   },
 ];
 
-// Final projects defended by students (Wistia videos, from mriverius.com/galeria).
-export const projects = [
-  {
-    wistia: "ydxphe2awn",
-    name: "Alonso Hidalgo",
-    level: 2,
-    title: "Recepcionista IA para una clínica, 24/7",
-    text: "Atiende el WhatsApp de la clínica a cualquier hora, informa servicios y requisitos, y agenda citas en Google Calendar sin intervención humana.",
-    tags: ["WhatsApp", "Google Calendar", "n8n"],
-  },
-  {
-    wistia: "2zjsooxz9w",
-    name: "Mario Madrigal",
-    level: 2,
-    title: "Agente inmobiliario que filtra interesados",
-    text: "Responde consultas sobre alquileres con datos reales de Airtable y solo avisa al propietario cuando alguien está listo para agendar una visita.",
-    tags: ["WhatsApp", "Airtable"],
-  },
-  {
-    wistia: "jdl0hssqbz",
-    name: "Fabián Morales",
-    level: 2,
-    title: "Pedidos por WhatsApp para una floristería",
-    text: "Muestra el catálogo, calcula el total con adicionales y envío, define la entrega y registra cada pedido en Google Sheets.",
-    tags: ["WhatsApp", "Google Sheets"],
-  },
-];
-
 export const faqHub = [
   { q: "¿Necesito saber programar?", a: "No. Todo se construye de forma visual, con herramientas como Make y n8n. Si sabes usar el correo y una hoja de cálculo, puedes empezar." },
   { q: "¿La comunidad en Skool es gratis?", a: "Sí. Puedes unirte gratis y crear tu primer agente de IA en 15 minutos. Los programas con acompañamiento 1:1 son aparte." },
-  { q: "¿Qué camino es para mí?", a: "Si quieres tu propio agente de IA para tu negocio, la Mentoría. Si quieres cobrar por construir soluciones de IA para otros negocios, la Aceleradora IA. Si necesitas formar a un equipo, el de Equipos." },
-  { q: "¿Quiénes son los mentores?", a: "Aaisha Ali, que te guía en la estrategia y la creatividad de tu proyecto, y Mariano Rivera, tu mentor principal, que te enseña a construir y a vender. Ambos son co-fundadores de Riverius y acompañan cada programa de principio a fin." },
+  { q: "¿Qué camino es para mí?", a: "Si quieres tu propio agente de IA para tu negocio, la Mentoría 1:1. Si necesitas formar a un equipo, Equipos." },
+  { q: "¿Quiénes son los mentores?", a: "Aaisha Ali, que te guía en la estrategia y la creatividad de tu proyecto, y Mariano Rivera, tu mentor principal, que te enseña a construir agentes de IA. Ambos son co-fundadores de Riverius y acompañan cada programa de principio a fin." },
 ];
 
 // id: anchor for links into the FAQ. links: buttons shown under the answer.
@@ -377,12 +270,6 @@ export const faqMentoria: FaqItem[] = [
   { q: "¿Por qué no contratar a alguien que me lo haga?", a: "Puedes, y si lo prefieres, en Riverius AI lo implementamos por ti. En la Mentoría el agente es tuyo: aprendes a mantenerlo y mejorarlo sin depender de nadie." },
   { q: "¿Y si prefiero aprender por mi cuenta?", a: "Para eso está Premium: más de 10 lecciones en video y 2 sesiones grupales al mes, por $37 al mes. Lo encuentras junto a la Mentoría, en las opciones de esta página." },
   { q: "¿Recibo un certificado?", a: "Sí. Al completar el curso en Premium, o al finalizar tu Mentoría, recibes el certificado de Riverius AI Academy para agregarlo a tu perfil de LinkedIn y a tu currículum." },
-];
-
-export const faqEmprendedor = [
-  { q: "¿Necesito experiencia técnica?", a: "No. La ruta empieza desde cero y todo se construye sin programar." },
-  { q: "¿Me enseñan a vender, o solo a construir?", a: "Las dos cosas. La primera mitad de la ruta es aprender a construir; la segunda, encontrar tu nicho, conseguir clientes y cobrar por tus soluciones." },
-  { q: "¿Alguien ya lo logró?", a: "Sí. Alonso Hidalgo venía de un laboratorio y hoy vende soluciones de IA a sus clientes. Puedes ver su historia en esta página." },
 ];
 
 export const faqEquipos = [

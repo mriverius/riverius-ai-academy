@@ -1,6 +1,6 @@
 ---
-// Mentoría 1:1: your own AI agent, built with you. Standard and Premium sit beside it in the options.
-// /academy/automatizar redirects here (astro.config.mjs).
+// Academy home: the Mentoría 1:1 (your own AI agent, built with you). Standard and Premium sit beside it in the options.
+// /academy/mentoria, /academy/automatizar and the other old paths redirect here (astro.config.mjs).
 import Academy from "../../layouts/Academy.astro";
 import AcademyHero from "../../components/academy/AcademyHero.astro";
 import Stats from "../../components/academy/Stats.astro";
@@ -26,17 +26,15 @@ const description =
 ---
 
 <Academy
-  title="Mentoría: tu agente de IA en 6 semanas"
+  title="Mentoría 1:1: tu agente de IA en 6 semanas"
   description={description}
-  headerCta={call("menu")}
   schema={[
-    course({ name: "Mentoría 1:1: tu agente de IA", description: `${mentoriaPromise} ${description}`, path: "/academy/mentoria" }),
+    course({ name: "Mentoría 1:1: tu agente de IA", description: `${mentoriaPromise} ${description}`, path: "/academy" }),
     faqPage(faqMentoria),
   ]}
 >
   <!-- 1. Hero -->
   <AcademyHero
-    compact
     tag="Mentoría 1:1 · Agentes de IA"
     title="Deja de responder lo mismo todo el día. Tu agente de IA lo hace por ti."
     text="Un agente que conoce tu negocio y responde por ti a tus clientes o a tu equipo, en WhatsApp, Telegram, Teams o tu sitio web. Lo construimos juntos en 6 semanas, sesión a sesión. Sin programar."
@@ -54,7 +52,7 @@ const description =
   <!-- 4. Why a mentoría -->
   <WhyMentoria />
 
-  <!-- 5. Stories -->
+  <!-- 5. Stories (#historias: "Testimonios" in the header) -->
   <Stories
     title="Agentes de IA que ya trabajan en negocios reales."
     text="Construidos por personas que empezaron sin saber programar."
@@ -85,7 +83,7 @@ const description =
     </div>
   </section>
 
-  <!-- 7. Options, price and guarantee (#opciones: older links point here) -->
+  <!-- 7. Options, price and guarantee (#opciones: "Precios" in the header) -->
   <MentoriaPrice />
 
   <!-- 8. Who it's for -->
@@ -94,7 +92,7 @@ const description =
   <!-- 9. Who's with you -->
   <Mentors />
 
-  <!-- 10. FAQ -->
+  <!-- 10. FAQ (#preguntas) -->
   <Faq items={faqMentoria} />
 
   <!-- 11. Closing -->

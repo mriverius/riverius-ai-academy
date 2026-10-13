@@ -1,4 +1,4 @@
-// Mentoría offer (/academy/mentoria): every price, spot count and link lives here, so it changes in one place.
+// Mentoría offer (/academy): every price, spot count and link lives here, so it changes in one place.
 // Tier names must match Skool exactly: Standard (free) and Premium (paid). Mentoría lives outside Skool.
 export const OFFER = {
   skoolUrl: "https://www.skool.com/riverius-academy",
@@ -15,7 +15,7 @@ export const OFFER = {
   mentoria: {
     price: 397 as number | null, // USD. If null, shows "Consulta el precio" and the button goes to Cal.com
     checkoutUrl: null as string | null, // TODO: direct payment link. If null, the main button goes to Cal.com
-    spotsPerMonth: 5, // Shown across /academy/mentoria (hero, price card, closing)
+    spotsPerMonth: 5, // Shown across /academy (hero, price card, closing)
     guarantee: "Si tu agente no queda funcionando, seguimos contigo hasta 4 semanas más, sin costo.",
     // Small print under the guarantee.
     guaranteeDetail:

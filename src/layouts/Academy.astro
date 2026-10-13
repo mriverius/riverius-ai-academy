@@ -2,7 +2,7 @@
 import Shell from "./Shell.astro";
 import Header from "../components/Header.astro";
 import AcademyFooter from "../components/academy/AcademyFooter.astro";
-import { academy, skoolLink } from "../data/academy";
+import { academy, bookingLink } from "../data/academy";
 import { academyOrganization, organization } from "../lib/schema";
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
   description?: string;
   schema?: Record<string, unknown>[];
   noindex?: boolean;
-  /** Replaces the header button (default: join Skool). */
+  /** Replaces the header button (default: book the free call, the same on every Academy page). */
   headerCta?: { label: string; href: string };
 }
 const { title, description = academy.description, schema = [], noindex, headerCta } = Astro.props;
@@ -30,7 +30,7 @@ const fullTitle = title ? `${title} | ${academy.name}` : `${academy.name} | IA p
   <Header
     slot="header"
     nav={academy.nav}
-    cta={headerCta ?? { ...academy.cta, href: skoolLink(Astro.url.pathname) }}
+    cta={headerCta ?? { ...academy.cta, href: bookingLink(Astro.url.pathname, "menu") }}
     suffix="AI Academy"
     home="/academy"
     mark="r"
