@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
 import Base from "../layouts/Base.astro";
 import HeroOpal from "../components/HeroOpal.astro";
 import ClientMarks from "../components/ClientMarks.astro";
@@ -9,15 +10,17 @@ import CaseCover from "../components/CaseCover.astro";
 import CtaPanel from "../components/CtaPanel.astro";
 import Words from "../components/Words.astro";
 import Button from "../components/Button.astro";
-import { phases, capabilities } from "../data/services";
+import { phases, capabilities, solutions } from "../data/services";
+import { team } from "../data/team";
+import { site } from "../data/site";
 import { faq } from "../data/faq";
-import { faqPage } from "../lib/schema";
+import { faqPage, service } from "../lib/schema";
 
 const cases = (await getCollection("work")).sort((a, b) => a.data.order - b.data.order);
 const testimonial = cases.find((c) => c.data.quote)!;
 
-const manifesto =
-  "You bought the tools. Sat through the webinars. Read the case studies. Months later, nobody uses them. The problem is rarely the technology. It's choosing what to automate, and staying until it sticks.";
+const approach =
+  "Every week brings a new AI tool. Choosing well takes more than knowing what's trending. We begin with your business: how work flows, where your people invest their time, and where AI creates a genuine edge.";
 
 // Bento placement for the five capabilities (desktop). Mobile is a single column.
 const bento = [
@@ -27,32 +30,51 @@ const bento = [
   "lg:col-span-3",
   "lg:col-span-3",
 ];
+
+// Founders, architect first to match the headline.
+const founders = ["Mariano Rivera", "Aaisha Ali"].map((name) => team.find((p) => p.name === name)!);
+
+const trust = [
+  { title: "Yours to keep.", text: "You own everything we build: the systems, the code and the data.", icon: "ph:key-light" },
+  { title: "Privacy by design.", text: "We agree up front where your data lives and who can access it, and we work under NDA.", icon: "ph:shield-check-light" },
+  { title: "Senior oversight on every build.", text: "Each project is architected and reviewed by our lead engineer.", icon: "ph:compass-tool-light" },
+  { title: "A global perspective.", text: "We've delivered for clients across North America, Latin America, the Middle East and Australia.", icon: "ph:globe-hemisphere-west-light" },
+];
+
+const starts = [
+  { title: "AI Audit & Roadmap", text: "A focused deep-dive into your business that reveals where AI creates the most value, delivered as a clear, prioritized roadmap.", icon: "ph:compass-light", recommended: true },
+  { title: "Project build", text: "We design, engineer and launch a specific system, from a single agent to a full platform.", icon: "ph:cube-transparent-light" },
+  { title: "Ongoing partnership", text: "Continuous support, optimization and new builds as your business evolves.", icon: "ph:infinity-light" },
+  { title: "Workshops & AI education", text: "Live sessions that give leaders and teams the confidence to work with AI every day.", icon: "ph:chalkboard-teacher-light" },
+];
 ---
 
-<Base schema={[faqPage(faq)]}>
+<Base schema={[...solutions.map((s) => service({ name: s.name, description: `${s.lead} ${s.text}`, path: "/#solutions" })), faqPage(faq)]}>
   <HeroOpal />
 
-  <ClientMarks />
-
-  <!-- Manifesto: words light up with scroll -->
+  <!-- 2. Our approach: words light up with scroll -->
   <section class="px-4 py-28 sm:px-6 lg:px-10 lg:py-44">
     <div class="mx-auto max-w-5xl">
-      <p data-scrub class="text-[1.75rem] font-semibold leading-[2.375rem] tracking-[-0.025em] sm:text-[2.75rem] sm:leading-[3.4rem]">
-        {manifesto.split(" ").map((w) => <><span class="sw">{w}</span>{" "}</>)}
+      <h2 class="display-lg max-w-[18ch]"><Words text="We design systems, not tool lists." /></h2>
+      <p data-scrub class="mt-12 text-[1.75rem] font-semibold leading-[2.375rem] tracking-[-0.025em] sm:text-[2.75rem] sm:leading-[3.4rem]">
+        {approach.split(" ").map((w) => <><span class="sw">{w}</span>{" "}</>)}
+      </p>
+      <p data-reveal class="mt-10 max-w-[58ch] text-[1.0625rem] leading-[1.75rem] text-cosmos-muted">
+        Then we architect the systems that serve it, with the same precision we bring to the build. The result is AI that fits your business beautifully and grows with it.
       </p>
       <div data-reveal class="mt-14 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-        <p class="text-subheading font-semibold">Stop paying to experiment. Start paying for results.</p>
+        <p class="text-subheading font-semibold">Critical thinking first. Technology second. Results always.</p>
         <Button href="/services" variant="ghost">How we work</Button>
       </div>
     </div>
   </section>
 
-  <!-- Approach: stacked cards -->
+  <!-- 3. One team, start to finish: stacked cards -->
   <section id="approach" class="px-3 pb-24 sm:px-6 lg:px-10 lg:pb-40">
     <div class="mx-auto max-w-7xl">
       <div class="mb-14 max-w-3xl px-1 lg:mb-20">
-        <p data-reveal class="pill-tag">Our approach</p>
-        <h2 class="display-lg mt-6"><Words text="From idea to habit, in three moves." /></h2>
+        <h2 class="display-lg"><Words text="From first conversation to everyday confidence." /></h2>
+        <p data-reveal class="mt-6 max-w-[54ch] text-cosmos-muted">Strategy, engineering and training, all carried by one team. Your vision stays whole from the first map to the moment your people run it with ease.</p>
       </div>
 
       <div data-stack class="flex flex-col gap-6 lg:gap-[12vh]">
@@ -66,8 +88,7 @@ const bento = [
                       <span class="inline-flex size-12 items-center justify-center rounded-full bg-nacre shadow-[inset_0_0_0_1px_var(--c-line)]">
                         <Icon name={p.icon} class="size-6" />
                       </span>
-                      <h3 class="text-heading">{p.verb}</h3>
-                      <span class="ml-auto rounded-full px-3 py-1 text-caption text-cosmos-muted shadow-[inset_0_0_0_1px_var(--c-line)]">{p.duration}</span>
+                      <h3 class="text-heading"><span class="text-cosmos-muted">0{i + 1}</span> {p.verb}</h3>
                     </div>
                     <p class="mt-8 text-[1.625rem] font-semibold leading-[2.125rem] tracking-[-0.02em] sm:text-[2rem] sm:leading-[2.5rem]">{p.headline}</p>
                     <p class="mt-4 max-w-[52ch] text-cosmos-muted">{p.summary}</p>
@@ -86,13 +107,16 @@ const bento = [
           ))
         }
       </div>
+      <p data-reveal class="mt-14 px-1 text-subheading font-semibold lg:mt-20">One partner. One vision. Carried all the way through.</p>
     </div>
   </section>
 
-  <!-- Capabilities bento -->
+  <!-- 4. What becomes possible: bento -->
   <section class="px-3 pb-24 sm:px-6 lg:px-10 lg:pb-40">
     <div class="mx-auto max-w-7xl">
-      <h2 class="display-lg mb-12 max-w-2xl px-1 lg:mb-16"><Words text="What we build." /></h2>
+      <div class="mb-12 max-w-3xl px-1 lg:mb-16">
+        <h2 class="display-lg"><Words text="What your business can do next." /></h2>
+      </div>
 
       <div class="grid gap-4 lg:grid-cols-6 lg:grid-rows-[repeat(3,minmax(15rem,auto))]">
         {
@@ -119,27 +143,65 @@ const bento = [
                 >
                   <Icon name={c.icon} class="size-6" />
                 </span>
-                <h3 class:list={["mt-auto pt-10 font-semibold", i === 0 ? "display-lg max-w-[12ch]" : "text-heading"]}>{c.title}</h3>
+                <p class:list={["mt-auto pt-10 text-caption font-medium uppercase tracking-[0.12em]", i === 0 ? "text-haze" : "text-cosmos-muted"]}>{c.label}</p>
+                <h3 class:list={["mt-3 font-semibold", i === 0 ? "display-lg max-w-[14ch]" : "text-heading"]}>{c.title}</h3>
                 <p class:list={["mt-3 max-w-[42ch]", i === 0 ? "text-haze" : "text-cosmos-muted"]}>{c.text}</p>
               </div>
             </div>
           ))
         }
       </div>
+      <p data-reveal class="mt-10 px-1 text-cosmos-muted">
+        <span class="font-semibold text-cosmos">Have something bigger in mind?</span> If it runs your business, we can architect it.
+      </p>
     </div>
   </section>
 
-  <!-- Selected work: horizontal pan on desktop, swipe on mobile -->
+  <!-- 4b. Our solutions in depth -->
+  <section id="solutions" class="scroll-mt-28 px-4 pb-24 sm:px-6 lg:px-10 lg:pb-40">
+    <div class="mx-auto max-w-7xl">
+      <div class="max-w-3xl">
+        <h2 class="display-lg"><Words text="The AI solutions leading companies are investing in now." /></h2>
+        <p data-reveal class="mt-6 max-w-[54ch] text-cosmos-muted">The fastest-growing areas of AI, designed around your business and built by our team.</p>
+      </div>
+      <div class="mt-14 border-t border-line lg:mt-20">
+        {
+          solutions.map((s) => (
+            <details data-reveal class="solution group border-b border-line">
+              <summary class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-center gap-x-5 gap-y-1 py-6 sm:gap-x-8 lg:grid-cols-[auto_0.9fr_1.4fr_auto] lg:py-8 [&::-webkit-details-marker]:hidden">
+                <span class="inline-flex size-11 items-center justify-center rounded-full bg-nacre shadow-[inset_0_0_0_1px_var(--c-line)] sm:size-12">
+                  <Icon name={s.icon} class="size-5 sm:size-6" />
+                </span>
+                <h3 class="text-subheading font-semibold sm:text-heading">{s.name}</h3>
+                <p class="col-start-2 row-start-2 text-cosmos-muted lg:col-start-3 lg:row-start-1">{s.lead}</p>
+                <span class="col-start-3 row-span-2 row-start-1 inline-flex size-9 items-center justify-center rounded-full shadow-[inset_0_0_0_1px_var(--c-line)] transition-transform duration-500 ease-[var(--ease-drawer)] group-open:rotate-45 lg:col-start-4 lg:row-span-1">
+                  <Icon name="ph:plus-light" class="size-4" />
+                </span>
+              </summary>
+              <div class="pb-8 pl-16 sm:pl-20 sm:pr-12 lg:grid lg:grid-cols-[0.9fr_1.4fr] lg:gap-x-8 lg:pl-20 lg:pr-[4.25rem]">
+                <div class="lg:col-start-2">
+                  <p class="max-w-[62ch] text-[1.0625rem] leading-[1.75rem]">{s.text}</p>
+                  <p class="mt-4 text-cosmos-muted"><span class="font-medium text-cosmos">Ideal for:</span> {s.idealFor.join(", ")}.</p>
+                </div>
+              </div>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Proof. Selected work: horizontal pan on desktop, swipe on mobile -->
   <section data-hpan class="hpan relative lg:flex lg:min-h-[100dvh] lg:items-center">
     <div
       data-hpan-track
       class="flex snap-x snap-mandatory gap-4 overflow-x-auto px-3 pb-6 [scrollbar-width:none] sm:px-6 lg:snap-none lg:px-10 lg:pb-0 [&::-webkit-scrollbar]:hidden"
     >
       <div class="flex w-[82vw] shrink-0 snap-start flex-col justify-end p-1 sm:w-[60vw] lg:w-[30vw] lg:pr-10">
-        <h2 class="display-lg"><Words text="Results you can measure." /></h2>
-        <p data-reveal class="mt-5 max-w-[38ch] text-cosmos-muted">From a meditation app to AI that books calls and sells in the DMs.</p>
+        <h2 class="display-lg"><Words text="Results our clients celebrate." /></h2>
+        <p data-reveal class="mt-5 max-w-[38ch] text-cosmos-muted">From the United States to Saudi Arabia, businesses are already running on systems we've built.</p>
         <a href="/work" class="group mt-8 inline-flex items-center gap-2 font-medium">
-          All case studies
+          Explore our work
           <Icon name="ph:arrow-right-light" class="size-5 transition-transform duration-500 ease-[var(--ease-drawer)] group-hover:translate-x-1" />
         </a>
       </div>
@@ -186,16 +248,108 @@ const bento = [
             <span class="text-caption text-cosmos-muted">{testimonial.data.quote.role}</span>
           </figcaption>
         </figure>
+        <div class="mx-auto mt-24 max-w-7xl lg:mt-32">
+          <ClientMarks />
+        </div>
       </section>
     )
   }
+
+  <!-- 6. The founders -->
+  <section class="px-3 pb-24 sm:px-6 lg:px-10 lg:pb-40">
+    <div class="mx-auto max-w-7xl">
+      <div class="max-w-3xl px-1">
+        <h2 class="display-lg"><Words text="The architect and the visionary." /></h2>
+        <p data-reveal class="mt-6 max-w-[58ch] text-cosmos-muted">Riverius brings together two rare strengths: the engineering mind that designs systems, and the creative, business mind that shapes how they look, feel and grow.</p>
+      </div>
+      <div class="mt-14 grid gap-4 lg:mt-20 lg:grid-cols-2">
+        {
+          founders.map((p, i) => (
+            <article data-reveal style={`--i:${i}`} class="bezel">
+              <div class:list={["bezel-core is-pearl flex h-full flex-col p-7 sm:p-10", i === 0 && "pearl-sheen"]}>
+                <div class="flex items-center gap-5">
+                  <Image src={p.photo} alt={`${p.name}, ${p.role}`} widths={[96, 192]} sizes="96px" class="size-20 rounded-full object-cover sm:size-24" />
+                  <div>
+                    <h3 class="text-heading">{p.name}</h3>
+                    <p class="mt-1 text-cosmos-muted">{p.role}</p>
+                  </div>
+                </div>
+                <div class="mt-8 space-y-4 text-cosmos-muted">
+                  {p.bio.map((para) => <p>{para}</p>)}
+                </div>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+      <div data-reveal class="mt-10 flex flex-col gap-6 px-1 sm:flex-row sm:items-center sm:justify-between">
+        <p class="max-w-[56ch] text-cosmos-muted">Senior engineering led by Mariano, with a trusted bench of developers who scale with the size of your project.</p>
+        <Button href="/team" variant="ghost">Meet the team</Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Built on trust -->
+  <section class="px-3 pb-24 sm:px-6 lg:px-10 lg:pb-40">
+    <div class="mx-auto max-w-7xl">
+      <div class="max-w-3xl px-1">
+        <h2 class="display-lg"><Words text="A partnership designed for peace of mind." /></h2>
+      </div>
+      <ul class="mt-14 grid gap-x-10 gap-y-12 px-1 sm:grid-cols-2 lg:mt-20 lg:grid-cols-4">
+        {
+          trust.map((t, i) => (
+            <li data-reveal style={`--i:${i}`} class="border-t border-line pt-8">
+              <Icon name={t.icon} class="size-7" />
+              <h3 class="mt-6 text-subheading font-semibold">{t.title}</h3>
+              <p class="mt-3 text-cosmos-muted">{t.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- 8. How to begin -->
+  <section id="begin" class="scroll-mt-28 px-3 pb-24 sm:px-6 lg:px-10 lg:pb-40">
+    <div class="mx-auto max-w-7xl">
+      <div class="max-w-3xl px-1">
+        <h2 class="display-lg"><Words text="Choose your starting point." /></h2>
+      </div>
+      <div class="mt-14 grid gap-4 sm:grid-cols-2 lg:mt-20 lg:grid-cols-4">
+        {
+          starts.map((o, i) => (
+            <div data-reveal style={`--i:${i}`} class="bezel">
+              <div class:list={["bezel-core spotlight flex h-full flex-col p-7", o.recommended ? "!bg-ink text-shell" : "is-pearl"]}>
+                {o.recommended && <div class="glow aurora -right-[30%] -top-[30%] -z-10 size-[90%] !opacity-40" />}
+                <span
+                  class:list={[
+                    "inline-flex size-12 items-center justify-center rounded-full",
+                    o.recommended ? "bg-shell/10 shadow-[inset_0_0_0_1px_rgb(255_251_247/0.15)]" : "bg-nacre shadow-[inset_0_0_0_1px_var(--c-line)]",
+                  ]}
+                >
+                  <Icon name={o.icon} class="size-6" />
+                </span>
+                {o.recommended && <p class="mt-8 text-caption font-medium uppercase tracking-[0.12em] text-haze">Recommended first step</p>}
+                <h3 class:list={["text-subheading font-semibold", o.recommended ? "mt-2" : "mt-8"]}>{o.title}</h3>
+                <p class:list={["mt-3", o.recommended ? "text-haze" : "text-cosmos-muted"]}>{o.text}</p>
+                {o.recommended && (
+                  <div class="mt-auto pt-8">
+                    <Button href={site.cta.href} variant="glow">Start with an AI Audit</Button>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
 
   <!-- FAQ -->
   <section id="faq" class="scroll-mt-28 px-4 sm:px-6 lg:px-10">
     <div class="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
       <div class="lg:sticky lg:top-32 lg:self-start">
-        <p data-reveal class="pill-tag">FAQ</p>
-        <h2 class="display-lg mt-6"><Words text="Questions we hear often." /></h2>
+        <h2 class="display-lg"><Words text="Questions we hear often." /></h2>
       </div>
       <div class="space-y-3">
         {
@@ -215,7 +369,11 @@ const bento = [
     </div>
   </section>
 
-  <CtaPanel />
+  <!-- 9. Closing -->
+  <CtaPanel
+    title="Your next chapter with AI starts *here.*"
+    text="Book a 30-minute discovery call. We'll explore how your business runs, where AI can elevate it, and what your roadmap could look like."
+  />
 </Base>
 
 <style>

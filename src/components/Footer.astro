@@ -14,8 +14,8 @@ const company = [...site.nav, { label: "Contact", href: "/contact" }];
     <!-- Brand and links -->
     <div class="grid gap-12 pb-14 md:grid-cols-[1.3fr_0.7fr] md:items-start">
       <div class="max-w-xs">
-        <Logo />
-        <p class="mt-5 text-cosmos-muted">We find the work worth automating, build the systems, and train your team until AI becomes habit.</p>
+        <Logo mark="r" />
+        <p class="mt-5 text-cosmos-muted">{site.tagline}</p>
         <a href={site.linkedin} {...newTab(site.linkedin)} class="group mt-6 inline-flex items-center gap-3 rounded-full py-2 pl-2 pr-4 shadow-[inset_0_0_0_1px_var(--c-line)] transition-colors duration-300 hover:bg-nacre">
           <span class="inline-flex size-8 items-center justify-center rounded-full bg-nacre"><Icon name="ph:linkedin-logo-light" class="size-4" /></span>
           <span class="text-[0.9375rem] font-medium">Follow Riverius AI on LinkedIn</span>

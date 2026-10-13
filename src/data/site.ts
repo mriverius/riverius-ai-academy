@@ -1,17 +1,13 @@
 export const site = {
   name: "Riverius AI",
   description:
-    "Riverius AI is an AI agency for teams around the world. We find the work worth automating, build the systems, and train your team until AI becomes habit.",
-  cta: { label: "Get in touch", href: "/contact" },
+    "Riverius AI maps where AI fits your business, builds the agents, automations and software to deliver it, and trains your team to lead with it. One partner, start to finish.",
+  tagline: "Strategic vision and senior engineering, in one partner.",
+  cta: { label: "Book a discovery call", href: "/contact" },
   nav: [
     { label: "Services", href: "/services" },
     { label: "Work", href: "/work" },
     { label: "Team", href: "/team" },
   ],
   linkedin: "https://www.linkedin.com/company/riverius-ai",
-  social: [
-    { label: "LinkedIn", href: "https://linkedin.com/in/mriverius", icon: "ph:linkedin-logo-light" },
-    { label: "Instagram", href: "https://instagram.com/mriverius", icon: "ph:instagram-logo-light" },
-    { label: "YouTube", href: "https://youtube.com/@mriverius", icon: "ph:youtube-logo-light" },
-  ],
 };

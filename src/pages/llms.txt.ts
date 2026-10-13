@@ -3,7 +3,7 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { site } from "../data/site";
-import { phases, capabilities } from "../data/services";
+import { phases, solutions } from "../data/services";
 import { faq } from "../data/faq";
 import { team } from "../data/team";
 import { OFFER, mentoriaPrice } from "../data/academy-offer";
@@ -23,19 +23,19 @@ Contact: ${url("/contact")}
 
 ## Agency pages
 
-- [Home](${url("/")}): what we do and how we work
-- [Services](${url("/services")}): the three phases, Identify, Build and Adopt
+- [Home](${url("/")}): our approach, solutions, results, founders and how to begin
+- [Services](${url("/services")}): the three phases: Audit & Roadmap, Implement, and Train & Support
 - [Work](${url("/work")}): case studies
 - [Team](${url("/team")}): who we are
 - [Contact](${url("/contact")}): project inquiries, reply within one business day
 
 ## Services
 
-${phases.map((p) => `### ${p.verb}: ${p.headline}\n\n${p.summary} ${p.how}\n\nDuration: ${p.duration}. Deliverables: ${p.deliverables.join("; ")}.`).join("\n\n")}
+${phases.map((p) => `### ${p.verb}: ${p.headline}\n\n${p.summary} ${p.how}\n\nDeliverables: ${p.deliverables.join("; ")}.`).join("\n\n")}
 
-## What we build
+## Solutions
 
-${capabilities.map((c) => `- **${c.title}:** ${c.text}`).join("\n")}
+${solutions.map((s) => `- **${s.name}:** ${s.lead} ${s.text} Ideal for: ${s.idealFor.join(", ")}.`).join("\n")}
 
 ## Case studies
 

@@ -11,15 +11,18 @@ import { site } from "../data/site";
 
   <div class="mx-auto grid min-h-[100dvh] max-w-7xl items-center gap-6 px-4 pb-28 pt-32 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:gap-10 lg:px-10 lg:pb-24 lg:pt-28">
     <div class="relative z-10">
-      <h1 class="display-xl max-w-[15ch]">
-        <Words text="AI that feels like *clarity,* not complexity." delay={150} />
+      <p data-reveal class="mb-6 max-w-[60ch] text-caption font-medium uppercase tracking-[0.16em] text-haze">
+        Your build partner for AI solutions and software development
+      </p>
+      <h1 class="display-xl max-w-[16ch]">
+        <Words text="Strategic vision and senior engineering, in *one* *team.*" delay={150} />
       </h1>
-      <p data-reveal style="--i:6" class="mt-7 max-w-[40ch] text-[1.0625rem] leading-[1.75rem] text-haze">
-        We find the work worth automating, build the systems, and train your team until AI becomes habit.
+      <p data-reveal style="--i:6" class="mt-7 max-w-[46ch] text-[1.0625rem] leading-[1.75rem] text-haze">
+        For companies ready to lead their industry with AI. We map where AI fits with architect-level thinking, build it properly, and make it part of how your team works.
       </p>
       <div data-reveal style="--i:7" class="mt-10 flex flex-wrap gap-3">
         <Button href={site.cta.href} variant="glow" magnetic>{site.cta.label}</Button>
-        <Button href="/work" variant="ghost-dark" icon={false}>See our work</Button>
+        <Button href="/work" variant="ghost-dark" icon={false}>See what we've built</Button>
       </div>
     </div>
 

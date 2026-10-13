@@ -1,5 +1,5 @@
 ---
-// mark="r": the R logo (fluted column + star), used by the Academy. Default: the star, used by the agency.
+// mark="r": the R logo (fluted column + star), used in the agency and Academy headers and footers. "star": the plain star mark.
 // The wordmark text stays for accessibility.
 import { Image } from "astro:assets";
 import rMark from "../assets/brand/riverius-r.png";
@@ -15,7 +15,7 @@ const { mark = "star", suffix = "AI", href = "/", class: className = "" } = Astr
 
 <a href={href} class:list={["group inline-flex items-center gap-2.5", className]} aria-label={`Riverius ${suffix}, home`}>
   {mark === "r" ? (
-    <Image src={rMark} alt="" width={28} height={28} densities={[1, 2, 3]} class="size-7 transition-transform duration-[900ms] ease-[var(--ease-drawer)] group-hover:-rotate-6" />
+    <Image src={rMark} alt="" width={28} height={28} densities={[1, 2, 3]} loading="eager" class="size-7 transition-transform duration-[900ms] ease-[var(--ease-drawer)] group-hover:-rotate-6" />
   ) : (
     <svg viewBox="0 0 24 24" class="logo-star size-[22px] transition-transform duration-[900ms] ease-[var(--ease-drawer)] group-hover:rotate-90" aria-hidden="true">
       <path fill="currentColor" d="M12 0C12.8 7 17 11.2 24 12C17 12.8 12.8 17 12 24C11.2 17 7 12.8 0 12C7 11.2 11.2 7 12 0Z"></path>

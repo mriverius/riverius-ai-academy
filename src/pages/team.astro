@@ -6,13 +6,13 @@ import PageHero from "../components/PageHero.astro";
 import CtaPanel from "../components/CtaPanel.astro";
 import Words from "../components/Words.astro";
 import { team, featured, principles } from "../data/team";
-import { person as personSchema } from "../lib/schema";
+import { person as personSchema, breadcrumbs } from "../lib/schema";
 import { newTab } from "../lib/links";
 
 const schema = await Promise.all(team.map(async (p) => personSchema(p, (await getImage({ src: p.photo, width: 880 })).src)));
 ---
 
-<Base title="Team" description="Meet the people behind Riverius AI." schema={schema}>
+<Base title="Founders: Mariano Rivera & Aaisha Ali" description="Meet the founders of Riverius AI: Mariano Rivera, software engineer and systems architect, and Aaisha Ali, who leads product and brand." schema={[...schema, breadcrumbs([{ name: "Home", path: "/" }, { name: "Team", path: "/team" }])]}>
   <PageHero tag="Team" title="The people behind *Riverius.*" text="Engineers and educators who build AI systems every day, and stay until your team uses them." />
 
   <section class="space-y-24 px-3 pb-10 pt-16 sm:px-6 lg:space-y-36 lg:px-10 lg:pt-24">

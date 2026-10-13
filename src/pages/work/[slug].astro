@@ -6,6 +6,7 @@ import PageHero from "../../components/PageHero.astro";
 import CaseCover from "../../components/CaseCover.astro";
 import CtaPanel from "../../components/CtaPanel.astro";
 import { Image } from "astro:assets";
+import { caseStudy, breadcrumbs } from "../../lib/schema";
 
 export async function getStaticPaths() {
   const cases = await getCollection("work");
@@ -18,9 +19,19 @@ const d = entry.data;
 // Long testimonials read as body text, one paragraph per blank line, with the short excerpt as a pull quote.
 const paragraphs = d.quote?.text.trim().split(/\n\s*\n/) ?? [];
 const long = (d.quote?.text.length ?? 0) > 320;
+const path = `/work/${entry.id}`;
+// "LawAI, a personal AI lawyer…" already names the client; don't repeat it.
+const title = d.title.startsWith(d.client) ? d.title : `${d.client}: ${d.title}`;
 ---
 
-<Base title={`${d.client}: ${d.title}`} description={d.summary}>
+<Base
+  title={title}
+  description={d.summary}
+  schema={[
+    caseStudy({ title: d.title, client: d.client, summary: d.summary, path }),
+    breadcrumbs([{ name: "Home", path: "/" }, { name: "Work", path: "/work" }, { name: d.client, path }]),
+  ]}
+>
   <PageHero tag={[d.industry, d.country].filter(Boolean).join(", ")} title={d.title} text={d.summary}>
     <a href="/work" data-reveal style="--i:6" class="mt-10 inline-flex items-center gap-2 text-caption text-haze transition-colors hover:text-shell">
       <Icon name="ph:arrow-left-light" class="size-4" />

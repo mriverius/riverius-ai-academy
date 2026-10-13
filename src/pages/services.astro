@@ -10,11 +10,11 @@ import { service } from "../lib/schema";
 ---
 
 <Base
-  title="Services"
-  description="Identify, build and adopt: how we take AI from idea to the daily work of your organization."
+  title="AI Audit, Implementation & Training"
+  description="AI readiness assessment and roadmap, AI agents, automations and custom software, and hands-on team training: one AI implementation partner, start to finish."
   schema={phases.map((p) => service({ name: `${p.verb}: ${p.headline}`, description: `${p.summary} ${p.how}`, path: `/services#${p.slug}` }))}
 >
-  <PageHero tag="Services" title="Services built so AI *sticks.*" text="Three phases you can hire separately or together. Always with measurable results and hands-on support.">
+  <PageHero tag="Services" title="One team, start to *finish.*" text="Strategy, engineering and training, carried by one team. Hire one phase or all three; your vision stays whole from the first map to the moment your people run it with ease.">
     <nav data-reveal style="--i:6" class="mt-10 flex flex-wrap gap-2" aria-label="Phases">
       {phases.map((p) => (
         <a href={`#${p.slug}`} class="btn btn-ghost-dark btn-plain !px-5 !py-2.5">
@@ -35,7 +35,6 @@ import { service } from "../lib/schema";
                 <Icon name={p.icon} class="size-6" />
               </span>
               <span class="text-heading font-semibold">{p.verb}</span>
-              <span class="rounded-full px-3 py-1 text-caption text-cosmos-muted shadow-[inset_0_0_0_1px_var(--c-line)]">{p.duration}</span>
             </div>
             <h2 class="display-lg mt-8"><Words text={p.headline} /></h2>
             <p data-reveal class="mt-6 max-w-[52ch] text-cosmos-muted">{p.how}</p>
@@ -65,5 +64,5 @@ import { service } from "../lib/schema";
     }
   </div>
 
-  <CtaPanel title="Not sure where to *start?*" text="Tell us what takes most of your team's time. We'll recommend the phase that makes sense for you, even if it's just one." />
+  <CtaPanel title="Your next chapter with AI starts *here.*" text="Book a 30-minute discovery call. We'll explore how your business runs and recommend the phase that fits, even if it's just one." />
 </Base>

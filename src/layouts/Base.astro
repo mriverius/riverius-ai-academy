@@ -12,7 +12,7 @@ interface Props {
   noindex?: boolean;
 }
 const { title, description = site.description, schema = [], noindex } = Astro.props;
-const fullTitle = title ? `${title} | ${site.name}` : `${site.name} | AI that feels like clarity`;
+const fullTitle = title ? `${title} | ${site.name}` : `${site.name} | AI Solutions & Software Development Partner`;
 ---
 
 <Shell
@@ -20,7 +20,7 @@ const fullTitle = title ? `${title} | ${site.name}` : `${site.name} | AI that fe
   description={description}
   siteName={site.name}
   theme="dark"
-  image={{ src: "/og/riverius-ai.jpg", alt: "Riverius AI: AI that feels like clarity" }}
+  image={{ src: "/og/riverius-ai.jpg", alt: "Riverius AI: AI solutions and software development partner" }}
   schema={[organization(), website(), ...schema]}
   noindex={noindex}
 >
@@ -30,6 +30,7 @@ const fullTitle = title ? `${title} | ${site.name}` : `${site.name} | AI that fe
     cta={site.cta}
     suffix="AI"
     home="/"
+    mark="r"
     menuExtra={[{ label: "Contact", href: "/contact" }]}
   />
   <slot />

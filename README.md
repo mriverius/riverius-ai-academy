@@ -14,7 +14,7 @@ npm run build    # static site in dist/
 | --- | --- |
 | Brand tokens (color, type, radii, Aurora gradient, bezels, buttons) | `src/styles/global.css` |
 | Name, nav, CTA, socials | `src/data/site.ts` |
-| Services (Identify, Build, Adopt) and capabilities | `src/data/services.ts` |
+| Services (Audit & Roadmap, Implement, Train & Support), capabilities and solutions | `src/data/services.ts` |
 | FAQ | `src/data/faq.ts` |
 | Case studies (one Markdown file each) | `src/content/work/*.md` |
 | Hero planet (WebGL shader: spin, ring, moon) | `src/scripts/opal.ts`, `src/components/HeroOpal.astro` |

@@ -13,6 +13,9 @@ export const ids = {
   academy: url("/academy#organization"),
 };
 
+// A stable id per person, so the founders on every page and the full profiles on /team are one entity.
+export const personId = (name: string) => url(`/team#${name.toLowerCase().replace(/[^a-z]+/g, "-")}`);
+
 export const organization = (): Thing => ({
   "@type": "Organization",
   "@id": ids.org,
@@ -20,10 +23,25 @@ export const organization = (): Thing => ({
   url: url("/"),
   logo: url("/logo.png"),
   description: site.description,
-  sameAs: [site.linkedin, ...site.social.map((s) => s.href)],
+  slogan: site.tagline,
+  sameAs: [site.linkedin],
+  areaServed: "Worldwide",
+  knowsAbout: [
+    "AI voice agents",
+    "AI agents for business",
+    "AI receptionist",
+    "WhatsApp AI agents",
+    "Knowledge assistants (RAG)",
+    "Workflow automation",
+    "AI audit",
+    "AI readiness assessment",
+    "AI roadmap",
+    "Custom software development",
+    "AI implementation",
+  ],
   founder: [
-    { "@type": "Person", name: "Mariano Rivera" },
-    { "@type": "Person", name: "Aaisha Ali" },
+    { "@type": "Person", "@id": personId("Mariano Rivera"), name: "Mariano Rivera" },
+    { "@type": "Person", "@id": personId("Aaisha Ali"), name: "Aaisha Ali" },
   ],
 });
 
@@ -54,6 +72,7 @@ export const faqPage = (items: { q: string; a: string }[]): Thing => ({
 
 export const person = (p: { name: string; role: string; bio: string[]; links: { href: string }[] }, image: string): Thing => ({
   "@type": "Person",
+  "@id": personId(p.name),
   name: p.name,
   jobTitle: p.role,
   image: url(image),
@@ -78,6 +97,21 @@ export const course = (c: { name: string; description: string; path: string }): 
   inLanguage: "es",
   provider: { "@id": ids.academy },
   hasCourseInstance: { "@type": "CourseInstance", courseMode: "online" },
+});
+
+export const caseStudy = (c: { title: string; client: string; summary: string; path: string }): Thing => ({
+  "@type": "Article",
+  headline: c.title,
+  description: c.summary,
+  url: url(c.path),
+  about: { "@type": "Organization", name: c.client },
+  author: { "@id": ids.org },
+  publisher: { "@id": ids.org },
+});
+
+export const breadcrumbs = (items: { name: string; path: string }[]): Thing => ({
+  "@type": "BreadcrumbList",
+  itemListElement: items.map((i, n) => ({ "@type": "ListItem", position: n + 1, name: i.name, item: url(i.path) })),
 });
 
 // One <script type="application/ld+json"> with every entity in a single graph.

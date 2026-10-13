@@ -18,22 +18,22 @@ type Person = {
 export const team: Person[] = [
   {
     name: "Aaisha Ali",
-    role: "Co-founder and Creative Director",
+    role: "Co-founder & Head of Product and Brand",
     photo: aaisha,
     bio: [
-      "Aaisha is the creative mind behind Riverius. She shapes strategy, brand identity and positioning, so every AI system we build has a clear purpose and a voice of its own.",
-      "She leads strategy with clients and students alike: where to focus, how to stand out and how the work should look and feel. Where Mariano builds the technology, Aaisha gives it direction and a brand people remember.",
+      "Aaisha tripled sales year over year at a SaaS and big data company, bringing in enterprise and government clients. She has facilitated international trade missions with the governments of Canada, Japan and the UAE, and designs the UX and UI of apps, web and SaaS platforms.",
+      "At Riverius she shapes the big-picture vision, from bold ideas and the look and feel of every product to the client relationships and partnerships that bring them to life.",
     ],
-    credentials: ["Strategy", "Brand identity", "Creative direction", "Positioning"],
-    links: [],
+    credentials: ["Product vision", "UX and UI design", "Brand", "Enterprise and government partnerships"],
+    links: [{ label: "LinkedIn", href: "https://www.linkedin.com/in/ali-aaisha/", icon: "ph:linkedin-logo-light" }],
   },
   {
     name: "Mariano Rivera",
-    role: "Co-founder and AI Solutions Engineer",
+    role: "Co-founder & Head of AI",
     photo: mariano,
     bio: [
-      "Mariano builds AI automations and agents every day. He's a systems engineer with more than five years in software, and a certified AI solutions expert.",
-      "He co-founded Riverius to make AI feel like clarity, not complexity, and teaches professionals to build it themselves through Riverius AI Academy.",
+      "A software engineer and systems architect known for seeing the elegant solution inside complex challenges. Mariano designs the architecture of every Riverius build and personally guides each one from blueprint to launch.",
+      "He holds a Bachelor of Science in Computer Systems Engineering and is a certified AI solutions expert and member of CPIC, Costa Rica's professional association of IT engineers. He has been featured on national television and as a guest lecturer at Universidad Fidélitas.",
     ],
     credentials: [
       "B.S. in Computer Systems Engineering",
@@ -44,8 +44,6 @@ export const team: Person[] = [
     ],
     links: [
       { label: "LinkedIn", href: "https://linkedin.com/in/mriverius", icon: "ph:linkedin-logo-light" },
-      { label: "YouTube", href: "https://youtube.com/@mriverius", icon: "ph:youtube-logo-light" },
-      { label: "Instagram", href: "https://instagram.com/mriverius", icon: "ph:instagram-logo-light" },
     ],
   },
 ];

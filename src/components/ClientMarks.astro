@@ -1,96 +1,36 @@
 ---
-// Client marks. Real clients use their logo (any color with transparency: it is drawn as a
-// mask, so it takes the muted text color). The rest are fictional samples; replace them.
-import { getImage } from "astro:assets";
-import retreatSounds from "../assets/clients/retreat-sounds.png";
+// Client strip: real clients only, each with its own square logo tile. Add a client here once they approve showing their logo.
+import { Image } from "astro:assets";
+import retreatSounds from "../assets/work/retreat-sounds-icon.png";
+import freelanceNavigator from "../assets/work/freelance-navigator-logo.jpg";
+import growAi from "../assets/work/grow-ai-logo.png";
+import dialogueLabs from "../assets/work/dialogue-labs-logo.png";
+import lawai from "../assets/work/lawai-logo.png";
 
-const logo = async (src: ImageMetadata, height: number) => ({
-  url: (await getImage({ src, height: height * 2, format: "webp" })).src,
-  width: Math.round((src.width / src.height) * height),
-  height,
-});
+interface Props {
+  label?: string;
+}
+const { label = "Trusted by teams around the world" } = Astro.props;
 
 const clients = [
-  { name: "Retreat Sounds", logo: await logo(retreatSounds, 34) },
-  { name: "Tierra Alta", glyph: "arch" },
-  { name: "Ceibo School", glyph: "petal" },
-  { name: "Valle Claro", glyph: "ripple" },
-  { name: "Puerto Lumen", glyph: "orbit" },
-  { name: "Grupo Talamanca", glyph: "arch" },
-  { name: "Casa Brisa", glyph: "petal" },
-  { name: "Norte Andino", glyph: "ripple" },
+  { name: "GROW AI", logo: growAi },
+  { name: "Freelance Navigator", logo: freelanceNavigator },
+  { name: "Retreat Sounds", logo: retreatSounds },
+  { name: "Dialogue Labs", logo: dialogueLabs },
+  { name: "LawAI", logo: lawai },
 ];
-const row = [...clients, ...clients];
 ---
 
-<section aria-labelledby="clients-title" class="pb-8 pt-16 sm:pt-20">
-  <p id="clients-title" class="mb-8 text-center text-caption text-cosmos-muted">Trusted by teams around the world</p>
-  <div class="marquee relative overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]">
-    <ul class="marquee-track flex w-max items-center gap-14 pr-14">
-      {
-        row.map((c, i) => (
-          <li class="flex shrink-0 items-center gap-2.5 text-cosmos-muted" aria-hidden={i >= clients.length ? "true" : undefined}>
-            {"logo" in c && c.logo ? (
-              <span
-                role="img"
-                aria-label={c.name}
-                class="client-logo block bg-current"
-                style={`width:${c.logo.width}px;height:${c.logo.height}px;--logo:url(${c.logo.url})`}
-              />
-            ) : (
-              <svg viewBox="0 0 24 24" class="size-6" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
-                {c.glyph === "arch" && <path d="M5 21V11a7 7 0 0 1 14 0v10M9 21v-9a3 3 0 0 1 6 0v9" />}
-                {c.glyph === "petal" && <path d="M12 3c4 4 4 14 0 18-4-4-4-14 0-18ZM3 12c4-4 14-4 18 0-4 4-14 4-18 0Z" />}
-                {c.glyph === "ripple" && (
-                  <>
-                    <circle cx="12" cy="12" r="3" />
-                    <circle cx="12" cy="12" r="7" />
-                    <circle cx="12" cy="12" r="10.5" />
-                  </>
-                )}
-                {c.glyph === "orbit" && (
-                  <>
-                    <circle cx="12" cy="12" r="4" />
-                    <ellipse cx="12" cy="12" rx="10.5" ry="5" transform="rotate(-20 12 12)" />
-                  </>
-                )}
-              </svg>
-            )}
-            {!("logo" in c) && <span class="whitespace-nowrap text-[1.0625rem] font-semibold tracking-[-0.01em]">{c.name}</span>}
-          </li>
-        ))
-      }
-    </ul>
-  </div>
-</section>
-
-<style>
-  .client-logo {
-    mask: var(--logo) center / contain no-repeat;
-    -webkit-mask: var(--logo) center / contain no-repeat;
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .marquee-track {
-      animation: slide 42s linear infinite;
+<div>
+  <p class="text-center text-caption text-cosmos-muted">{label}</p>
+  <ul class="mt-8 flex flex-wrap items-center justify-center gap-x-10 gap-y-6">
+    {
+      clients.map((c, i) => (
+        <li data-reveal style={`--i:${i}`} class="flex items-center gap-3">
+          <Image src={c.logo} alt="" width={40} height={40} densities={[1, 2]} class="size-10 rounded-[0.75rem] object-cover shadow-[0_0_0_1px_var(--c-line)]" />
+          <span class="whitespace-nowrap text-[1.0625rem] font-semibold tracking-[-0.01em]">{c.name}</span>
+        </li>
+      ))
     }
-    .marquee:hover .marquee-track {
-      animation-play-state: paused;
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .marquee-track {
-      flex-wrap: wrap;
-      width: auto;
-      justify-content: center;
-      row-gap: 1.5rem;
-    }
-    .marquee-track li[aria-hidden="true"] {
-      display: none;
-    }
-  }
-  @keyframes slide {
-    to {
-      transform: translateX(-50%);
-    }
-  }
-</style>
+  </ul>
+</div>
